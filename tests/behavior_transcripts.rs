@@ -551,6 +551,17 @@ fn normalize_paths(value: &mut Value, temp_root: &Path) {
             }
         }
         Value::Object(values) => {
+            if let Some(Value::String(source_path)) = values
+                .get_mut("report")
+                .and_then(|report| report.get_mut("source_path"))
+            {
+                let root = temp_root.display();
+                if *source_path == format!("{root}/session.pact")
+                    || *source_path == format!(r"{root}\session.pact")
+                {
+                    *source_path = "<TMP>/session.pact".to_string();
+                }
+            }
             for value in values.values_mut() {
                 normalize_paths(value, temp_root);
             }
@@ -603,6 +614,49 @@ fn first_difference(left: &Value, right: &Value, path: &str) -> Option<String> {
         _ if left == right => None,
         _ => Some(format!("{path}: {left:?} != {right:?}")),
     }
+}
+
+#[test]
+fn report_source_path_normalization_accepts_both_platform_separators() {
+    for root in [r"C:\temp\scenario", "/tmp/scenario"] {
+        for separator in ['\\', '/'] {
+            let mut observation = json!({
+                "selectors": [{"report": {
+                    "source_path": format!("{root}{separator}session.pact"),
+                }}],
+            });
+            normalize_paths(&mut observation, Path::new(root));
+            assert_eq!(
+                observation,
+                json!({"selectors": [{"report": {"source_path": "<TMP>/session.pact"}}]}),
+            );
+        }
+    }
+}
+
+#[test]
+fn report_source_path_normalization_preserves_unrelated_backslashes() {
+    let root = r"C:\temp\scenario";
+    let mut observation = json!({
+        "content": r"literal\n and C:\other\session.pact",
+        "source_path": format!(r"{root}\session.pact"),
+        "selectors": [{"report": {
+            "source_path": format!(r"{root}\session.pact\literal"),
+            "content": format!(r"prefix {root}\session.pact and literal\n"),
+        }}],
+    });
+    normalize_paths(&mut observation, Path::new(root));
+    assert_eq!(
+        observation,
+        json!({
+            "content": r"literal\n and C:\other\session.pact",
+            "source_path": r"<TMP>\session.pact",
+            "selectors": [{"report": {
+                "source_path": r"<TMP>\session.pact\literal",
+                "content": r"prefix <TMP>\session.pact and literal\n",
+            }}],
+        })
+    );
 }
 
 #[test]

@@ -50,7 +50,7 @@ fn package_listing_includes_the_separate_one_shot_converter() {
     assert!(
         listing
             .lines()
-            .any(|path| path == "tools/pact-v01-convert/main.rs")
+            .any(|path| Path::new(path) == Path::new("tools/pact-v01-convert/main.rs"))
     );
 }
 
@@ -68,7 +68,9 @@ fn package_listing_includes_docs_referenced_by_compile_time_includes() {
         "docs/reference/file-format.md",
     ] {
         assert!(
-            listing.lines().any(|path| path == required),
+            listing
+                .lines()
+                .any(|path| Path::new(path) == Path::new(required)),
             "compile-time documentation input missing from package: {required}"
         );
     }
