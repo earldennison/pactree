@@ -1,7 +1,6 @@
 use serde_json::{Value, json};
 use std::fs;
-use std::os::unix::fs::PermissionsExt;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -54,19 +53,34 @@ fn exported_records() -> String {
     .expect("encode export")
 }
 
-fn fake_pre_v01_reader(export_path: &Path) -> PathBuf {
-    let script = temp_path("fake-v01-reader", "sh");
+fn fake_pre_v01_reader() -> (tempfile::TempDir, PathBuf) {
+    let directory = tempfile::tempdir().expect("reader fixture directory");
+    let source = directory.path().join("reader.rs");
+    let executable = directory
+        .path()
+        .join(format!("reader{}", std::env::consts::EXE_SUFFIX));
     fs::write(
-        &script,
-        format!("#!/bin/sh\nexec /bin/cat '{}'\n", export_path.display()),
+        &source,
+        r#"fn main() {
+    assert_eq!(std::env::args().nth(1).as_deref(), Some("file-records"));
+    let export = std::env::var_os("PACTREE_TEST_RECORD_EXPORT").expect("export path");
+    print!("{}", std::fs::read_to_string(export).expect("read export"));
+}"#,
     )
     .expect("write fake reader");
-    let mut permissions = fs::metadata(&script)
-        .expect("script metadata")
-        .permissions();
-    permissions.set_mode(0o700);
-    fs::set_permissions(&script, permissions).expect("make fake reader executable");
-    script
+    let compiler = Command::new("rustc")
+        .arg("--edition=2024")
+        .arg(&source)
+        .arg("-o")
+        .arg(&executable)
+        .output()
+        .expect("compile fake reader");
+    assert!(
+        compiler.status.success(),
+        "fake reader compilation failed: {}",
+        String::from_utf8_lossy(&compiler.stderr)
+    );
+    (directory, executable)
 }
 
 #[test]
@@ -77,13 +91,14 @@ fn converter_preserves_source_and_publishes_verified_pactbin2() {
     let source_bytes = [b"PACTBIN1".as_slice(), b"immutable source bytes"].concat();
     fs::write(&source, &source_bytes).expect("write source");
     fs::write(&export, exported_records()).expect("write export");
-    let pre_v01_reader = fake_pre_v01_reader(&export);
+    let (_reader_directory, pre_v01_reader) = fake_pre_v01_reader();
 
     let process = Command::new(env!("CARGO_BIN_EXE_pact-v01-convert"))
         .arg("--pre-v01-pactree")
         .arg(&pre_v01_reader)
         .arg(&source)
         .arg(&output)
+        .env("PACTREE_TEST_RECORD_EXPORT", &export)
         .output()
         .expect("run converter");
 
@@ -98,7 +113,7 @@ fn converter_preserves_source_and_publishes_verified_pactbin2() {
     assert_eq!(report["verified"], true);
     assert_eq!(report["source_bytes"], source_bytes.len());
 
-    for path in [source, output, export, pre_v01_reader] {
+    for path in [source, output, export] {
         fs::remove_file(path).expect("remove fixture");
     }
 }

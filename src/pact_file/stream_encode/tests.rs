@@ -1,14 +1,66 @@
 use std::collections::BTreeMap;
-use std::io::Write;
+use std::io::{Read, Write};
 
-use super::{RecordSpool, spool_standalone_core};
+use super::{RecordSpool, SpoolReader, sections_snapshot, spool_standalone_core};
 use crate::pact_file::codec::{RECORD_HEADER_BYTES, RecordKind, push_record_with_flags};
 use crate::pact_file::compact_codec::{decode_standalone_core, encode_standalone_core};
+use crate::pact_file::scratch::{ScratchFile, SpoolSpan};
 use crate::pact_file::transaction::PactTransaction;
 use crate::store::{PactRef, PactTransactionTrace, TRANSACTION_TRACE_SCHEMA};
 use crate::trace::BoundaryKind;
 use crate::transaction_trace::stream_codec::TraceSpool;
 use crate::transaction_trace::{TraceOp, TraceOpKind, TransactionTrace};
+
+#[test]
+fn snapshot_readers_are_independent_bounded_and_do_not_disturb_appends() {
+    let mut spool = ScratchFile::create(None, 4).expect("scratch");
+    spool.append(b"abcdefghijklmnop").expect("append");
+    spool.flush().expect("flush");
+    let mut first = SpoolReader {
+        spool: sections_snapshot(&spool).expect("first snapshot"),
+        span: SpoolSpan { offset: 2, len: 5 },
+        position: 0,
+    };
+    let mut second = SpoolReader {
+        spool: sections_snapshot(&spool).expect("second snapshot"),
+        span: SpoolSpan { offset: 10, len: 3 },
+        position: 0,
+    };
+    assert_eq!(first.read(&mut []).expect("empty read"), 0);
+    let mut prefix = [0; 2];
+    first.read_exact(&mut prefix).expect("prefix");
+    assert_eq!(&prefix, b"cd");
+    let mut other = Vec::new();
+    second.read_to_end(&mut other).expect("second span");
+    assert_eq!(other, b"klm");
+    spool.append(b"qrst").expect("append during snapshot reads");
+    let mut suffix = Vec::new();
+    first.read_to_end(&mut suffix).expect("first remainder");
+    assert_eq!(suffix, b"efg");
+    assert_eq!(first.read(&mut prefix).expect("span EOF"), 0);
+    assert_eq!(second.read(&mut prefix).expect("span EOF"), 0);
+    assert_eq!(
+        std::fs::read(spool.path().expect("path")).expect("physical bytes"),
+        b"abcdefghijklmnopqrst"
+    );
+}
+
+#[test]
+fn snapshot_reader_preserves_short_reads_and_physical_eof() {
+    let mut spool = ScratchFile::create(None, 4).expect("scratch");
+    spool.append(b"abcd").expect("append");
+    let mut reader = SpoolReader {
+        spool: sections_snapshot(&spool).expect("snapshot"),
+        span: SpoolSpan { offset: 2, len: 5 },
+        position: 0,
+    };
+    let mut bytes = [0; 8];
+    assert_eq!(reader.read(&mut bytes).expect("short read"), 2);
+    assert_eq!(&bytes[..2], b"cd");
+    assert_eq!(reader.position, 2);
+    assert_eq!(reader.read(&mut bytes).expect("physical EOF"), 0);
+    assert_eq!(reader.position, 2);
+}
 
 #[test]
 fn spooled_record_framing_equals_push_record_bytes() {

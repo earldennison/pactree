@@ -6,6 +6,86 @@ use super::{
 use crate::pact_file::btree::{CowBTree, PAGE_BYTES, PageReader};
 
 #[test]
+#[cfg(not(unix))]
+fn portable_reads_use_an_independent_serialized_cursor() {
+    use std::io::Write;
+    use std::sync::Mutex;
+
+    let mut file = tempfile::NamedTempFile::new().expect("temp file");
+    let bytes: Vec<u8> = (0..128).collect();
+    file.write_all(&bytes).expect("write");
+    let reader = Mutex::new(file.reopen().expect("independent read handle"));
+    std::thread::scope(|scope| {
+        for offset in [0, 16, 48, 96] {
+            let reader = &reader;
+            let bytes = &bytes;
+            scope.spawn(move || {
+                for _ in 0..100 {
+                    let mut actual = [0; 16];
+                    super::read_exact_at_portable(reader, &mut actual, offset).expect("read");
+                    assert_eq!(actual, bytes[offset as usize..offset as usize + 16]);
+                }
+            });
+        }
+    });
+    let error = super::read_exact_at_portable(&reader, &mut [0; 4], 126)
+        .expect_err("short file cannot satisfy exact read");
+    assert_eq!(error.kind(), std::io::ErrorKind::UnexpectedEof);
+    super::read_exact_at_portable(&reader, &mut [], 128).expect("empty read");
+    file.write_all(b"tailtail").expect("append after readers");
+    assert_eq!(
+        std::fs::read(file.path()).expect("physical bytes"),
+        [bytes.as_slice(), b"tailtail"].concat()
+    );
+}
+
+#[test]
+fn flushed_reads_do_not_move_the_append_cursor() {
+    let mut spool = ScratchFile::create(None, 4).expect("scratch");
+    spool.append(b"abcdefghijklmnop").expect("initial append");
+    assert_eq!(
+        spool
+            .read_span(SpoolSpan { offset: 1, len: 4 })
+            .expect("read"),
+        b"bcde"
+    );
+    spool.append(b"qrst").expect("append after read");
+    spool.flush().expect("flush");
+    assert_eq!(
+        std::fs::read(spool.path().expect("path")).expect("physical bytes"),
+        b"abcdefghijklmnopqrst"
+    );
+}
+
+#[test]
+fn concurrent_flushed_reads_keep_their_requested_offsets() {
+    let mut spool = ScratchFile::create(None, 8).expect("scratch");
+    let bytes: Vec<u8> = (0..128).collect();
+    spool.append(&bytes).expect("append");
+    std::thread::scope(|scope| {
+        for offset in [0, 16, 48, 96] {
+            let spool = &spool;
+            let bytes = &bytes;
+            scope.spawn(move || {
+                for _ in 0..100 {
+                    assert_eq!(
+                        spool
+                            .read_span(SpoolSpan { offset, len: 16 })
+                            .expect("read"),
+                        bytes[offset as usize..offset as usize + 16]
+                    );
+                }
+            });
+        }
+    });
+    spool.append(b"tailtail").expect("append after readers");
+    assert_eq!(
+        std::fs::read(spool.path().expect("path")).expect("physical bytes"),
+        [bytes.as_slice(), b"tailtail"].concat()
+    );
+}
+
+#[test]
 fn spool_appends_reads_compares_and_copies_in_chunks() {
     let mut spool = ScratchFile::create(None, 7).expect("scratch");
     let path = spool.path().expect("temp path").to_path_buf();

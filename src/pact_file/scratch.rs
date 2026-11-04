@@ -34,6 +34,22 @@ pub(crate) trait ScratchBackend: Send + Sync {
 
 struct TempFileBackend {
     file: tempfile::NamedTempFile,
+    #[cfg(not(unix))]
+    reader: Mutex<std::fs::File>,
+}
+
+#[cfg(not(unix))]
+fn read_exact_at_portable(
+    reader: &Mutex<std::fs::File>,
+    buf: &mut [u8],
+    offset: u64,
+) -> std::io::Result<()> {
+    use std::io::{Seek, SeekFrom};
+    let mut reader = reader
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner());
+    reader.seek(SeekFrom::Start(offset))?;
+    reader.read_exact(buf)
 }
 
 impl ScratchBackend for TempFileBackend {
@@ -42,8 +58,15 @@ impl ScratchBackend for TempFileBackend {
     }
 
     fn read_at(&self, buf: &mut [u8], offset: u64) -> std::io::Result<()> {
-        use std::os::unix::fs::FileExt;
-        self.file.as_file().read_exact_at(buf, offset)
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::FileExt;
+            self.file.as_file().read_exact_at(buf, offset)
+        }
+        #[cfg(not(unix))]
+        {
+            read_exact_at_portable(&self.reader, buf, offset)
+        }
     }
 }
 
@@ -79,8 +102,14 @@ impl ScratchFile {
             None => builder.tempfile()?,
         };
         let path = file.path().to_path_buf();
+        #[cfg(not(unix))]
+        let reader = Mutex::new(file.reopen()?);
         Ok(Self {
-            backend: Box::new(TempFileBackend { file }),
+            backend: Box::new(TempFileBackend {
+                file,
+                #[cfg(not(unix))]
+                reader,
+            }),
             path: Some(path),
             flushed: 0,
             pending: Vec::new(),

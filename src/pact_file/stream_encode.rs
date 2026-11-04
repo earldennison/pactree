@@ -217,7 +217,7 @@ pub(crate) fn spool_standalone_core(
             PactError::codec(format!("compress compact transaction sections: {error}"))
         })?;
         let mut source = SpoolReader {
-            spool: &snapshot,
+            spool: snapshot,
             span: raw_span,
             position: 0,
         };
@@ -278,23 +278,32 @@ fn sections_snapshot(spool: &ScratchFile) -> PactResult<std::fs::File> {
     Ok(std::fs::File::open(path)?)
 }
 
-struct SpoolReader<'a> {
-    spool: &'a std::fs::File,
+struct SpoolReader {
+    spool: std::fs::File,
     span: SpoolSpan,
     position: u64,
 }
 
-impl std::io::Read for SpoolReader<'_> {
+impl std::io::Read for SpoolReader {
     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        use std::os::unix::fs::FileExt;
         let remaining = self.span.len.saturating_sub(self.position);
         if remaining == 0 {
             return Ok(0);
         }
         let take = usize::try_from(remaining.min(buf.len() as u64)).unwrap_or(buf.len());
-        let read = self
-            .spool
-            .read_at(&mut buf[..take], self.span.offset + self.position)?;
+        #[cfg(unix)]
+        let read = {
+            use std::os::unix::fs::FileExt;
+            self.spool
+                .read_at(&mut buf[..take], self.span.offset + self.position)?
+        };
+        #[cfg(not(unix))]
+        let read = {
+            use std::io::{Seek, SeekFrom};
+            self.spool
+                .seek(SeekFrom::Start(self.span.offset + self.position))?;
+            self.spool.read(&mut buf[..take])?
+        };
         self.position += read as u64;
         Ok(read)
     }
