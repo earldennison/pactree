@@ -1,8 +1,8 @@
 # Pactree 0.1 File Format
 
 Pactree 0.1 writes `PACTBIN2`, format version 2, with public schema
-`pact.file.v2`. Normal runtime readers reject pre-v0.1 Pact files with a typed
-unsupported-format error. Conversion is an explicit, separate operation.
+`pact.file.v2`. In normal runtime readers, pre-v0.1 Pact files are unsupported
+and rejected with a typed error. Conversion is an explicit, separate operation.
 
 ## One-shot comparison converter
 
