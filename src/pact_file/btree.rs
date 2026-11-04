@@ -1420,9 +1420,9 @@ fn page_digest(page: &[u8; PAGE_BYTES], payload_len: usize) -> [u8; 4] {
     let mut hasher = blake3::Hasher::new();
     hasher.update(&page[..16]);
     hasher.update(&page[PAGE_HEADER_BYTES..PAGE_HEADER_BYTES + payload_len]);
-    hasher.finalize().as_bytes()[..4]
-        .try_into()
-        .expect("fixed Pact B+tree digest width")
+    let digest = hasher.finalize();
+    let bytes = digest.as_bytes();
+    [bytes[0], bytes[1], bytes[2], bytes[3]]
 }
 
 fn common_prefix(left: &[u8], right: &[u8]) -> usize {

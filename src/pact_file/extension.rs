@@ -7,6 +7,15 @@ use crate::extension::{
 use super::index::IndexKey;
 use super::snapshot::Snapshot;
 
+pub(crate) struct ExtensionWindow<'a> {
+    pub kind: Option<&'a str>,
+    pub index_key: Option<&'a str>,
+    pub anchor: Option<&'a PactExtensionCursor>,
+    pub direction: &'a str,
+    pub limit: usize,
+    pub at_revision: Option<u64>,
+}
+
 pub(crate) fn window(
     snapshot: &Snapshot,
     branch: &str,
@@ -17,20 +26,32 @@ pub(crate) fn window(
     limit: usize,
 ) -> PactResult<PactExtensionPage> {
     window_at(
-        snapshot, branch, kind, index_key, anchor, direction, limit, None,
+        snapshot,
+        branch,
+        ExtensionWindow {
+            kind,
+            index_key,
+            anchor,
+            direction,
+            limit,
+            at_revision: None,
+        },
     )
 }
 
 pub(crate) fn window_at(
     snapshot: &Snapshot,
     branch: &str,
-    kind: Option<&str>,
-    index_key: Option<&str>,
-    anchor: Option<&PactExtensionCursor>,
-    direction: &str,
-    limit: usize,
-    at_revision: Option<u64>,
+    query: ExtensionWindow<'_>,
 ) -> PactResult<PactExtensionPage> {
+    let ExtensionWindow {
+        kind,
+        index_key,
+        anchor,
+        direction,
+        limit,
+        at_revision,
+    } = query;
     let limit = limit.clamp(1, 500);
     let direction = direction.trim().to_ascii_lowercase();
     if direction != "before" && direction != "after" {

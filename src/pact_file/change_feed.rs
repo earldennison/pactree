@@ -297,16 +297,14 @@ fn page_from_indexed(
     if has_more {
         changes.pop();
     }
-    let next_cursor = has_more.then(|| {
-        let change = changes
-            .last()
-            .expect("a page with more changes has a last returned change");
-        PactTextChangeCursor {
+    let next_cursor = changes
+        .last()
+        .filter(|_| has_more)
+        .map(|change| PactTextChangeCursor {
             file_identity,
             generation: change.revision,
             ordinal: change.ordinal,
-        }
-    });
+        });
     PactTextChangePage {
         changes: changes.into_iter().map(|change| change.change).collect(),
         next_cursor,
@@ -400,30 +398,28 @@ where
                 changes.push(tombstone(branch_id, revision, op, "content"));
             }
         }
-        TraceOpKind::SetField { key, value } if canonical_text_field(key).is_some() => {
-            let field = canonical_text_field(key).expect("guarded text field");
-            if key.ends_with("_ref") {
-                if let Some(content_id) = content_ref_id(value) {
-                    changes.push(content_change(
-                        branch_id,
-                        revision,
-                        op,
-                        field,
-                        content_id,
-                        resolve_content,
-                    )?);
+        TraceOpKind::SetField { key, value } => {
+            if let Some(field) = canonical_text_field(key) {
+                if key.ends_with("_ref") {
+                    if let Some(content_id) = content_ref_id(value) {
+                        changes.push(content_change(
+                            branch_id,
+                            revision,
+                            op,
+                            field,
+                            content_id,
+                            resolve_content,
+                        )?);
+                    }
+                } else {
+                    changes.push(inline_change(branch_id, revision, op, field, value)?);
                 }
-            } else {
-                changes.push(inline_change(branch_id, revision, op, field, value)?);
             }
         }
-        TraceOpKind::UnsetField { key } if canonical_text_field(key).is_some() => {
-            changes.push(tombstone(
-                branch_id,
-                revision,
-                op,
-                canonical_text_field(key).expect("guarded text field"),
-            ));
+        TraceOpKind::UnsetField { key } => {
+            if let Some(field) = canonical_text_field(key) {
+                changes.push(tombstone(branch_id, revision, op, field));
+            }
         }
         TraceOpKind::ReplaceContentRange { .. } => {
             changes.push(tombstone(branch_id, revision, op, "content"));

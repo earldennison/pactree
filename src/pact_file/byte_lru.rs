@@ -74,10 +74,9 @@ impl<K: Hash + Eq + Clone, V> ByteLru<K, V> {
             self.release(previous.charge);
         }
         while self.resident.saturating_add(charge) > self.budget {
-            let Some((&oldest_tick, _)) = self.recency.iter().next() else {
+            let Some((_, oldest_key)) = self.recency.pop_first() else {
                 break;
             };
-            let oldest_key = self.recency.remove(&oldest_tick).expect("recency key");
             if let Some(evicted) = self.entries.remove(&oldest_key) {
                 self.release(evicted.charge);
             }

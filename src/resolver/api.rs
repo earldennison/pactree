@@ -285,13 +285,8 @@ impl PactResolver {
                 hex_digest(&actual.semantic_digest),
             )));
         }
+        self.file_manifest = Some(super::candidate_manifest(&path, &attached));
         self.file_path = Some(path);
-        self.file_manifest = Some(super::candidate_manifest(
-            self.file_path
-                .as_deref()
-                .expect("file path was just assigned"),
-            &attached,
-        ));
         self.persisted_content_ids = attached.content.records.keys().cloned().collect();
         Ok(())
     }

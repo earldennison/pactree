@@ -20,7 +20,11 @@ fn deterministic_options(prefix: &str) -> ContextTreeOptions {
 }
 
 fn append_turn(tree: &mut ContextTree, turn: usize) {
-    let role = if turn % 2 == 0 { "user" } else { "assistant" };
+    let role = if turn.is_multiple_of(2) {
+        "user"
+    } else {
+        "assistant"
+    };
     let options = tree.next_authoring_component_options();
     tree.add_message(
         role,

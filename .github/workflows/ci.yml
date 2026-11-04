@@ -48,7 +48,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.93.0
       - uses: Swatinem/rust-cache@v2
         with: {key: msrv-all-features}
-      - run: cargo test --locked --all-targets --all-features
+      - run: rustup toolchain install nightly-2026-05-31 --profile minimal
+      - run: cargo +nightly-2026-05-31 install cargo-public-api --version 0.52.0 --locked
+      - run: cargo +1.93.0 test --locked --all-targets --all-features
 
   test-stable:
     name: test-stable-${{ matrix.os }}
@@ -60,7 +62,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with: {key: "stable-all-${{ matrix.os }}"}
-      - run: cargo test --locked --all-targets --all-features
+      - run: rustup toolchain install nightly-2026-05-31 --profile minimal
+      - run: cargo +nightly-2026-05-31 install cargo-public-api --version 0.52.0 --locked
+      - run: cargo +stable test --locked --all-targets --all-features
 
   test-no-default:
     name: test-no-default-${{ matrix.os }}
@@ -72,7 +76,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with: {key: "stable-none-${{ matrix.os }}"}
-      - run: cargo test --locked --all-targets --no-default-features
+      - run: rustup toolchain install nightly-2026-05-31 --profile minimal
+      - run: cargo +nightly-2026-05-31 install cargo-public-api --version 0.52.0 --locked
+      - run: cargo +stable test --locked --all-targets --no-default-features
 
   docs:
     runs-on: ubuntu-latest
@@ -94,9 +100,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo install cargo-public-api --version 0.52.0 --locked
-      - run: cargo public-api --all-features --simplified > /tmp/public-api.txt
+      - uses: dtolnay/rust-toolchain@nightly-2026-05-31
+      - run: cargo +nightly-2026-05-31 install cargo-public-api --version 0.52.0 --locked
+      - run: cargo +nightly-2026-05-31 public-api --all-features --simplified --color never > /tmp/public-api.txt
       - run: diff -u api/pactree-0.1.0.txt /tmp/public-api.txt
 
   package:

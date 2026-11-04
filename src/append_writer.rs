@@ -984,16 +984,18 @@ impl PactAppendWriter {
                 aux: message.aux.clone(),
             })
             .collect::<Vec<_>>();
-        let prepared = {
-            let state = self.state.as_mut().expect("bounded state");
-            state.prepare(
-                &self.pinned.snapshot,
-                messages,
-                vec![receipt],
-                &mut self.identity,
-                &self.options,
+        let state = self.state.as_mut().ok_or_else(|| {
+            PactAppendFailure::ResourceUnavailable(
+                "bounded writer state is unavailable".to_string(),
             )
-        };
+        })?;
+        let prepared = state.prepare(
+            &self.pinned.snapshot,
+            messages,
+            vec![receipt],
+            &mut self.identity,
+            &self.options,
+        );
         let prepared = match prepared {
             Ok(prepared) => prepared,
             Err(error) => {
@@ -1001,18 +1003,15 @@ impl PactAppendWriter {
                 return Err(map_precommit(error));
             }
         };
-        let published = {
-            let state = self.state.as_mut().expect("bounded state");
-            publish(
-                &self.path,
-                &self.pinned,
-                state,
-                &prepared,
-                &self.options,
-                &self.counters,
-                self.fault,
-            )
-        };
+        let published = publish(
+            &self.path,
+            &self.pinned,
+            state,
+            &prepared,
+            &self.options,
+            &self.counters,
+            self.fault,
+        );
         match published {
             Ok(_) => self.repin_after_publish(),
             Err(PublishError::Rejected(error)) => {
@@ -1076,10 +1075,13 @@ impl PactAppendWriter {
                 "stale_keys_removed": stale_keys_removed,
             }),
         );
-        let prepared = {
-            let state = self.state.as_mut().expect("bounded state");
-            state.prepare_maintenance(&self.pinned.snapshot, &self.options, plan, marker)
-        };
+        let state = self.state.as_mut().ok_or_else(|| {
+            PactAppendFailure::ResourceUnavailable(
+                "bounded writer state is unavailable".to_string(),
+            )
+        })?;
+        let prepared =
+            state.prepare_maintenance(&self.pinned.snapshot, &self.options, plan, marker);
         let prepared = match prepared {
             Ok(prepared) => prepared,
             Err(error) => {
@@ -1087,18 +1089,15 @@ impl PactAppendWriter {
                 return Err(map_precommit(error));
             }
         };
-        let published = {
-            let state = self.state.as_mut().expect("bounded state");
-            publish(
-                &self.path,
-                &self.pinned,
-                state,
-                &prepared,
-                &self.options,
-                &self.counters,
-                self.fault,
-            )
-        };
+        let published = publish(
+            &self.path,
+            &self.pinned,
+            state,
+            &prepared,
+            &self.options,
+            &self.counters,
+            self.fault,
+        );
         match published {
             Ok(_) => self.repin_after_publish()?,
             Err(PublishError::Rejected(error)) => {

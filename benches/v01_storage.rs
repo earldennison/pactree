@@ -8,15 +8,33 @@ use std::process::Command;
 use std::time::Instant;
 
 fn main() {
-    let output_dir = std::env::args()
-        .nth(1)
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.is_empty() {
+        let output_dir = tempfile::tempdir().expect("create smoke benchmark directory");
+        let report = run_workload(output_dir.path(), 2, |path| {
+            let audit = pactree::file_format::file_storage_audit_json(path)
+                .expect("run smoke storage audit");
+            let audit: Value = serde_json::from_str(&audit).expect("decode smoke storage audit");
+            audit["physical_layout"].clone()
+        });
+        assert_eq!(report["turns"], 2);
+        assert_eq!(
+            report["physical_layout"]["file_bytes"],
+            report["file_bytes"]
+        );
+        println!("{report}");
+        return;
+    }
+    let output_dir = args
+        .iter()
+        .find(|arg| arg.as_str() != "--bench")
         .map(PathBuf::from)
         .unwrap_or_else(|| std::env::temp_dir().join("pactree-v01-bench"));
     std::fs::create_dir_all(&output_dir).expect("create benchmark directory");
 
-    let small = run_workload(&output_dir, 34);
-    let large = run_workload(&output_dir, 300);
-    let horizon = run_workload(&output_dir, 600);
+    let small = run_workload(&output_dir, 34, physical_layout);
+    let large = run_workload(&output_dir, 300, physical_layout);
+    let horizon = run_workload(&output_dir, 600, physical_layout);
     println!(
         "{}",
         serde_json::to_string_pretty(&json!({
@@ -31,7 +49,7 @@ fn main() {
     );
 }
 
-fn run_workload(output_dir: &Path, turns: usize) -> Value {
+fn run_workload(output_dir: &Path, turns: usize, audit: fn(&Path) -> Value) -> Value {
     let rss_before_workload = resident_bytes();
     let path = output_dir.join(format!("{turns}-turn.pact"));
     let _ = std::fs::remove_file(&path);
@@ -40,6 +58,7 @@ fn run_workload(output_dir: &Path, turns: usize) -> Value {
             DeterministicAuthoringOptions::new(format!("bench_{turns}_"), 1_000_000, 1)
                 .expect("deterministic options"),
         ),
+        ..ContextTreeOptions::default()
     };
     let mut tree = ContextTree::with_id_and_options(format!("bench_{turns}_root"), options)
         .expect("create benchmark tree");
@@ -76,7 +95,7 @@ fn run_workload(output_dir: &Path, turns: usize) -> Value {
 
     let bytes = std::fs::read(&path).expect("read benchmark file");
     let file_hash = blake3::hash(&bytes).to_hex().to_string();
-    let physical_layout = physical_layout(&path);
+    let physical_layout = audit(&path);
     let projection = tree
         .project(pactree::ProjectionRequest::Json {
             mode: pactree::ViewMode::Current,

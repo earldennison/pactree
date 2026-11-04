@@ -551,12 +551,14 @@ impl PactFileReadHandle {
         crate::pact_file::extension::window_at(
             &self.snapshot,
             &self.branch_id,
-            kind,
-            index_key,
-            anchor,
-            direction,
-            limit,
-            at_revision,
+            crate::pact_file::extension::ExtensionWindow {
+                kind,
+                index_key,
+                anchor,
+                direction,
+                limit,
+                at_revision,
+            },
         )
     }
 

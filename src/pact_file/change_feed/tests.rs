@@ -1,4 +1,94 @@
 #[test]
+fn text_change_page_cursor_marks_the_last_returned_change_only_when_more_exist() {
+    let change = |ordinal| super::IndexedTextChange {
+        revision: 42,
+        ordinal,
+        change: super::PactTextChange {
+            node_id: format!("node-{ordinal}"),
+            branch_id: "main".to_string(),
+            cycle: Some(42),
+            field: "content".to_string(),
+            text_hash: String::new(),
+            content_ref: None,
+            tombstone: true,
+        },
+    };
+    for count in 0..=2 {
+        let page =
+            super::page_from_indexed("root".to_string(), (0..count).map(change).collect(), 1);
+        assert_eq!(page.changes.len(), usize::from(count > 0));
+        assert_eq!(
+            page.next_cursor,
+            (count > 1).then(|| super::PactTextChangeCursor {
+                file_identity: "root".to_string(),
+                generation: 42,
+                ordinal: 0,
+            })
+        );
+    }
+}
+
+#[test]
+fn text_field_changes_preserve_canonical_names_and_ignore_other_fields() {
+    use crate::transaction_trace::{TraceOp, TraceOpKind};
+
+    for (key, canonical) in [
+        ("content", Some("content")),
+        ("content_ref", Some("content")),
+        ("parameters", Some("parameters")),
+        ("parameters_ref", Some("parameters")),
+        ("result", Some("result")),
+        ("result_ref", Some("result")),
+        ("error_message", Some("error_message")),
+        ("error_ref", Some("error_message")),
+        ("role", None),
+        ("unknown_ref", None),
+    ] {
+        let value = serde_json::Value::String("body".to_string());
+        let set = TraceOp::new(
+            "node",
+            TraceOpKind::SetField {
+                key: key.to_string(),
+                value,
+            },
+        );
+        let unset = TraceOp::new(
+            "node",
+            TraceOpKind::UnsetField {
+                key: key.to_string(),
+            },
+        );
+        for (op, tombstone) in [(set, false), (unset, true)] {
+            let changes = super::text_changes_from_op("main", 42, &op, &mut |id| {
+                assert_eq!(id, "body");
+                Ok(Some(b"body".to_vec()))
+            })
+            .expect("field changes");
+            assert_eq!(changes.len(), usize::from(canonical.is_some()), "{key}");
+            if let Some(field) = canonical {
+                assert_eq!(changes[0].field, field);
+                assert_eq!(changes[0].tombstone, tombstone);
+                if !tombstone {
+                    assert_eq!(
+                        changes[0].text_hash,
+                        blake3::hash(b"body").to_hex().to_string()
+                    );
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn text_change_feed_rejects_zero_and_oversized_page_limits() {
+    for limit in [0, 10_001] {
+        let error = super::stream_text_changes(std::path::Path::new("unused.pact"), None, limit)
+            .expect_err("invalid limit rejected before opening file");
+        assert_eq!(error.kind(), crate::PactErrorKind::Invalid);
+    }
+}
+
+#[test]
 fn text_change_feed_is_offset_independent_incremental_and_nonhydrating() {
     let fixture = crate::pact_file::tests::fixture_with_text_updates_and_delete();
     let snapshot = crate::pact_file::snapshot::Snapshot::open(

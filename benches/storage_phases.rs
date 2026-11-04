@@ -30,6 +30,15 @@ const SCENARIOS: &[&str] = &[
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.is_empty() {
+        let output_dir = tempfile::tempdir().expect("create smoke benchmark directory");
+        let report = run_scenario("empty", 1, output_dir.path(), None);
+        for phase in report["phases"].as_array().expect("phase results") {
+            assert!(phase.get("error").is_none(), "smoke phase failed: {phase}");
+        }
+        println!("{report}");
+        return;
+    }
     let flag = |name: &str| -> Option<String> {
         args.iter()
             .position(|arg| arg == name)
@@ -146,11 +155,16 @@ fn deterministic_options(prefix: &str) -> ContextTreeOptions {
             DeterministicAuthoringOptions::new(prefix.to_string(), 1_000_000, 1)
                 .expect("deterministic authoring options"),
         ),
+        ..ContextTreeOptions::default()
     }
 }
 
 fn stage_turn(tree: &mut ContextTree, turn: usize, parts: Vec<String>) {
-    let role = if turn % 2 == 0 { "user" } else { "assistant" };
+    let role = if turn.is_multiple_of(2) {
+        "user"
+    } else {
+        "assistant"
+    };
     let components = parts
         .into_iter()
         .map(|content| Component::text_authoring(content, tree.next_authoring_component_options()))

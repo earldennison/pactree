@@ -3044,15 +3044,15 @@ pub(super) fn diff_value_trees(
             "value-tree diff lost the validated replacement component id",
         ));
     };
-    if value_without_children(old_node) != value_without_children(new_node) {
-        if !emit_in_place_node_deltas(&component_id, old_node, new_node, ops, content) {
-            nodes.insert(component_id.clone(), new_node.clone());
-            ops.push(CommitRecordOp::ReplaceComponent {
-                component_id: component_id.clone(),
-                node_ref: component_id,
-            });
-            return Ok(());
-        }
+    if value_without_children(old_node) != value_without_children(new_node)
+        && !emit_in_place_node_deltas(&component_id, old_node, new_node, ops, content)
+    {
+        nodes.insert(component_id.clone(), new_node.clone());
+        ops.push(CommitRecordOp::ReplaceComponent {
+            component_id: component_id.clone(),
+            node_ref: component_id,
+        });
+        return Ok(());
     }
 
     let old_children = value_children(old_node);

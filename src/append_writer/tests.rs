@@ -103,6 +103,71 @@ fn message_texts(path: &Path) -> Vec<(String, String)> {
 }
 
 #[test]
+fn bounded_append_without_state_returns_resource_unavailable_without_writes() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let path = fixture(temp.path(), 1);
+    let mut writer = open(&path);
+    let before = std::fs::read(&path).expect("read");
+    let version = writer.version().clone();
+    let request = batch(
+        &version,
+        "missing-state",
+        None,
+        Some("cp1"),
+        vec![message("r1", "user", "unpublished")],
+    );
+    let identity = super::hex(&version.file_identity);
+    let digest = super::request_digest(&identity, "main", &request).expect("digest");
+    let receipt = super::receipt_record(
+        &identity,
+        "main",
+        version.generation + 1,
+        version.revision + 1,
+        "tx_main_2",
+        &digest,
+        &request,
+    );
+    writer.state = None;
+
+    let error = writer
+        .append_bounded(&request, receipt)
+        .expect_err("missing state");
+
+    assert!(matches!(error, PactAppendFailure::ResourceUnavailable(_)));
+    assert_eq!(std::fs::read(&path).expect("read"), before);
+    assert_eq!(writer.version(), &version);
+    assert!(!writer.reconciliation_required);
+    assert!(
+        writer
+            .lookup("lens", "missing-state")
+            .expect("lookup")
+            .is_none()
+    );
+}
+
+#[test]
+fn bounded_maintenance_without_state_returns_resource_unavailable_without_writes() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let path = fixture(temp.path(), 1);
+    let mut writer = open(&path);
+    let before = std::fs::read(&path).expect("read");
+    let version = writer.version().clone();
+    let mut plan = super::MessageOrderRepairPlan::new(&writer.options).expect("repair plan");
+    plan.insert("missing-state", 0).expect("repair row");
+    plan.rows_to_reindex = 1;
+    writer.state = None;
+
+    let error = writer
+        .commit_message_order_plan(plan)
+        .expect_err("missing state");
+
+    assert!(matches!(error, PactAppendFailure::ResourceUnavailable(_)));
+    assert_eq!(std::fs::read(&path).expect("read"), before);
+    assert_eq!(writer.version(), &version);
+    assert!(!writer.reconciliation_required);
+}
+
+#[test]
 fn appends_commit_rows_and_receipts_the_oracle_reads() {
     let temp = tempfile::tempdir().expect("tempdir");
     let path = fixture(temp.path(), 3);
