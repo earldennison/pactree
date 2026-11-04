@@ -100,7 +100,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@nightly-2026-05-31
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-05-31
       - run: cargo +nightly-2026-05-31 install cargo-public-api --version 0.52.0 --locked
       - run: cargo +nightly-2026-05-31 public-api --all-features --simplified --color never > /tmp/public-api.txt
       - run: diff -u api/pactree-0.1.0.txt /tmp/public-api.txt
