@@ -1,0 +1,784 @@
+{
+  "components": {
+    "mutation_identity_order_root": {
+      "child_ids": [
+        "system",
+        "mutation_identity_order_root:mutation_identity_order_00000001",
+        "mutation_identity_order_root:mutation_identity_order_00000002"
+      ],
+      "children": [
+        {
+          "aux": {
+            "depth": -1
+          },
+          "child_ids": [],
+          "children": [],
+          "componentType": "system_header",
+          "created_at_ns": 0,
+          "creation_index": 0,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": null,
+          "priority": 0,
+          "role": "system",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "system_header"
+        },
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "first updated",
+          "created_at_ns": 2000000,
+          "creation_index": 0,
+          "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+          "key": "first",
+          "offset": 1,
+          "parent_id": "mutation_identity_order_root",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": null
+        },
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "second replaced",
+          "created_at_ns": 2000050,
+          "creation_index": 0,
+          "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+          "key": "second",
+          "offset": 2,
+          "parent_id": "mutation_identity_order_root",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": null
+        }
+      ],
+      "componentType": "root",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "mutation_identity_order_root",
+      "offset": 0,
+      "parent_id": null,
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "root"
+    },
+    "mutation_identity_order_root:mutation_identity_order_00000001": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "first updated",
+      "created_at_ns": 2000000,
+      "creation_index": 0,
+      "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+      "key": "first",
+      "offset": 1,
+      "parent_id": "mutation_identity_order_root",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null
+    },
+    "mutation_identity_order_root:mutation_identity_order_00000002": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "second replaced",
+      "created_at_ns": 2000050,
+      "creation_index": 0,
+      "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+      "key": "second",
+      "offset": 2,
+      "parent_id": "mutation_identity_order_root",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null
+    },
+    "system": {
+      "aux": {
+        "depth": -1
+      },
+      "child_ids": [],
+      "children": [],
+      "componentType": "system_header",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "system",
+      "offset": 0,
+      "pact_depth": -1,
+      "parent_id": null,
+      "priority": 0,
+      "role": "system",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "system_header"
+    }
+  },
+  "content": {},
+  "error": null,
+  "head": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 1,
+    "lifecycle_seen": {
+      "active": 0,
+      "mutation_identity_order_root": 0,
+      "mutation_identity_order_root:mutation_identity_order_00000001": 1,
+      "mutation_identity_order_root:mutation_identity_order_00000002": 1,
+      "system": 0
+    },
+    "message_order": [],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "mutation_identity_order_root": 0,
+        "mutation_identity_order_root:mutation_identity_order_00000001": 1,
+        "mutation_identity_order_root:mutation_identity_order_00000002": 1,
+        "system": 0
+      },
+      "index": {
+        "by_aux_key": {
+          "depth": [
+            "system"
+          ]
+        },
+        "by_id": {
+          "mutation_identity_order_root": {
+            "component_id": "mutation_identity_order_root"
+          },
+          "mutation_identity_order_root:mutation_identity_order_00000001": {
+            "component_id": "mutation_identity_order_root:mutation_identity_order_00000001",
+            "parent_id": "mutation_identity_order_root",
+            "path": [
+              1
+            ]
+          },
+          "mutation_identity_order_root:mutation_identity_order_00000002": {
+            "component_id": "mutation_identity_order_root:mutation_identity_order_00000002",
+            "parent_id": "mutation_identity_order_root",
+            "path": [
+              2
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "mutation_identity_order_root",
+            "path": [
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "root": [
+            "mutation_identity_order_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "mutation_identity_order_root:mutation_identity_order_00000001",
+            "mutation_identity_order_root:mutation_identity_order_00000002"
+          ]
+        },
+        "child_ids": {
+          "mutation_identity_order_root": [
+            "system",
+            "mutation_identity_order_root:mutation_identity_order_00000001",
+            "mutation_identity_order_root:mutation_identity_order_00000002"
+          ],
+          "mutation_identity_order_root:mutation_identity_order_00000001": [],
+          "mutation_identity_order_root:mutation_identity_order_00000002": [],
+          "system": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "mutation_identity_order_root:mutation_identity_order_00000001",
+          "mutation_identity_order_root:mutation_identity_order_00000002"
+        ],
+        "children": [
+          {
+            "aux": {
+              "depth": -1
+            },
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "first updated",
+            "created_at_ns": 2000000,
+            "creation_index": 0,
+            "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+            "key": "first",
+            "offset": 1,
+            "parent_id": "mutation_identity_order_root",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          },
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "second replaced",
+            "created_at_ns": 2000050,
+            "creation_index": 0,
+            "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+            "key": "second",
+            "offset": 2,
+            "parent_id": "mutation_identity_order_root",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "mutation_identity_order_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "mutation_identity_order_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 4,
+        "content_chars": 28,
+        "edge_count": 3
+      },
+      "tool_pairs": {}
+    }
+  },
+  "json": {
+    "child_ids": [
+      "system",
+      "mutation_identity_order_root:mutation_identity_order_00000001",
+      "mutation_identity_order_root:mutation_identity_order_00000002"
+    ],
+    "children": [
+      {
+        "aux": {
+          "depth": -1
+        },
+        "child_ids": [],
+        "children": [],
+        "componentType": "system_header",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "system",
+        "offset": 0,
+        "pact_depth": -1,
+        "parent_id": null,
+        "priority": 0,
+        "role": "system",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "system_header"
+      },
+      {
+        "child_ids": [],
+        "children": [],
+        "componentType": "text_content",
+        "content": "first updated",
+        "created_at_ns": 2000000,
+        "creation_index": 0,
+        "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+        "key": "first",
+        "offset": 1,
+        "parent_id": "mutation_identity_order_root",
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null
+      },
+      {
+        "child_ids": [],
+        "children": [],
+        "componentType": "text_content",
+        "content": "second replaced",
+        "created_at_ns": 2000050,
+        "creation_index": 0,
+        "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+        "key": "second",
+        "offset": 2,
+        "parent_id": "mutation_identity_order_root",
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null
+      }
+    ],
+    "componentType": "root",
+    "created_at_ns": 0,
+    "creation_index": 0,
+    "id": "mutation_identity_order_root",
+    "offset": 0,
+    "parent_id": null,
+    "priority": 0,
+    "transaction_index": 0,
+    "ttl": null,
+    "type": "root"
+  },
+  "provider_thread": {
+    "messages": []
+  },
+  "revision": 1,
+  "rewind_targets": {
+    "branch_id": "main",
+    "head_revision": 1,
+    "schema": "pact.rewind_targets.v1",
+    "targets": []
+  },
+  "schema": "pactree.behavior_observation.v1",
+  "selectors": [
+    {
+      "matches": [
+        {
+          "archived": false,
+          "componentType": "root",
+          "deleted": false,
+          "id": "mutation_identity_order_root",
+          "offset": 0,
+          "path": [],
+          "type": "root"
+        },
+        {
+          "archived": false,
+          "aux": {
+            "depth": -1
+          },
+          "componentType": "system_header",
+          "deleted": false,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": "mutation_identity_order_root",
+          "path": [
+            0
+          ],
+          "role": "system",
+          "type": "system_header"
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "first updated",
+          "deleted": false,
+          "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+          "key": "first",
+          "offset": 1,
+          "parent_id": "mutation_identity_order_root",
+          "path": [
+            1
+          ]
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "second replaced",
+          "deleted": false,
+          "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+          "key": "second",
+          "offset": 2,
+          "parent_id": "mutation_identity_order_root",
+          "path": [
+            2
+          ]
+        }
+      ],
+      "query": "*"
+    }
+  ],
+  "step": 5,
+  "stream": {
+    "anchor": {
+      "row_id": null,
+      "seq": null
+    },
+    "cursors": {
+      "after": null,
+      "before": null
+    },
+    "direction": "after",
+    "fallback_used": false,
+    "has_after": false,
+    "has_before": false,
+    "head": {
+      "branch_count": 1,
+      "branch_id": "main",
+      "current_branch_id": "main",
+      "file_kind": "",
+      "file_path": "<PACT_PATH>",
+      "is_current_branch": true,
+      "node_count": 4,
+      "pact_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "mutation_identity_order_root",
+        "transaction_id": "tx_main_1"
+      },
+      "record_count": 8,
+      "revision": 1,
+      "root_id": "mutation_identity_order_root",
+      "schema": "pact.head.v1",
+      "trace_count": 1,
+      "transaction_id": "tx_main_1"
+    },
+    "mode": "current_surface",
+    "path": "<PACT_PATH>",
+    "position": {
+      "end_index": 0,
+      "estimated": false,
+      "start_index": 0,
+      "total_rows": 0
+    },
+    "rows": [],
+    "schema": "pact.stream.v1",
+    "source": "held_tree",
+    "surface": "context"
+  },
+  "traces": [
+    {
+      "alteration_ids": [
+        "seal_staged"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "mutation_identity_order_root",
+        "transaction_id": "tx_main_1"
+      },
+      "aux": {
+        "applied": [
+          "seal_staged"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000010,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "mutation_identity_order_root:mutation_identity_order_00000001",
+                "root_id": "mutation_identity_order_root"
+              }
+            ],
+            "trace_id": "trace_3f5dcd28e1159a33"
+          },
+          {
+            "aux": {},
+            "created_at_ns": 2000030,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "mutation_identity_order_root:mutation_identity_order_00000002",
+                "root_id": "mutation_identity_order_root"
+              }
+            ],
+            "trace_id": "trace_d8e75a8bd9a08b9a"
+          },
+          {
+            "aux": {},
+            "created_at_ns": 2000040,
+            "op_kind": "update",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "mutation_identity_order_root:mutation_identity_order_00000001",
+                "root_id": "mutation_identity_order_root"
+              }
+            ],
+            "trace_id": "trace_6873c798f3518722"
+          },
+          {
+            "aux": {},
+            "created_at_ns": 2000060,
+            "op_kind": "replace",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "mutation_identity_order_root:mutation_identity_order_00000002",
+                "root_id": "mutation_identity_order_root"
+              }
+            ],
+            "trace_id": "trace_812a35a3835eb776"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_1",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "mutation_identity_order_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "mutation_identity_order_root",
+        "transaction_id": "tx_main_1"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "mutation_identity_order_root",
+        "transaction_id": "tx_main_1"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "mutation_identity_order_root",
+        "transaction_id": "tx_main_1"
+      },
+      "replay_trace": {
+        "from_rev": 0,
+        "ops": [
+          {
+            "component_id": "active",
+            "op": "delete_component"
+          },
+          {
+            "component_id": "mutation_identity_order_root",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "system",
+              "mutation_identity_order_root:mutation_identity_order_00000001",
+              "mutation_identity_order_root:mutation_identity_order_00000002"
+            ]
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "first updated",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+              "key": "first",
+              "offset": 1,
+              "parent_id": "mutation_identity_order_root",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "mutation_identity_order_root:mutation_identity_order_00000001",
+            "index": 1,
+            "op": "insert_component",
+            "parent_id": "mutation_identity_order_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "second replaced",
+              "created_at_ns": 2000050,
+              "creation_index": 0,
+              "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+              "key": "second",
+              "offset": 2,
+              "parent_id": "mutation_identity_order_root",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "mutation_identity_order_root:mutation_identity_order_00000002",
+            "index": 2,
+            "op": "insert_component",
+            "parent_id": "mutation_identity_order_root"
+          }
+        ],
+        "to_rev": 1
+      },
+      "root_id": "mutation_identity_order_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_1"
+    }
+  ],
+  "view": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 1,
+    "lifecycle_seen": {
+      "mutation_identity_order_root": 0,
+      "mutation_identity_order_root:mutation_identity_order_00000001": 0,
+      "mutation_identity_order_root:mutation_identity_order_00000002": 0,
+      "system": 0
+    },
+    "message_order": [],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "mutation_identity_order_root": 0,
+        "mutation_identity_order_root:mutation_identity_order_00000001": 1,
+        "mutation_identity_order_root:mutation_identity_order_00000002": 1,
+        "system": 0
+      },
+      "index": {
+        "by_aux_key": {
+          "depth": [
+            "system"
+          ]
+        },
+        "by_id": {
+          "mutation_identity_order_root": {
+            "component_id": "mutation_identity_order_root"
+          },
+          "mutation_identity_order_root:mutation_identity_order_00000001": {
+            "component_id": "mutation_identity_order_root:mutation_identity_order_00000001",
+            "parent_id": "mutation_identity_order_root",
+            "path": [
+              1
+            ]
+          },
+          "mutation_identity_order_root:mutation_identity_order_00000002": {
+            "component_id": "mutation_identity_order_root:mutation_identity_order_00000002",
+            "parent_id": "mutation_identity_order_root",
+            "path": [
+              2
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "mutation_identity_order_root",
+            "path": [
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "root": [
+            "mutation_identity_order_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "mutation_identity_order_root:mutation_identity_order_00000001",
+            "mutation_identity_order_root:mutation_identity_order_00000002"
+          ]
+        },
+        "child_ids": {
+          "mutation_identity_order_root": [
+            "system",
+            "mutation_identity_order_root:mutation_identity_order_00000001",
+            "mutation_identity_order_root:mutation_identity_order_00000002"
+          ],
+          "mutation_identity_order_root:mutation_identity_order_00000001": [],
+          "mutation_identity_order_root:mutation_identity_order_00000002": [],
+          "system": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "mutation_identity_order_root:mutation_identity_order_00000001",
+          "mutation_identity_order_root:mutation_identity_order_00000002"
+        ],
+        "children": [
+          {
+            "aux": {
+              "depth": -1
+            },
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "first updated",
+            "created_at_ns": 2000000,
+            "creation_index": 0,
+            "id": "mutation_identity_order_root:mutation_identity_order_00000001",
+            "key": "first",
+            "offset": 1,
+            "parent_id": "mutation_identity_order_root",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          },
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "second replaced",
+            "created_at_ns": 2000050,
+            "creation_index": 0,
+            "id": "mutation_identity_order_root:mutation_identity_order_00000002",
+            "key": "second",
+            "offset": 2,
+            "parent_id": "mutation_identity_order_root",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "mutation_identity_order_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "mutation_identity_order_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 4,
+        "content_chars": 28,
+        "edge_count": 3
+      },
+      "tool_pairs": {}
+    }
+  },
+  "xml": "<root id=\"mutation_identity_order_root\" componentType=\"root\" type=\"root\" offset=\"0\" depth=\"0\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\">\n  <system_header id=\"system\" componentType=\"system_header\" type=\"system_header\" role=\"system\" offset=\"0\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\" />\n  <text_content id=\"mutation_identity_order_root:mutation_identity_order_00000001\" componentType=\"text_content\" offset=\"1\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000000\" creation_index=\"0\">first updated</text_content>\n  <text_content id=\"mutation_identity_order_root:mutation_identity_order_00000002\" componentType=\"text_content\" offset=\"2\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000050\" creation_index=\"0\">second replaced</text_content>\n</root>\n"
+}

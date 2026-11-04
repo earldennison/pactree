@@ -1,0 +1,177 @@
+{
+  "tree": {
+    "root_id": "contract_root",
+    "stats": {
+      "component_count": 4,
+      "edge_count": 3,
+      "blob_count": 1,
+      "content_chars": 0
+    },
+    "root": {
+      "child_ids": [
+        "system",
+        "msg_contract_00000002"
+      ],
+      "children": [
+        {
+          "aux": {
+            "depth": -1
+          },
+          "child_ids": [],
+          "children": [],
+          "componentType": "system_header",
+          "created_at_ns": 0,
+          "creation_index": 0,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": null,
+          "priority": 0,
+          "role": "system",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "system_header"
+        },
+        {
+          "child_ids": [
+            "contract_root:contract_00000001"
+          ],
+          "children": [
+            {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content_ref": {
+                "chars": 1127,
+                "field": "$.content",
+                "id": "blob_00000000",
+                "preview": "protected contract payload xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "created_at_ns": 1000000,
+              "creation_index": 0,
+              "id": "contract_root:contract_00000001",
+              "key": "contract:user:1",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_contract_00000002",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            }
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 1000010,
+          "creation_index": 0,
+          "id": "msg_contract_00000002",
+          "offset": 1,
+          "pact_depth": 0,
+          "parent_id": "contract_root",
+          "priority": 0,
+          "role": "user",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "message_turn"
+        }
+      ],
+      "componentType": "root",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "contract_root",
+      "offset": 0,
+      "parent_id": null,
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "root"
+    },
+    "index": {
+      "by_id": {
+        "contract_root": {
+          "component_id": "contract_root"
+        },
+        "contract_root:contract_00000001": {
+          "component_id": "contract_root:contract_00000001",
+          "parent_id": "msg_contract_00000002",
+          "path": [
+            1,
+            0
+          ]
+        },
+        "msg_contract_00000002": {
+          "component_id": "msg_contract_00000002",
+          "parent_id": "contract_root",
+          "path": [
+            1
+          ]
+        },
+        "system": {
+          "component_id": "system",
+          "parent_id": "contract_root",
+          "path": [
+            0
+          ]
+        }
+      },
+      "child_ids": {
+        "contract_root": [
+          "system",
+          "msg_contract_00000002"
+        ],
+        "contract_root:contract_00000001": [],
+        "msg_contract_00000002": [
+          "contract_root:contract_00000001"
+        ],
+        "system": []
+      },
+      "by_type": {
+        "message_turn": [
+          "msg_contract_00000002"
+        ],
+        "root": [
+          "contract_root"
+        ],
+        "system_header": [
+          "system"
+        ],
+        "text_content": [
+          "contract_root:contract_00000001"
+        ]
+      },
+      "by_aux_key": {
+        "depth": [
+          "system"
+        ]
+      }
+    },
+    "first_seen": {
+      "active": 0,
+      "contract_root": 0,
+      "contract_root:contract_00000001": 1,
+      "msg_contract_00000002": 1,
+      "system": 0
+    },
+    "tool_pairs": {}
+  },
+  "branch_id": "main",
+  "head_revision": 1,
+  "lifecycle_seen": {
+    "contract_root": 0,
+    "contract_root:contract_00000001": 0,
+    "msg_contract_00000002": 0,
+    "system": 0
+  },
+  "message_order": [
+    "msg_contract_00000002"
+  ],
+  "branch_refs": [],
+  "content_refs": {
+    "blob_00000000": {
+      "id": "blob_00000000",
+      "kind": "text",
+      "hash": "blob_00000000",
+      "bytes": 160,
+      "chars": 1127,
+      "preview": "protected contract payload xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  }
+}

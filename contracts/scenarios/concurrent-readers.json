@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"concurrent-readers","operations":[{"op":"user","content":"reader stable","key":"reader"},{"op":"send"},{"op":"concurrent_reader_probe"}]}

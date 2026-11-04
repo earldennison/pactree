@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"provider-send-receive","operations":[{"op":"user","content":"request","key":"u1"},{"op":"send"},{"op":"receive","content":"response"}]}

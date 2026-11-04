@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"torn-write-recovery","operations":[{"op":"user","content":"durable before tear","key":"durable"},{"op":"send"},{"op":"torn_tail_probe"}]}

@@ -1,0 +1,1346 @@
+{
+  "components": {
+    "lifecycle_ttl_cadence_root": {
+      "child_ids": [
+        "system",
+        "msg_lifecycle_ttl_cadence_00000002",
+        "msg_lifecycle_ttl_cadence_00000004"
+      ],
+      "children": [
+        {
+          "aux": {
+            "depth": -1
+          },
+          "child_ids": [],
+          "children": [],
+          "componentType": "system_header",
+          "created_at_ns": 0,
+          "creation_index": 0,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": null,
+          "priority": 0,
+          "role": "system",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "system_header"
+        },
+        {
+          "child_ids": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+          ],
+          "children": [
+            {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "expires",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+              "key": "ttl",
+              "offset": 0,
+              "pact_depth": 1,
+              "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": 2
+            }
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000010,
+          "creation_index": 0,
+          "id": "msg_lifecycle_ttl_cadence_00000002",
+          "offset": 1,
+          "pact_depth": 1,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "priority": 0,
+          "role": "user",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "message_turn"
+        },
+        {
+          "child_ids": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+          ],
+          "children": [
+            {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "tick",
+              "created_at_ns": 2000020,
+              "creation_index": 0,
+              "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+              "key": "tick",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            }
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000030,
+          "creation_index": 0,
+          "id": "msg_lifecycle_ttl_cadence_00000004",
+          "offset": 2,
+          "pact_depth": 0,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "priority": 0,
+          "role": "user",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "message_turn"
+        }
+      ],
+      "componentType": "root",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "lifecycle_ttl_cadence_root",
+      "offset": 0,
+      "parent_id": null,
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "root"
+    },
+    "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "expires",
+      "created_at_ns": 2000000,
+      "creation_index": 0,
+      "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+      "key": "ttl",
+      "offset": 0,
+      "pact_depth": 1,
+      "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": 2
+    },
+    "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "tick",
+      "created_at_ns": 2000020,
+      "creation_index": 0,
+      "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+      "key": "tick",
+      "offset": 0,
+      "pact_depth": 0,
+      "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null
+    },
+    "msg_lifecycle_ttl_cadence_00000002": {
+      "child_ids": [
+        "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+      ],
+      "children": [
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "expires",
+          "created_at_ns": 2000000,
+          "creation_index": 0,
+          "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+          "key": "ttl",
+          "offset": 0,
+          "pact_depth": 1,
+          "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": 2
+        }
+      ],
+      "componentType": "message_turn",
+      "created_at_ns": 2000010,
+      "creation_index": 0,
+      "id": "msg_lifecycle_ttl_cadence_00000002",
+      "offset": 1,
+      "pact_depth": 1,
+      "parent_id": "lifecycle_ttl_cadence_root",
+      "priority": 0,
+      "role": "user",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "message_turn"
+    },
+    "msg_lifecycle_ttl_cadence_00000004": {
+      "child_ids": [
+        "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+      ],
+      "children": [
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "tick",
+          "created_at_ns": 2000020,
+          "creation_index": 0,
+          "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+          "key": "tick",
+          "offset": 0,
+          "pact_depth": 0,
+          "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": null
+        }
+      ],
+      "componentType": "message_turn",
+      "created_at_ns": 2000030,
+      "creation_index": 0,
+      "id": "msg_lifecycle_ttl_cadence_00000004",
+      "offset": 2,
+      "pact_depth": 0,
+      "parent_id": "lifecycle_ttl_cadence_root",
+      "priority": 0,
+      "role": "user",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "message_turn"
+    },
+    "system": {
+      "aux": {
+        "depth": -1
+      },
+      "child_ids": [],
+      "children": [],
+      "componentType": "system_header",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "system",
+      "offset": 0,
+      "pact_depth": -1,
+      "parent_id": null,
+      "priority": 0,
+      "role": "system",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "system_header"
+    }
+  },
+  "content": {},
+  "error": null,
+  "head": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 2,
+    "lifecycle_seen": {
+      "active": 0,
+      "lifecycle_ttl_cadence_root": 0,
+      "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": 1,
+      "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": 2,
+      "msg_lifecycle_ttl_cadence_00000002": 1,
+      "msg_lifecycle_ttl_cadence_00000004": 2,
+      "system": 0
+    },
+    "message_order": [
+      "msg_lifecycle_ttl_cadence_00000002",
+      "msg_lifecycle_ttl_cadence_00000004"
+    ],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "lifecycle_ttl_cadence_root": 0,
+        "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": 1,
+        "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": 2,
+        "msg_lifecycle_ttl_cadence_00000002": 1,
+        "msg_lifecycle_ttl_cadence_00000004": 2,
+        "system": 0
+      },
+      "index": {
+        "by_aux_key": {
+          "depth": [
+            "system"
+          ]
+        },
+        "by_id": {
+          "lifecycle_ttl_cadence_root": {
+            "component_id": "lifecycle_ttl_cadence_root"
+          },
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": {
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+            "path": [
+              1,
+              0
+            ]
+          },
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": {
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+            "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+            "path": [
+              2,
+              0
+            ]
+          },
+          "msg_lifecycle_ttl_cadence_00000002": {
+            "component_id": "msg_lifecycle_ttl_cadence_00000002",
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "path": [
+              1
+            ]
+          },
+          "msg_lifecycle_ttl_cadence_00000004": {
+            "component_id": "msg_lifecycle_ttl_cadence_00000004",
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "path": [
+              2
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "path": [
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "message_turn": [
+            "msg_lifecycle_ttl_cadence_00000002",
+            "msg_lifecycle_ttl_cadence_00000004"
+          ],
+          "root": [
+            "lifecycle_ttl_cadence_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+          ]
+        },
+        "child_ids": {
+          "lifecycle_ttl_cadence_root": [
+            "system",
+            "msg_lifecycle_ttl_cadence_00000002",
+            "msg_lifecycle_ttl_cadence_00000004"
+          ],
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": [],
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": [],
+          "msg_lifecycle_ttl_cadence_00000002": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+          ],
+          "msg_lifecycle_ttl_cadence_00000004": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+          ],
+          "system": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "msg_lifecycle_ttl_cadence_00000002",
+          "msg_lifecycle_ttl_cadence_00000004"
+        ],
+        "children": [
+          {
+            "aux": {
+              "depth": -1
+            },
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [
+              "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "expires",
+                "created_at_ns": 2000000,
+                "creation_index": 0,
+                "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+                "key": "ttl",
+                "offset": 0,
+                "pact_depth": 1,
+                "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": 2
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000010,
+            "creation_index": 0,
+            "id": "msg_lifecycle_ttl_cadence_00000002",
+            "offset": 1,
+            "pact_depth": 1,
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          },
+          {
+            "child_ids": [
+              "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "tick",
+                "created_at_ns": 2000020,
+                "creation_index": 0,
+                "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+                "key": "tick",
+                "offset": 0,
+                "pact_depth": 0,
+                "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000030,
+            "creation_index": 0,
+            "id": "msg_lifecycle_ttl_cadence_00000004",
+            "offset": 2,
+            "pact_depth": 0,
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "lifecycle_ttl_cadence_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "lifecycle_ttl_cadence_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 6,
+        "content_chars": 11,
+        "edge_count": 5
+      },
+      "tool_pairs": {}
+    }
+  },
+  "json": {
+    "child_ids": [
+      "system",
+      "msg_lifecycle_ttl_cadence_00000002",
+      "msg_lifecycle_ttl_cadence_00000004"
+    ],
+    "children": [
+      {
+        "aux": {
+          "depth": -1
+        },
+        "child_ids": [],
+        "children": [],
+        "componentType": "system_header",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "system",
+        "offset": 0,
+        "pact_depth": -1,
+        "parent_id": null,
+        "priority": 0,
+        "role": "system",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "system_header"
+      },
+      {
+        "child_ids": [
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "expires",
+            "created_at_ns": 2000000,
+            "creation_index": 0,
+            "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "key": "ttl",
+            "offset": 0,
+            "pact_depth": 1,
+            "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": 2
+          }
+        ],
+        "componentType": "message_turn",
+        "created_at_ns": 2000010,
+        "creation_index": 0,
+        "id": "msg_lifecycle_ttl_cadence_00000002",
+        "offset": 1,
+        "pact_depth": 1,
+        "parent_id": "lifecycle_ttl_cadence_root",
+        "priority": 0,
+        "role": "user",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "message_turn"
+      },
+      {
+        "child_ids": [
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "tick",
+            "created_at_ns": 2000020,
+            "creation_index": 0,
+            "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+            "key": "tick",
+            "offset": 0,
+            "pact_depth": 0,
+            "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          }
+        ],
+        "componentType": "message_turn",
+        "created_at_ns": 2000030,
+        "creation_index": 0,
+        "id": "msg_lifecycle_ttl_cadence_00000004",
+        "offset": 2,
+        "pact_depth": 0,
+        "parent_id": "lifecycle_ttl_cadence_root",
+        "priority": 0,
+        "role": "user",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "message_turn"
+      }
+    ],
+    "componentType": "root",
+    "created_at_ns": 0,
+    "creation_index": 0,
+    "id": "lifecycle_ttl_cadence_root",
+    "offset": 0,
+    "parent_id": null,
+    "priority": 0,
+    "transaction_index": 0,
+    "ttl": null,
+    "type": "root"
+  },
+  "provider_thread": {
+    "messages": [
+      {
+        "content": [
+          {
+            "content": "expires"
+          }
+        ],
+        "message_type": "client_request"
+      },
+      {
+        "content": [
+          {
+            "content": "tick"
+          }
+        ],
+        "message_type": "client_request"
+      }
+    ]
+  },
+  "revision": 2,
+  "rewind_targets": {
+    "branch_id": "main",
+    "head_revision": 2,
+    "schema": "pact.rewind_targets.v1",
+    "targets": [
+      {
+        "at_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "lifecycle_ttl_cadence_root",
+          "transaction_id": "tx_main_1"
+        },
+        "before_ref": {
+          "branch_id": "main",
+          "revision": 0,
+          "root_id": "lifecycle_ttl_cadence_root",
+          "transaction_id": "tx_main_1"
+        },
+        "boundary": "Preflight",
+        "from_revision": 0,
+        "message_id": "msg_lifecycle_ttl_cadence_00000002",
+        "order": 0,
+        "role": "user",
+        "to_revision": 1,
+        "transaction_id": "tx_main_1"
+      },
+      {
+        "at_ref": {
+          "branch_id": "main",
+          "revision": 2,
+          "root_id": "lifecycle_ttl_cadence_root",
+          "transaction_id": "tx_main_2"
+        },
+        "before_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "lifecycle_ttl_cadence_root",
+          "transaction_id": "tx_main_2"
+        },
+        "boundary": "Preflight",
+        "from_revision": 1,
+        "message_id": "msg_lifecycle_ttl_cadence_00000004",
+        "order": 1,
+        "role": "user",
+        "to_revision": 2,
+        "transaction_id": "tx_main_2"
+      }
+    ]
+  },
+  "schema": "pactree.behavior_observation.v1",
+  "selectors": [
+    {
+      "matches": [
+        {
+          "archived": false,
+          "componentType": "root",
+          "deleted": false,
+          "id": "lifecycle_ttl_cadence_root",
+          "offset": 0,
+          "path": [],
+          "type": "root"
+        },
+        {
+          "archived": false,
+          "aux": {
+            "depth": -1
+          },
+          "componentType": "system_header",
+          "deleted": false,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "path": [
+            0
+          ],
+          "role": "system",
+          "type": "system_header"
+        },
+        {
+          "archived": false,
+          "componentType": "message_turn",
+          "deleted": false,
+          "id": "msg_lifecycle_ttl_cadence_00000002",
+          "offset": 1,
+          "pact_depth": 1,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "path": [
+            1
+          ],
+          "role": "user",
+          "type": "message_turn"
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "expires",
+          "deleted": false,
+          "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+          "key": "ttl",
+          "offset": 0,
+          "pact_depth": 1,
+          "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+          "path": [
+            1,
+            0
+          ],
+          "ttl": 2
+        },
+        {
+          "archived": false,
+          "componentType": "message_turn",
+          "deleted": false,
+          "id": "msg_lifecycle_ttl_cadence_00000004",
+          "offset": 2,
+          "pact_depth": 0,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "path": [
+            2
+          ],
+          "role": "user",
+          "type": "message_turn"
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "tick",
+          "deleted": false,
+          "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+          "key": "tick",
+          "offset": 0,
+          "pact_depth": 0,
+          "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+          "path": [
+            2,
+            0
+          ]
+        }
+      ],
+      "query": "*"
+    }
+  ],
+  "step": 4,
+  "stream": {
+    "anchor": {
+      "row_id": null,
+      "seq": null
+    },
+    "cursors": {
+      "after": {
+        "cycle": 2,
+        "revision": 2,
+        "row_id": "node:msg_lifecycle_ttl_cadence_00000004",
+        "seq": 1
+      },
+      "before": {
+        "cycle": 2,
+        "revision": 2,
+        "row_id": "node:msg_lifecycle_ttl_cadence_00000002",
+        "seq": 0
+      }
+    },
+    "direction": "after",
+    "fallback_used": false,
+    "has_after": false,
+    "has_before": false,
+    "head": {
+      "branch_count": 1,
+      "branch_id": "main",
+      "current_branch_id": "main",
+      "file_kind": "",
+      "file_path": "<PACT_PATH>",
+      "is_current_branch": true,
+      "node_count": 6,
+      "pact_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_2"
+      },
+      "record_count": 11,
+      "revision": 2,
+      "root_id": "lifecycle_ttl_cadence_root",
+      "schema": "pact.head.v1",
+      "trace_count": 2,
+      "transaction_id": "tx_main_2"
+    },
+    "mode": "current_surface",
+    "path": "<PACT_PATH>",
+    "position": {
+      "end_index": 1,
+      "estimated": false,
+      "start_index": 0,
+      "total_rows": 2
+    },
+    "rows": [
+      {
+        "component_id": "msg_lifecycle_ttl_cadence_00000002",
+        "cursor": {
+          "cycle": 2,
+          "revision": 2,
+          "row_id": "node:msg_lifecycle_ttl_cadence_00000002",
+          "seq": 0
+        },
+        "cycle": null,
+        "kind": "node",
+        "node_type": "message_turn",
+        "payload": {
+          "child_ids": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000010,
+          "creation_index": 0,
+          "id": "msg_lifecycle_ttl_cadence_00000002",
+          "offset": 1,
+          "pact_depth": 1,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "role": "user",
+          "type": "message_turn"
+        },
+        "revision": 2,
+        "role": "user",
+        "row_id": "node:msg_lifecycle_ttl_cadence_00000002",
+        "seq": 0
+      },
+      {
+        "component_id": "msg_lifecycle_ttl_cadence_00000004",
+        "cursor": {
+          "cycle": 2,
+          "revision": 2,
+          "row_id": "node:msg_lifecycle_ttl_cadence_00000004",
+          "seq": 1
+        },
+        "cycle": null,
+        "kind": "node",
+        "node_type": "message_turn",
+        "payload": {
+          "child_ids": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000030,
+          "creation_index": 0,
+          "id": "msg_lifecycle_ttl_cadence_00000004",
+          "offset": 2,
+          "pact_depth": 0,
+          "parent_id": "lifecycle_ttl_cadence_root",
+          "role": "user",
+          "type": "message_turn"
+        },
+        "revision": 2,
+        "role": "user",
+        "row_id": "node:msg_lifecycle_ttl_cadence_00000004",
+        "seq": 1
+      }
+    ],
+    "schema": "pact.stream.v1",
+    "source": "held_tree",
+    "surface": "context"
+  },
+  "traces": [
+    {
+      "alteration_ids": [
+        "insert"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_1"
+      },
+      "aux": {
+        "applied": [
+          "insert"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000010,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "msg_lifecycle_ttl_cadence_00000002",
+                "root_id": "lifecycle_ttl_cadence_root"
+              }
+            ],
+            "trace_id": "trace_bef1f79a8916a6de"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_1",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "lifecycle_ttl_cadence_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_1"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_1"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_1"
+      },
+      "replay_trace": {
+        "from_rev": 0,
+        "ops": [
+          {
+            "component_id": "active",
+            "op": "delete_component"
+          },
+          {
+            "component_id": "lifecycle_ttl_cadence_root",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "system",
+              "msg_lifecycle_ttl_cadence_00000002"
+            ]
+          },
+          {
+            "component": {
+              "child_ids": [
+                "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+              ],
+              "children": [],
+              "componentType": "message_turn",
+              "created_at_ns": 2000010,
+              "creation_index": 0,
+              "id": "msg_lifecycle_ttl_cadence_00000002",
+              "offset": 1,
+              "pact_depth": 0,
+              "parent_id": "lifecycle_ttl_cadence_root",
+              "priority": 0,
+              "role": "user",
+              "transaction_index": 0,
+              "ttl": null,
+              "type": "message_turn"
+            },
+            "component_id": "msg_lifecycle_ttl_cadence_00000002",
+            "index": 1,
+            "op": "insert_component",
+            "parent_id": "lifecycle_ttl_cadence_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "expires",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+              "key": "ttl",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": 2
+            },
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "index": 0,
+            "op": "insert_component",
+            "parent_id": "msg_lifecycle_ttl_cadence_00000002"
+          }
+        ],
+        "to_rev": 1
+      },
+      "root_id": "lifecycle_ttl_cadence_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_1"
+    },
+    {
+      "alteration_ids": [
+        "insert"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_2"
+      },
+      "aux": {
+        "applied": [
+          "insert"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000030,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "msg_lifecycle_ttl_cadence_00000004",
+                "root_id": "lifecycle_ttl_cadence_root"
+              }
+            ],
+            "trace_id": "trace_b460c44452a817bc"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_2",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 2,
+          "root_id": "lifecycle_ttl_cadence_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_2"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_2"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "lifecycle_ttl_cadence_root",
+        "transaction_id": "tx_main_2"
+      },
+      "replay_trace": {
+        "from_rev": 1,
+        "ops": [
+          {
+            "component": {
+              "child_ids": [
+                "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+              ],
+              "children": [],
+              "componentType": "message_turn",
+              "created_at_ns": 2000030,
+              "creation_index": 0,
+              "id": "msg_lifecycle_ttl_cadence_00000004",
+              "offset": 2,
+              "pact_depth": 0,
+              "parent_id": "lifecycle_ttl_cadence_root",
+              "priority": 0,
+              "role": "user",
+              "transaction_index": 0,
+              "ttl": null,
+              "type": "message_turn"
+            },
+            "component_id": "msg_lifecycle_ttl_cadence_00000004",
+            "index": 2,
+            "op": "insert_component",
+            "parent_id": "lifecycle_ttl_cadence_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "tick",
+              "created_at_ns": 2000020,
+              "creation_index": 0,
+              "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+              "key": "tick",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+            "index": 0,
+            "op": "insert_component",
+            "parent_id": "msg_lifecycle_ttl_cadence_00000004"
+          },
+          {
+            "component_id": "msg_lifecycle_ttl_cadence_00000004",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+            ]
+          },
+          {
+            "component_id": "msg_lifecycle_ttl_cadence_00000002",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 1
+          },
+          {
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 1
+          }
+        ],
+        "to_rev": 2
+      },
+      "root_id": "lifecycle_ttl_cadence_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_2"
+    }
+  ],
+  "view": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 2,
+    "lifecycle_seen": {
+      "lifecycle_ttl_cadence_root": 0,
+      "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": 0,
+      "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": 0,
+      "msg_lifecycle_ttl_cadence_00000002": 0,
+      "msg_lifecycle_ttl_cadence_00000004": 0,
+      "system": 0
+    },
+    "message_order": [
+      "msg_lifecycle_ttl_cadence_00000002",
+      "msg_lifecycle_ttl_cadence_00000004"
+    ],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "lifecycle_ttl_cadence_root": 0,
+        "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": 1,
+        "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": 2,
+        "msg_lifecycle_ttl_cadence_00000002": 1,
+        "msg_lifecycle_ttl_cadence_00000004": 2,
+        "system": 0
+      },
+      "index": {
+        "by_aux_key": {
+          "depth": [
+            "system"
+          ]
+        },
+        "by_id": {
+          "lifecycle_ttl_cadence_root": {
+            "component_id": "lifecycle_ttl_cadence_root"
+          },
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": {
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+            "path": [
+              1,
+              0
+            ]
+          },
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": {
+            "component_id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+            "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+            "path": [
+              2,
+              0
+            ]
+          },
+          "msg_lifecycle_ttl_cadence_00000002": {
+            "component_id": "msg_lifecycle_ttl_cadence_00000002",
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "path": [
+              1
+            ]
+          },
+          "msg_lifecycle_ttl_cadence_00000004": {
+            "component_id": "msg_lifecycle_ttl_cadence_00000004",
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "path": [
+              2
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "path": [
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "message_turn": [
+            "msg_lifecycle_ttl_cadence_00000002",
+            "msg_lifecycle_ttl_cadence_00000004"
+          ],
+          "root": [
+            "lifecycle_ttl_cadence_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+          ]
+        },
+        "child_ids": {
+          "lifecycle_ttl_cadence_root": [
+            "system",
+            "msg_lifecycle_ttl_cadence_00000002",
+            "msg_lifecycle_ttl_cadence_00000004"
+          ],
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001": [],
+          "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003": [],
+          "msg_lifecycle_ttl_cadence_00000002": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+          ],
+          "msg_lifecycle_ttl_cadence_00000004": [
+            "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+          ],
+          "system": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "msg_lifecycle_ttl_cadence_00000002",
+          "msg_lifecycle_ttl_cadence_00000004"
+        ],
+        "children": [
+          {
+            "aux": {
+              "depth": -1
+            },
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [
+              "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "expires",
+                "created_at_ns": 2000000,
+                "creation_index": 0,
+                "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001",
+                "key": "ttl",
+                "offset": 0,
+                "pact_depth": 1,
+                "parent_id": "msg_lifecycle_ttl_cadence_00000002",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": 2
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000010,
+            "creation_index": 0,
+            "id": "msg_lifecycle_ttl_cadence_00000002",
+            "offset": 1,
+            "pact_depth": 1,
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          },
+          {
+            "child_ids": [
+              "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "tick",
+                "created_at_ns": 2000020,
+                "creation_index": 0,
+                "id": "lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003",
+                "key": "tick",
+                "offset": 0,
+                "pact_depth": 0,
+                "parent_id": "msg_lifecycle_ttl_cadence_00000004",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000030,
+            "creation_index": 0,
+            "id": "msg_lifecycle_ttl_cadence_00000004",
+            "offset": 2,
+            "pact_depth": 0,
+            "parent_id": "lifecycle_ttl_cadence_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "lifecycle_ttl_cadence_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "lifecycle_ttl_cadence_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 6,
+        "content_chars": 11,
+        "edge_count": 5
+      },
+      "tool_pairs": {}
+    }
+  },
+  "xml": "<root id=\"lifecycle_ttl_cadence_root\" componentType=\"root\" type=\"root\" offset=\"0\" depth=\"0\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\">\n  <system_header id=\"system\" componentType=\"system_header\" type=\"system_header\" role=\"system\" offset=\"0\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\" />\n  <message_turn id=\"msg_lifecycle_ttl_cadence_00000002\" componentType=\"message_turn\" type=\"message_turn\" role=\"user\" offset=\"1\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000010\" creation_index=\"0\">\n    <text_content id=\"lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000001\" componentType=\"text_content\" offset=\"0\" depth=\"2\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000000\" creation_index=\"0\">expires</text_content>\n  </message_turn>\n  <message_turn id=\"msg_lifecycle_ttl_cadence_00000004\" componentType=\"message_turn\" type=\"message_turn\" role=\"user\" offset=\"2\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000030\" creation_index=\"0\">\n    <text_content id=\"lifecycle_ttl_cadence_root:lifecycle_ttl_cadence_00000003\" componentType=\"text_content\" offset=\"0\" depth=\"2\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000020\" creation_index=\"0\">tick</text_content>\n  </message_turn>\n</root>\n"
+}

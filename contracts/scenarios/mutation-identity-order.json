@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"mutation-identity-order","operations":[{"op":"insert","content":"first","key":"first"},{"op":"insert","content":"second","key":"second"},{"op":"update","key":"first","content":"first updated"},{"op":"replace","key":"second","content":"second replaced"},{"op":"send"}]}

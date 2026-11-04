@@ -1,0 +1,1869 @@
+{
+  "components": {
+    "msg_prune_current_history_rewind_00000004": {
+      "child_ids": [
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+      ],
+      "children": [
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "reply",
+          "created_at_ns": 2000020,
+          "creation_index": 0,
+          "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+          "key": "assistant",
+          "offset": 0,
+          "pact_depth": 1,
+          "parent_id": "msg_prune_current_history_rewind_00000004",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": null
+        }
+      ],
+      "componentType": "message_turn",
+      "created_at_ns": 2000030,
+      "creation_index": 0,
+      "id": "msg_prune_current_history_rewind_00000004",
+      "offset": 2,
+      "pact_depth": 1,
+      "parent_id": "prune_current_history_rewind_root",
+      "priority": 0,
+      "role": "assistant",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "message_turn"
+    },
+    "msg_prune_current_history_rewind_00000006": {
+      "child_ids": [
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+      ],
+      "children": [
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "live turn",
+          "created_at_ns": 2000040,
+          "creation_index": 0,
+          "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+          "key": "live",
+          "offset": 0,
+          "pact_depth": 0,
+          "parent_id": "msg_prune_current_history_rewind_00000006",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": null
+        }
+      ],
+      "componentType": "message_turn",
+      "created_at_ns": 2000050,
+      "creation_index": 0,
+      "id": "msg_prune_current_history_rewind_00000006",
+      "offset": 3,
+      "pact_depth": 0,
+      "parent_id": "prune_current_history_rewind_root",
+      "priority": 0,
+      "role": "user",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "message_turn"
+    },
+    "prune_current_history_rewind_root": {
+      "child_ids": [
+        "system",
+        "msg_prune_current_history_rewind_00000004",
+        "msg_prune_current_history_rewind_00000006"
+      ],
+      "children": [
+        {
+          "aux": {
+            "depth": -1
+          },
+          "child_ids": [],
+          "children": [],
+          "componentType": "system_header",
+          "created_at_ns": 0,
+          "creation_index": 0,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": null,
+          "priority": 0,
+          "role": "system",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "system_header"
+        },
+        {
+          "child_ids": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+          ],
+          "children": [
+            {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "reply",
+              "created_at_ns": 2000020,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+              "key": "assistant",
+              "offset": 0,
+              "pact_depth": 1,
+              "parent_id": "msg_prune_current_history_rewind_00000004",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            }
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000030,
+          "creation_index": 0,
+          "id": "msg_prune_current_history_rewind_00000004",
+          "offset": 2,
+          "pact_depth": 1,
+          "parent_id": "prune_current_history_rewind_root",
+          "priority": 0,
+          "role": "assistant",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "message_turn"
+        },
+        {
+          "child_ids": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+          ],
+          "children": [
+            {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "live turn",
+              "created_at_ns": 2000040,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+              "key": "live",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_prune_current_history_rewind_00000006",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            }
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000050,
+          "creation_index": 0,
+          "id": "msg_prune_current_history_rewind_00000006",
+          "offset": 3,
+          "pact_depth": 0,
+          "parent_id": "prune_current_history_rewind_root",
+          "priority": 0,
+          "role": "user",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "message_turn"
+        }
+      ],
+      "componentType": "root",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "prune_current_history_rewind_root",
+      "offset": 0,
+      "parent_id": null,
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "root"
+    },
+    "prune_current_history_rewind_root:prune_current_history_rewind_00000003": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "reply",
+      "created_at_ns": 2000020,
+      "creation_index": 0,
+      "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+      "key": "assistant",
+      "offset": 0,
+      "pact_depth": 1,
+      "parent_id": "msg_prune_current_history_rewind_00000004",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null
+    },
+    "prune_current_history_rewind_root:prune_current_history_rewind_00000005": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "live turn",
+      "created_at_ns": 2000040,
+      "creation_index": 0,
+      "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+      "key": "live",
+      "offset": 0,
+      "pact_depth": 0,
+      "parent_id": "msg_prune_current_history_rewind_00000006",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null
+    },
+    "system": {
+      "aux": {
+        "depth": -1
+      },
+      "child_ids": [],
+      "children": [],
+      "componentType": "system_header",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "system",
+      "offset": 0,
+      "pact_depth": -1,
+      "parent_id": null,
+      "priority": 0,
+      "role": "system",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "system_header"
+    }
+  },
+  "content": {},
+  "error": null,
+  "head": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 4,
+    "lifecycle_seen": {
+      "active": 0,
+      "msg_prune_current_history_rewind_00000002": 1,
+      "msg_prune_current_history_rewind_00000004": 2,
+      "msg_prune_current_history_rewind_00000006": 3,
+      "prune_current_history_rewind_root": 0,
+      "prune_current_history_rewind_root:prune_current_history_rewind_00000001": 1,
+      "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 2,
+      "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 3,
+      "system": 0
+    },
+    "message_order": [
+      "msg_prune_current_history_rewind_00000004",
+      "msg_prune_current_history_rewind_00000006"
+    ],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "msg_prune_current_history_rewind_00000002": 1,
+        "msg_prune_current_history_rewind_00000004": 2,
+        "msg_prune_current_history_rewind_00000006": 3,
+        "prune_current_history_rewind_root": 0,
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000001": 1,
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 2,
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 3,
+        "system": 0
+      },
+      "index": {
+        "by_aux_key": {
+          "depth": [
+            "system"
+          ]
+        },
+        "by_id": {
+          "msg_prune_current_history_rewind_00000004": {
+            "component_id": "msg_prune_current_history_rewind_00000004",
+            "parent_id": "prune_current_history_rewind_root",
+            "path": [
+              1
+            ]
+          },
+          "msg_prune_current_history_rewind_00000006": {
+            "component_id": "msg_prune_current_history_rewind_00000006",
+            "parent_id": "prune_current_history_rewind_root",
+            "path": [
+              2
+            ]
+          },
+          "prune_current_history_rewind_root": {
+            "component_id": "prune_current_history_rewind_root"
+          },
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000003": {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "parent_id": "msg_prune_current_history_rewind_00000004",
+            "path": [
+              1,
+              0
+            ]
+          },
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000005": {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+            "parent_id": "msg_prune_current_history_rewind_00000006",
+            "path": [
+              2,
+              0
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "prune_current_history_rewind_root",
+            "path": [
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "message_turn": [
+            "msg_prune_current_history_rewind_00000004",
+            "msg_prune_current_history_rewind_00000006"
+          ],
+          "root": [
+            "prune_current_history_rewind_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+          ]
+        },
+        "child_ids": {
+          "msg_prune_current_history_rewind_00000004": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+          ],
+          "msg_prune_current_history_rewind_00000006": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+          ],
+          "prune_current_history_rewind_root": [
+            "system",
+            "msg_prune_current_history_rewind_00000004",
+            "msg_prune_current_history_rewind_00000006"
+          ],
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000003": [],
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000005": [],
+          "system": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "msg_prune_current_history_rewind_00000004",
+          "msg_prune_current_history_rewind_00000006"
+        ],
+        "children": [
+          {
+            "aux": {
+              "depth": -1
+            },
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "reply",
+                "created_at_ns": 2000020,
+                "creation_index": 0,
+                "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+                "key": "assistant",
+                "offset": 0,
+                "pact_depth": 1,
+                "parent_id": "msg_prune_current_history_rewind_00000004",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000030,
+            "creation_index": 0,
+            "id": "msg_prune_current_history_rewind_00000004",
+            "offset": 2,
+            "pact_depth": 1,
+            "parent_id": "prune_current_history_rewind_root",
+            "priority": 0,
+            "role": "assistant",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          },
+          {
+            "child_ids": [
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "live turn",
+                "created_at_ns": 2000040,
+                "creation_index": 0,
+                "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+                "key": "live",
+                "offset": 0,
+                "pact_depth": 0,
+                "parent_id": "msg_prune_current_history_rewind_00000006",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000050,
+            "creation_index": 0,
+            "id": "msg_prune_current_history_rewind_00000006",
+            "offset": 3,
+            "pact_depth": 0,
+            "parent_id": "prune_current_history_rewind_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "prune_current_history_rewind_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "prune_current_history_rewind_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 6,
+        "content_chars": 14,
+        "edge_count": 5
+      },
+      "tool_pairs": {}
+    }
+  },
+  "json": {
+    "child_ids": [
+      "system",
+      "msg_prune_current_history_rewind_00000004",
+      "msg_prune_current_history_rewind_00000006"
+    ],
+    "children": [
+      {
+        "aux": {
+          "depth": -1
+        },
+        "child_ids": [],
+        "children": [],
+        "componentType": "system_header",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "system",
+        "offset": 0,
+        "pact_depth": -1,
+        "parent_id": null,
+        "priority": 0,
+        "role": "system",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "system_header"
+      },
+      {
+        "child_ids": [
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "reply",
+            "created_at_ns": 2000020,
+            "creation_index": 0,
+            "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "key": "assistant",
+            "offset": 0,
+            "pact_depth": 1,
+            "parent_id": "msg_prune_current_history_rewind_00000004",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          }
+        ],
+        "componentType": "message_turn",
+        "created_at_ns": 2000030,
+        "creation_index": 0,
+        "id": "msg_prune_current_history_rewind_00000004",
+        "offset": 2,
+        "pact_depth": 1,
+        "parent_id": "prune_current_history_rewind_root",
+        "priority": 0,
+        "role": "assistant",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "message_turn"
+      },
+      {
+        "child_ids": [
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "live turn",
+            "created_at_ns": 2000040,
+            "creation_index": 0,
+            "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+            "key": "live",
+            "offset": 0,
+            "pact_depth": 0,
+            "parent_id": "msg_prune_current_history_rewind_00000006",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          }
+        ],
+        "componentType": "message_turn",
+        "created_at_ns": 2000050,
+        "creation_index": 0,
+        "id": "msg_prune_current_history_rewind_00000006",
+        "offset": 3,
+        "pact_depth": 0,
+        "parent_id": "prune_current_history_rewind_root",
+        "priority": 0,
+        "role": "user",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "message_turn"
+      }
+    ],
+    "componentType": "root",
+    "created_at_ns": 0,
+    "creation_index": 0,
+    "id": "prune_current_history_rewind_root",
+    "offset": 0,
+    "parent_id": null,
+    "priority": 0,
+    "transaction_index": 0,
+    "ttl": null,
+    "type": "root"
+  },
+  "provider_thread": {
+    "messages": [
+      {
+        "content": [
+          {
+            "content": "reply"
+          }
+        ],
+        "message_type": "provider_response"
+      },
+      {
+        "content": [
+          {
+            "content": "live turn"
+          }
+        ],
+        "message_type": "client_request"
+      }
+    ]
+  },
+  "revision": 4,
+  "rewind_targets": {
+    "branch_id": "main",
+    "head_revision": 4,
+    "schema": "pact.rewind_targets.v1",
+    "targets": [
+      {
+        "at_ref": {
+          "branch_id": "main",
+          "revision": 2,
+          "root_id": "prune_current_history_rewind_root",
+          "transaction_id": "tx_main_2"
+        },
+        "before_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "prune_current_history_rewind_root",
+          "transaction_id": "tx_main_2"
+        },
+        "boundary": "PostResponse",
+        "from_revision": 1,
+        "message_id": "msg_prune_current_history_rewind_00000004",
+        "order": 0,
+        "role": "assistant",
+        "to_revision": 2,
+        "transaction_id": "tx_main_2"
+      },
+      {
+        "at_ref": {
+          "branch_id": "main",
+          "revision": 3,
+          "root_id": "prune_current_history_rewind_root",
+          "transaction_id": "tx_main_3"
+        },
+        "before_ref": {
+          "branch_id": "main",
+          "revision": 2,
+          "root_id": "prune_current_history_rewind_root",
+          "transaction_id": "tx_main_3"
+        },
+        "boundary": "Preflight",
+        "from_revision": 2,
+        "message_id": "msg_prune_current_history_rewind_00000006",
+        "order": 1,
+        "role": "user",
+        "to_revision": 3,
+        "transaction_id": "tx_main_3"
+      }
+    ]
+  },
+  "schema": "pactree.behavior_observation.v1",
+  "selectors": [
+    {
+      "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+      "current_absent": true,
+      "historical": {
+        "branch": {
+          "branch_id": "main",
+          "branch_refs": [],
+          "components": {
+            "msg_prune_current_history_rewind_00000002": {
+              "child_ids": [
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000001"
+              ],
+              "componentType": "message_turn",
+              "created_at_ns": 2000010,
+              "creation_index": 0,
+              "id": "msg_prune_current_history_rewind_00000002",
+              "offset": 1,
+              "pact_depth": 2,
+              "parent_id": "prune_current_history_rewind_root",
+              "role": "user",
+              "type": "message_turn"
+            },
+            "msg_prune_current_history_rewind_00000004": {
+              "child_ids": [
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+              ],
+              "componentType": "message_turn",
+              "created_at_ns": 2000030,
+              "creation_index": 0,
+              "id": "msg_prune_current_history_rewind_00000004",
+              "offset": 2,
+              "pact_depth": 1,
+              "parent_id": "prune_current_history_rewind_root",
+              "role": "assistant",
+              "type": "message_turn"
+            },
+            "msg_prune_current_history_rewind_00000006": {
+              "child_ids": [
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+              ],
+              "componentType": "message_turn",
+              "created_at_ns": 2000050,
+              "creation_index": 0,
+              "id": "msg_prune_current_history_rewind_00000006",
+              "offset": 3,
+              "pact_depth": 0,
+              "parent_id": "prune_current_history_rewind_root",
+              "role": "user",
+              "type": "message_turn"
+            },
+            "prune_current_history_rewind_root": {
+              "child_ids": [
+                "system",
+                "msg_prune_current_history_rewind_00000002",
+                "msg_prune_current_history_rewind_00000004",
+                "msg_prune_current_history_rewind_00000006"
+              ],
+              "componentType": "root",
+              "created_at_ns": 0,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root",
+              "offset": 0,
+              "type": "root"
+            },
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000001": {
+              "componentType": "text_content",
+              "content": "dead turn",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+              "key": "dead",
+              "offset": 0,
+              "pact_depth": 2,
+              "parent_id": "msg_prune_current_history_rewind_00000002"
+            },
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003": {
+              "componentType": "text_content",
+              "content": "reply",
+              "created_at_ns": 2000020,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+              "key": "assistant",
+              "offset": 0,
+              "pact_depth": 1,
+              "parent_id": "msg_prune_current_history_rewind_00000004"
+            },
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005": {
+              "componentType": "text_content",
+              "content": "live turn",
+              "created_at_ns": 2000040,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+              "key": "live",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_prune_current_history_rewind_00000006"
+            },
+            "system": {
+              "aux": {
+                "depth": -1
+              },
+              "componentType": "system_header",
+              "created_at_ns": 0,
+              "creation_index": 0,
+              "id": "system",
+              "offset": 0,
+              "pact_depth": -1,
+              "parent_id": "prune_current_history_rewind_root",
+              "role": "system",
+              "type": "system_header"
+            }
+          },
+          "content_refs": {},
+          "first_seen": {
+            "active": 0,
+            "msg_prune_current_history_rewind_00000002": 1,
+            "msg_prune_current_history_rewind_00000004": 2,
+            "msg_prune_current_history_rewind_00000006": 3,
+            "prune_current_history_rewind_root": 0,
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000001": 1,
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 2,
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 3,
+            "system": 0
+          },
+          "head_revision": 3,
+          "lifecycle_seen": {
+            "msg_prune_current_history_rewind_00000002": 0,
+            "msg_prune_current_history_rewind_00000004": 0,
+            "msg_prune_current_history_rewind_00000006": 0,
+            "prune_current_history_rewind_root": 0,
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000001": 0,
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 0,
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 0,
+            "system": 0
+          },
+          "message_order": [
+            "msg_prune_current_history_rewind_00000002",
+            "msg_prune_current_history_rewind_00000004",
+            "msg_prune_current_history_rewind_00000006"
+          ],
+          "node_refs": {
+            "msg_prune_current_history_rewind_00000002": "msg_prune_current_history_rewind_00000002",
+            "msg_prune_current_history_rewind_00000004": "msg_prune_current_history_rewind_00000004",
+            "msg_prune_current_history_rewind_00000006": "msg_prune_current_history_rewind_00000006",
+            "prune_current_history_rewind_root": "prune_current_history_rewind_root",
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000001": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+            "system": "system"
+          },
+          "tool_pairs": {},
+          "tree": {
+            "first_seen": {
+              "active": 0,
+              "msg_prune_current_history_rewind_00000002": 1,
+              "msg_prune_current_history_rewind_00000004": 2,
+              "msg_prune_current_history_rewind_00000006": 3,
+              "prune_current_history_rewind_root": 0,
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000001": 1,
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 2,
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 3,
+              "system": 0
+            },
+            "index": {
+              "by_aux_key": {
+                "depth": [
+                  "system"
+                ]
+              },
+              "by_id": {
+                "msg_prune_current_history_rewind_00000002": {
+                  "component_id": "msg_prune_current_history_rewind_00000002",
+                  "parent_id": "prune_current_history_rewind_root",
+                  "path": [
+                    1
+                  ]
+                },
+                "msg_prune_current_history_rewind_00000004": {
+                  "component_id": "msg_prune_current_history_rewind_00000004",
+                  "parent_id": "prune_current_history_rewind_root",
+                  "path": [
+                    2
+                  ]
+                },
+                "msg_prune_current_history_rewind_00000006": {
+                  "component_id": "msg_prune_current_history_rewind_00000006",
+                  "parent_id": "prune_current_history_rewind_root",
+                  "path": [
+                    3
+                  ]
+                },
+                "prune_current_history_rewind_root": {
+                  "component_id": "prune_current_history_rewind_root"
+                },
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000001": {
+                  "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+                  "parent_id": "msg_prune_current_history_rewind_00000002",
+                  "path": [
+                    1,
+                    0
+                  ]
+                },
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000003": {
+                  "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+                  "parent_id": "msg_prune_current_history_rewind_00000004",
+                  "path": [
+                    2,
+                    0
+                  ]
+                },
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000005": {
+                  "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+                  "parent_id": "msg_prune_current_history_rewind_00000006",
+                  "path": [
+                    3,
+                    0
+                  ]
+                },
+                "system": {
+                  "component_id": "system",
+                  "parent_id": "prune_current_history_rewind_root",
+                  "path": [
+                    0
+                  ]
+                }
+              },
+              "by_type": {
+                "message_turn": [
+                  "msg_prune_current_history_rewind_00000002",
+                  "msg_prune_current_history_rewind_00000004",
+                  "msg_prune_current_history_rewind_00000006"
+                ],
+                "root": [
+                  "prune_current_history_rewind_root"
+                ],
+                "system_header": [
+                  "system"
+                ],
+                "text_content": [
+                  "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+                  "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+                  "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+                ]
+              },
+              "child_ids": {
+                "msg_prune_current_history_rewind_00000002": [
+                  "prune_current_history_rewind_root:prune_current_history_rewind_00000001"
+                ],
+                "msg_prune_current_history_rewind_00000004": [
+                  "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+                ],
+                "msg_prune_current_history_rewind_00000006": [
+                  "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+                ],
+                "prune_current_history_rewind_root": [
+                  "system",
+                  "msg_prune_current_history_rewind_00000002",
+                  "msg_prune_current_history_rewind_00000004",
+                  "msg_prune_current_history_rewind_00000006"
+                ],
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000001": [],
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000003": [],
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000005": [],
+                "system": []
+              }
+            },
+            "root": {
+              "children": [],
+              "componentType": "root",
+              "id": "prune_current_history_rewind_root"
+            },
+            "root_id": "prune_current_history_rewind_root",
+            "stats": {
+              "blob_count": 0,
+              "component_count": 8,
+              "content_chars": 23,
+              "edge_count": 7
+            },
+            "tool_pairs": {}
+          }
+        },
+        "branch_id": "main",
+        "filters": {
+          "component_id": null,
+          "view": null
+        },
+        "revision": 3,
+        "schema": "pact.projection.v1",
+        "scope": "head"
+      },
+      "probe": "prune_history"
+    },
+    {
+      "matches": [
+        {
+          "archived": false,
+          "componentType": "root",
+          "deleted": false,
+          "id": "prune_current_history_rewind_root",
+          "offset": 0,
+          "path": [],
+          "type": "root"
+        },
+        {
+          "archived": false,
+          "aux": {
+            "depth": -1
+          },
+          "componentType": "system_header",
+          "deleted": false,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": "prune_current_history_rewind_root",
+          "path": [
+            0
+          ],
+          "role": "system",
+          "type": "system_header"
+        },
+        {
+          "archived": false,
+          "componentType": "message_turn",
+          "deleted": false,
+          "id": "msg_prune_current_history_rewind_00000004",
+          "offset": 2,
+          "pact_depth": 1,
+          "parent_id": "prune_current_history_rewind_root",
+          "path": [
+            1
+          ],
+          "role": "assistant",
+          "type": "message_turn"
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "reply",
+          "deleted": false,
+          "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+          "key": "assistant",
+          "offset": 0,
+          "pact_depth": 1,
+          "parent_id": "msg_prune_current_history_rewind_00000004",
+          "path": [
+            1,
+            0
+          ]
+        },
+        {
+          "archived": false,
+          "componentType": "message_turn",
+          "deleted": false,
+          "id": "msg_prune_current_history_rewind_00000006",
+          "offset": 3,
+          "pact_depth": 0,
+          "parent_id": "prune_current_history_rewind_root",
+          "path": [
+            2
+          ],
+          "role": "user",
+          "type": "message_turn"
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "live turn",
+          "deleted": false,
+          "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+          "key": "live",
+          "offset": 0,
+          "pact_depth": 0,
+          "parent_id": "msg_prune_current_history_rewind_00000006",
+          "path": [
+            2,
+            0
+          ]
+        }
+      ],
+      "query": "*"
+    }
+  ],
+  "step": 7,
+  "stream": {
+    "anchor": {
+      "row_id": null,
+      "seq": null
+    },
+    "cursors": {
+      "after": {
+        "cycle": 4,
+        "revision": 4,
+        "row_id": "node:msg_prune_current_history_rewind_00000006",
+        "seq": 1
+      },
+      "before": {
+        "cycle": 4,
+        "revision": 4,
+        "row_id": "node:msg_prune_current_history_rewind_00000004",
+        "seq": 0
+      }
+    },
+    "direction": "after",
+    "fallback_used": false,
+    "has_after": false,
+    "has_before": false,
+    "head": {
+      "branch_count": 1,
+      "branch_id": "main",
+      "current_branch_id": "main",
+      "file_kind": "",
+      "file_path": "<PACT_PATH>",
+      "is_current_branch": true,
+      "node_count": 6,
+      "pact_ref": {
+        "branch_id": "main",
+        "revision": 4,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_4"
+      },
+      "record_count": 13,
+      "revision": 4,
+      "root_id": "prune_current_history_rewind_root",
+      "schema": "pact.head.v1",
+      "trace_count": 4,
+      "transaction_id": "tx_main_4"
+    },
+    "mode": "current_surface",
+    "path": "<PACT_PATH>",
+    "position": {
+      "end_index": 1,
+      "estimated": false,
+      "start_index": 0,
+      "total_rows": 2
+    },
+    "rows": [
+      {
+        "component_id": "msg_prune_current_history_rewind_00000004",
+        "cursor": {
+          "cycle": 4,
+          "revision": 4,
+          "row_id": "node:msg_prune_current_history_rewind_00000004",
+          "seq": 0
+        },
+        "cycle": null,
+        "kind": "node",
+        "node_type": "message_turn",
+        "payload": {
+          "child_ids": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000030,
+          "creation_index": 0,
+          "id": "msg_prune_current_history_rewind_00000004",
+          "offset": 2,
+          "pact_depth": 1,
+          "parent_id": "prune_current_history_rewind_root",
+          "role": "assistant",
+          "type": "message_turn"
+        },
+        "revision": 4,
+        "role": "assistant",
+        "row_id": "node:msg_prune_current_history_rewind_00000004",
+        "seq": 0
+      },
+      {
+        "component_id": "msg_prune_current_history_rewind_00000006",
+        "cursor": {
+          "cycle": 4,
+          "revision": 4,
+          "row_id": "node:msg_prune_current_history_rewind_00000006",
+          "seq": 1
+        },
+        "cycle": null,
+        "kind": "node",
+        "node_type": "message_turn",
+        "payload": {
+          "child_ids": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000050,
+          "creation_index": 0,
+          "id": "msg_prune_current_history_rewind_00000006",
+          "offset": 3,
+          "pact_depth": 0,
+          "parent_id": "prune_current_history_rewind_root",
+          "role": "user",
+          "type": "message_turn"
+        },
+        "revision": 4,
+        "role": "user",
+        "row_id": "node:msg_prune_current_history_rewind_00000006",
+        "seq": 1
+      }
+    ],
+    "schema": "pact.stream.v1",
+    "source": "held_tree",
+    "surface": "context"
+  },
+  "traces": [
+    {
+      "alteration_ids": [
+        "insert"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_1"
+      },
+      "aux": {
+        "applied": [
+          "insert"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000010,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "msg_prune_current_history_rewind_00000002",
+                "root_id": "prune_current_history_rewind_root"
+              }
+            ],
+            "trace_id": "trace_0b25bbe9f5a817bb"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_1",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "prune_current_history_rewind_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_1"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_1"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_1"
+      },
+      "replay_trace": {
+        "from_rev": 0,
+        "ops": [
+          {
+            "component_id": "active",
+            "op": "delete_component"
+          },
+          {
+            "component_id": "prune_current_history_rewind_root",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "system",
+              "msg_prune_current_history_rewind_00000002"
+            ]
+          },
+          {
+            "component": {
+              "child_ids": [
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000001"
+              ],
+              "children": [],
+              "componentType": "message_turn",
+              "created_at_ns": 2000010,
+              "creation_index": 0,
+              "id": "msg_prune_current_history_rewind_00000002",
+              "offset": 1,
+              "pact_depth": 0,
+              "parent_id": "prune_current_history_rewind_root",
+              "priority": 0,
+              "role": "user",
+              "transaction_index": 0,
+              "ttl": null,
+              "type": "message_turn"
+            },
+            "component_id": "msg_prune_current_history_rewind_00000002",
+            "index": 1,
+            "op": "insert_component",
+            "parent_id": "prune_current_history_rewind_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "dead turn",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+              "key": "dead",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_prune_current_history_rewind_00000002",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+            "index": 0,
+            "op": "insert_component",
+            "parent_id": "msg_prune_current_history_rewind_00000002"
+          }
+        ],
+        "to_rev": 1
+      },
+      "root_id": "prune_current_history_rewind_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_1"
+    },
+    {
+      "alteration_ids": [
+        "insert"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_2"
+      },
+      "aux": {
+        "applied": [
+          "insert"
+        ],
+        "boundary": "PostResponse",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000030,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "msg_prune_current_history_rewind_00000004",
+                "root_id": "prune_current_history_rewind_root"
+              }
+            ],
+            "trace_id": "trace_d45d122d6b529d4b"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_2",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 2,
+          "root_id": "prune_current_history_rewind_root"
+        },
+        "phase": "PostResponse"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_2"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_2"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_2"
+      },
+      "replay_trace": {
+        "from_rev": 1,
+        "ops": [
+          {
+            "component": {
+              "child_ids": [
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+              ],
+              "children": [],
+              "componentType": "message_turn",
+              "created_at_ns": 2000030,
+              "creation_index": 0,
+              "id": "msg_prune_current_history_rewind_00000004",
+              "offset": 2,
+              "pact_depth": 0,
+              "parent_id": "prune_current_history_rewind_root",
+              "priority": 0,
+              "role": "assistant",
+              "transaction_index": 0,
+              "ttl": null,
+              "type": "message_turn"
+            },
+            "component_id": "msg_prune_current_history_rewind_00000004",
+            "index": 2,
+            "op": "insert_component",
+            "parent_id": "prune_current_history_rewind_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "reply",
+              "created_at_ns": 2000020,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+              "key": "assistant",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_prune_current_history_rewind_00000004",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "index": 0,
+            "op": "insert_component",
+            "parent_id": "msg_prune_current_history_rewind_00000004"
+          },
+          {
+            "component_id": "msg_prune_current_history_rewind_00000004",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+            ]
+          },
+          {
+            "component_id": "msg_prune_current_history_rewind_00000002",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 1
+          },
+          {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 1
+          }
+        ],
+        "to_rev": 2
+      },
+      "root_id": "prune_current_history_rewind_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_2"
+    },
+    {
+      "alteration_ids": [
+        "insert"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_3"
+      },
+      "aux": {
+        "applied": [
+          "insert"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000050,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "msg_prune_current_history_rewind_00000006",
+                "root_id": "prune_current_history_rewind_root"
+              }
+            ],
+            "trace_id": "trace_3ba9a6ce92e90f83"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_3",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 3,
+          "root_id": "prune_current_history_rewind_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 3,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_3"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 3,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_3"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 2,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_3"
+      },
+      "replay_trace": {
+        "from_rev": 2,
+        "ops": [
+          {
+            "component": {
+              "child_ids": [
+                "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+              ],
+              "children": [],
+              "componentType": "message_turn",
+              "created_at_ns": 2000050,
+              "creation_index": 0,
+              "id": "msg_prune_current_history_rewind_00000006",
+              "offset": 3,
+              "pact_depth": 0,
+              "parent_id": "prune_current_history_rewind_root",
+              "priority": 0,
+              "role": "user",
+              "transaction_index": 0,
+              "ttl": null,
+              "type": "message_turn"
+            },
+            "component_id": "msg_prune_current_history_rewind_00000006",
+            "index": 3,
+            "op": "insert_component",
+            "parent_id": "prune_current_history_rewind_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "live turn",
+              "created_at_ns": 2000040,
+              "creation_index": 0,
+              "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+              "key": "live",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_prune_current_history_rewind_00000006",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+            "index": 0,
+            "op": "insert_component",
+            "parent_id": "msg_prune_current_history_rewind_00000006"
+          },
+          {
+            "component_id": "msg_prune_current_history_rewind_00000006",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+            ]
+          },
+          {
+            "component_id": "msg_prune_current_history_rewind_00000002",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 2
+          },
+          {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000001",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 2
+          },
+          {
+            "component_id": "msg_prune_current_history_rewind_00000004",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 1
+          },
+          {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "key": "pact_depth",
+            "op": "set_field",
+            "value": 1
+          }
+        ],
+        "to_rev": 3
+      },
+      "root_id": "prune_current_history_rewind_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_3"
+    },
+    {
+      "alteration_ids": [
+        "seal_staged"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 3,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_4"
+      },
+      "aux": {
+        "applied": [
+          "seal_staged"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000060,
+            "op_kind": "delete",
+            "produced_refs": [],
+            "trace_id": "trace_552784c6d2ac81e1"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_4",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 4,
+          "root_id": "prune_current_history_rewind_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 4,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_4"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 4,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_4"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 3,
+        "root_id": "prune_current_history_rewind_root",
+        "transaction_id": "tx_main_4"
+      },
+      "replay_trace": {
+        "from_rev": 3,
+        "ops": [
+          {
+            "component_id": "msg_prune_current_history_rewind_00000002",
+            "op": "delete_component"
+          },
+          {
+            "component_id": "prune_current_history_rewind_root",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "system",
+              "msg_prune_current_history_rewind_00000004",
+              "msg_prune_current_history_rewind_00000006"
+            ]
+          }
+        ],
+        "to_rev": 4
+      },
+      "root_id": "prune_current_history_rewind_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_4"
+    }
+  ],
+  "view": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 4,
+    "lifecycle_seen": {
+      "msg_prune_current_history_rewind_00000004": 0,
+      "msg_prune_current_history_rewind_00000006": 0,
+      "prune_current_history_rewind_root": 0,
+      "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 0,
+      "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 0,
+      "system": 0
+    },
+    "message_order": [
+      "msg_prune_current_history_rewind_00000004",
+      "msg_prune_current_history_rewind_00000006"
+    ],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "msg_prune_current_history_rewind_00000002": 1,
+        "msg_prune_current_history_rewind_00000004": 2,
+        "msg_prune_current_history_rewind_00000006": 3,
+        "prune_current_history_rewind_root": 0,
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000001": 1,
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000003": 2,
+        "prune_current_history_rewind_root:prune_current_history_rewind_00000005": 3,
+        "system": 0
+      },
+      "index": {
+        "by_aux_key": {
+          "depth": [
+            "system"
+          ]
+        },
+        "by_id": {
+          "msg_prune_current_history_rewind_00000004": {
+            "component_id": "msg_prune_current_history_rewind_00000004",
+            "parent_id": "prune_current_history_rewind_root",
+            "path": [
+              1
+            ]
+          },
+          "msg_prune_current_history_rewind_00000006": {
+            "component_id": "msg_prune_current_history_rewind_00000006",
+            "parent_id": "prune_current_history_rewind_root",
+            "path": [
+              2
+            ]
+          },
+          "prune_current_history_rewind_root": {
+            "component_id": "prune_current_history_rewind_root"
+          },
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000003": {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "parent_id": "msg_prune_current_history_rewind_00000004",
+            "path": [
+              1,
+              0
+            ]
+          },
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000005": {
+            "component_id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+            "parent_id": "msg_prune_current_history_rewind_00000006",
+            "path": [
+              2,
+              0
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "prune_current_history_rewind_root",
+            "path": [
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "message_turn": [
+            "msg_prune_current_history_rewind_00000004",
+            "msg_prune_current_history_rewind_00000006"
+          ],
+          "root": [
+            "prune_current_history_rewind_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+          ]
+        },
+        "child_ids": {
+          "msg_prune_current_history_rewind_00000004": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+          ],
+          "msg_prune_current_history_rewind_00000006": [
+            "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+          ],
+          "prune_current_history_rewind_root": [
+            "system",
+            "msg_prune_current_history_rewind_00000004",
+            "msg_prune_current_history_rewind_00000006"
+          ],
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000003": [],
+          "prune_current_history_rewind_root:prune_current_history_rewind_00000005": [],
+          "system": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "msg_prune_current_history_rewind_00000004",
+          "msg_prune_current_history_rewind_00000006"
+        ],
+        "children": [
+          {
+            "aux": {
+              "depth": -1
+            },
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000003"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "reply",
+                "created_at_ns": 2000020,
+                "creation_index": 0,
+                "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000003",
+                "key": "assistant",
+                "offset": 0,
+                "pact_depth": 1,
+                "parent_id": "msg_prune_current_history_rewind_00000004",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000030,
+            "creation_index": 0,
+            "id": "msg_prune_current_history_rewind_00000004",
+            "offset": 2,
+            "pact_depth": 1,
+            "parent_id": "prune_current_history_rewind_root",
+            "priority": 0,
+            "role": "assistant",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          },
+          {
+            "child_ids": [
+              "prune_current_history_rewind_root:prune_current_history_rewind_00000005"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "live turn",
+                "created_at_ns": 2000040,
+                "creation_index": 0,
+                "id": "prune_current_history_rewind_root:prune_current_history_rewind_00000005",
+                "key": "live",
+                "offset": 0,
+                "pact_depth": 0,
+                "parent_id": "msg_prune_current_history_rewind_00000006",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000050,
+            "creation_index": 0,
+            "id": "msg_prune_current_history_rewind_00000006",
+            "offset": 3,
+            "pact_depth": 0,
+            "parent_id": "prune_current_history_rewind_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "prune_current_history_rewind_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "prune_current_history_rewind_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 6,
+        "content_chars": 14,
+        "edge_count": 5
+      },
+      "tool_pairs": {}
+    }
+  },
+  "xml": "<root id=\"prune_current_history_rewind_root\" componentType=\"root\" type=\"root\" offset=\"0\" depth=\"0\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\">\n  <system_header id=\"system\" componentType=\"system_header\" type=\"system_header\" role=\"system\" offset=\"0\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\" />\n  <message_turn id=\"msg_prune_current_history_rewind_00000004\" componentType=\"message_turn\" type=\"message_turn\" role=\"assistant\" offset=\"2\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000030\" creation_index=\"0\">\n    <text_content id=\"prune_current_history_rewind_root:prune_current_history_rewind_00000003\" componentType=\"text_content\" offset=\"0\" depth=\"2\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000020\" creation_index=\"0\">reply</text_content>\n  </message_turn>\n  <message_turn id=\"msg_prune_current_history_rewind_00000006\" componentType=\"message_turn\" type=\"message_turn\" role=\"user\" offset=\"3\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000050\" creation_index=\"0\">\n    <text_content id=\"prune_current_history_rewind_root:prune_current_history_rewind_00000005\" componentType=\"text_content\" offset=\"0\" depth=\"2\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000040\" creation_index=\"0\">live turn</text_content>\n  </message_turn>\n</root>\n"
+}

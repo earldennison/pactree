@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"lifecycle-ttl-cadence","operations":[{"op":"ttl_user","content":"expires","key":"ttl","ttl":2},{"op":"send"},{"op":"user","content":"tick","key":"tick"},{"op":"send"}]}

@@ -1,0 +1,10 @@
+[package]
+name = "pactree-test-layout"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+proc-macro2 = { version = "1", features = ["span-locations"] }
+syn = { version = "2", features = ["full", "visit"] }
+walkdir = "2"

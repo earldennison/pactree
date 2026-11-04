@@ -1,0 +1,10 @@
+/target/
+/tools/test-layout/target/
+.env
+/docs/html/
+.understand-anything/
+/nexus-pipe-*.bin
+/graphify-out/
+/plans/
+
+internal/

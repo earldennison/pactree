@@ -1,0 +1,849 @@
+{
+  "components": {
+    "msg_torn_write_recovery_00000002": {
+      "child_ids": [
+        "torn_write_recovery_root:torn_write_recovery_00000001"
+      ],
+      "children": [
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "text_content",
+          "content": "durable before tear",
+          "created_at_ns": 2000000,
+          "creation_index": 0,
+          "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+          "key": "durable",
+          "offset": 0,
+          "pact_depth": 0,
+          "parent_id": "msg_torn_write_recovery_00000002",
+          "priority": 0,
+          "transaction_index": 0,
+          "ttl": null
+        }
+      ],
+      "componentType": "message_turn",
+      "created_at_ns": 2000010,
+      "creation_index": 0,
+      "id": "msg_torn_write_recovery_00000002",
+      "offset": 1,
+      "pact_depth": 0,
+      "parent_id": "torn_write_recovery_root",
+      "priority": 0,
+      "role": "user",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "message_turn"
+    },
+    "system": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "system_header",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "system",
+      "offset": 0,
+      "pact_depth": -1,
+      "parent_id": null,
+      "priority": 0,
+      "role": "system",
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "system_header"
+    },
+    "torn_write_recovery_root": {
+      "child_ids": [
+        "system",
+        "msg_torn_write_recovery_00000002"
+      ],
+      "children": [
+        {
+          "child_ids": [],
+          "children": [],
+          "componentType": "system_header",
+          "created_at_ns": 0,
+          "creation_index": 0,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": null,
+          "priority": 0,
+          "role": "system",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "system_header"
+        },
+        {
+          "child_ids": [
+            "torn_write_recovery_root:torn_write_recovery_00000001"
+          ],
+          "children": [
+            {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "durable before tear",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+              "key": "durable",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_torn_write_recovery_00000002",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            }
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000010,
+          "creation_index": 0,
+          "id": "msg_torn_write_recovery_00000002",
+          "offset": 1,
+          "pact_depth": 0,
+          "parent_id": "torn_write_recovery_root",
+          "priority": 0,
+          "role": "user",
+          "transaction_index": 0,
+          "ttl": null,
+          "type": "message_turn"
+        }
+      ],
+      "componentType": "root",
+      "created_at_ns": 0,
+      "creation_index": 0,
+      "id": "torn_write_recovery_root",
+      "offset": 0,
+      "parent_id": null,
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null,
+      "type": "root"
+    },
+    "torn_write_recovery_root:torn_write_recovery_00000001": {
+      "child_ids": [],
+      "children": [],
+      "componentType": "text_content",
+      "content": "durable before tear",
+      "created_at_ns": 2000000,
+      "creation_index": 0,
+      "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+      "key": "durable",
+      "offset": 0,
+      "pact_depth": 0,
+      "parent_id": "msg_torn_write_recovery_00000002",
+      "priority": 0,
+      "transaction_index": 0,
+      "ttl": null
+    }
+  },
+  "content": {},
+  "error": null,
+  "head": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 1,
+    "lifecycle_seen": {
+      "msg_torn_write_recovery_00000002": 1,
+      "system": 0,
+      "torn_write_recovery_root": 0,
+      "torn_write_recovery_root:torn_write_recovery_00000001": 1
+    },
+    "message_order": [
+      "msg_torn_write_recovery_00000002"
+    ],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "msg_torn_write_recovery_00000002": 1,
+        "system": 0,
+        "torn_write_recovery_root": 0,
+        "torn_write_recovery_root:torn_write_recovery_00000001": 1
+      },
+      "index": {
+        "by_aux_key": {},
+        "by_id": {
+          "msg_torn_write_recovery_00000002": {
+            "component_id": "msg_torn_write_recovery_00000002",
+            "parent_id": "torn_write_recovery_root",
+            "path": [
+              1
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "torn_write_recovery_root",
+            "path": [
+              0
+            ]
+          },
+          "torn_write_recovery_root": {
+            "component_id": "torn_write_recovery_root"
+          },
+          "torn_write_recovery_root:torn_write_recovery_00000001": {
+            "component_id": "torn_write_recovery_root:torn_write_recovery_00000001",
+            "parent_id": "msg_torn_write_recovery_00000002",
+            "path": [
+              1,
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "message_turn": [
+            "msg_torn_write_recovery_00000002"
+          ],
+          "root": [
+            "torn_write_recovery_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "torn_write_recovery_root:torn_write_recovery_00000001"
+          ]
+        },
+        "child_ids": {
+          "msg_torn_write_recovery_00000002": [
+            "torn_write_recovery_root:torn_write_recovery_00000001"
+          ],
+          "system": [],
+          "torn_write_recovery_root": [
+            "system",
+            "msg_torn_write_recovery_00000002"
+          ],
+          "torn_write_recovery_root:torn_write_recovery_00000001": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "msg_torn_write_recovery_00000002"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [
+              "torn_write_recovery_root:torn_write_recovery_00000001"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "durable before tear",
+                "created_at_ns": 2000000,
+                "creation_index": 0,
+                "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+                "key": "durable",
+                "offset": 0,
+                "pact_depth": 0,
+                "parent_id": "msg_torn_write_recovery_00000002",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000010,
+            "creation_index": 0,
+            "id": "msg_torn_write_recovery_00000002",
+            "offset": 1,
+            "pact_depth": 0,
+            "parent_id": "torn_write_recovery_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "torn_write_recovery_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "torn_write_recovery_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 4,
+        "content_chars": 19,
+        "edge_count": 3
+      },
+      "tool_pairs": {}
+    }
+  },
+  "json": {
+    "child_ids": [
+      "system",
+      "msg_torn_write_recovery_00000002"
+    ],
+    "children": [
+      {
+        "child_ids": [],
+        "children": [],
+        "componentType": "system_header",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "system",
+        "offset": 0,
+        "pact_depth": -1,
+        "parent_id": null,
+        "priority": 0,
+        "role": "system",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "system_header"
+      },
+      {
+        "child_ids": [
+          "torn_write_recovery_root:torn_write_recovery_00000001"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content": "durable before tear",
+            "created_at_ns": 2000000,
+            "creation_index": 0,
+            "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+            "key": "durable",
+            "offset": 0,
+            "pact_depth": 0,
+            "parent_id": "msg_torn_write_recovery_00000002",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          }
+        ],
+        "componentType": "message_turn",
+        "created_at_ns": 2000010,
+        "creation_index": 0,
+        "id": "msg_torn_write_recovery_00000002",
+        "offset": 1,
+        "pact_depth": 0,
+        "parent_id": "torn_write_recovery_root",
+        "priority": 0,
+        "role": "user",
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "message_turn"
+      }
+    ],
+    "componentType": "root",
+    "created_at_ns": 0,
+    "creation_index": 0,
+    "id": "torn_write_recovery_root",
+    "offset": 0,
+    "parent_id": null,
+    "priority": 0,
+    "transaction_index": 0,
+    "ttl": null,
+    "type": "root"
+  },
+  "provider_thread": {
+    "messages": [
+      {
+        "content": [
+          {
+            "content": "durable before tear"
+          }
+        ],
+        "message_type": "client_request"
+      }
+    ]
+  },
+  "revision": 1,
+  "rewind_targets": {
+    "branch_id": "main",
+    "head_revision": 1,
+    "schema": "pact.rewind_targets.v1",
+    "targets": [
+      {
+        "at_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "torn_write_recovery_root",
+          "transaction_id": "tx_main_1"
+        },
+        "before_ref": {
+          "branch_id": "main",
+          "revision": 0,
+          "root_id": "torn_write_recovery_root",
+          "transaction_id": "tx_main_1"
+        },
+        "boundary": "Preflight",
+        "from_revision": 0,
+        "message_id": "msg_torn_write_recovery_00000002",
+        "order": 0,
+        "role": "user",
+        "to_revision": 1,
+        "transaction_id": "tx_main_1"
+      }
+    ]
+  },
+  "schema": "pactree.behavior_observation.v1",
+  "selectors": [
+    {
+      "preserved_head": true,
+      "probe": "torn_tail_recovery"
+    },
+    {
+      "matches": [
+        {
+          "archived": false,
+          "componentType": "root",
+          "deleted": false,
+          "id": "torn_write_recovery_root",
+          "offset": 0,
+          "path": [],
+          "type": "root"
+        },
+        {
+          "archived": false,
+          "componentType": "system_header",
+          "deleted": false,
+          "id": "system",
+          "offset": 0,
+          "pact_depth": -1,
+          "parent_id": "torn_write_recovery_root",
+          "path": [
+            0
+          ],
+          "role": "system",
+          "type": "system_header"
+        },
+        {
+          "archived": false,
+          "componentType": "message_turn",
+          "deleted": false,
+          "id": "msg_torn_write_recovery_00000002",
+          "offset": 1,
+          "pact_depth": 0,
+          "parent_id": "torn_write_recovery_root",
+          "path": [
+            1
+          ],
+          "role": "user",
+          "type": "message_turn"
+        },
+        {
+          "archived": false,
+          "componentType": "text_content",
+          "content": "durable before tear",
+          "deleted": false,
+          "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+          "key": "durable",
+          "offset": 0,
+          "pact_depth": 0,
+          "parent_id": "msg_torn_write_recovery_00000002",
+          "path": [
+            1,
+            0
+          ]
+        }
+      ],
+      "query": "*"
+    }
+  ],
+  "step": 3,
+  "stream": {
+    "anchor": {
+      "row_id": null,
+      "seq": null
+    },
+    "cursors": {
+      "after": {
+        "cycle": 1,
+        "revision": 1,
+        "row_id": "node:msg_torn_write_recovery_00000002",
+        "seq": 0
+      },
+      "before": {
+        "cycle": 1,
+        "revision": 1,
+        "row_id": "node:msg_torn_write_recovery_00000002",
+        "seq": 0
+      }
+    },
+    "direction": "after",
+    "fallback_used": false,
+    "has_after": false,
+    "has_before": false,
+    "head": {
+      "branch_count": 1,
+      "branch_id": "main",
+      "current_branch_id": "main",
+      "file_kind": "branch",
+      "file_path": "<PACT_PATH>",
+      "is_current_branch": true,
+      "node_count": 4,
+      "pact_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "torn_write_recovery_root",
+        "transaction_id": "tx_main_1"
+      },
+      "record_count": 8,
+      "revision": 1,
+      "root_id": "torn_write_recovery_root",
+      "schema": "pact.head.v1",
+      "trace_count": 1,
+      "transaction_id": "tx_main_1"
+    },
+    "mode": "current_surface",
+    "path": "<PACT_PATH>",
+    "position": {
+      "end_index": 0,
+      "estimated": false,
+      "start_index": 0,
+      "total_rows": 1
+    },
+    "rows": [
+      {
+        "component_id": "msg_torn_write_recovery_00000002",
+        "cursor": {
+          "cycle": 1,
+          "revision": 1,
+          "row_id": "node:msg_torn_write_recovery_00000002",
+          "seq": 0
+        },
+        "cycle": null,
+        "kind": "node",
+        "node_type": "message_turn",
+        "payload": {
+          "child_ids": [
+            "torn_write_recovery_root:torn_write_recovery_00000001"
+          ],
+          "componentType": "message_turn",
+          "created_at_ns": 2000010,
+          "creation_index": 0,
+          "id": "msg_torn_write_recovery_00000002",
+          "offset": 1,
+          "pact_depth": 0,
+          "parent_id": "torn_write_recovery_root",
+          "role": "user",
+          "type": "message_turn"
+        },
+        "revision": 1,
+        "role": "user",
+        "row_id": "node:msg_torn_write_recovery_00000002",
+        "seq": 0
+      }
+    ],
+    "schema": "pact.stream.v1",
+    "source": "held_tree",
+    "surface": "context"
+  },
+  "traces": [
+    {
+      "alteration_ids": [
+        "insert"
+      ],
+      "authored_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "torn_write_recovery_root",
+        "transaction_id": "tx_main_1"
+      },
+      "aux": {
+        "applied": [
+          "insert"
+        ],
+        "boundary": "Preflight",
+        "events": [
+          {
+            "aux": {},
+            "created_at_ns": 2000010,
+            "op_kind": "insert",
+            "produced_refs": [
+              {
+                "branch_id": "main",
+                "component_id": "msg_torn_write_recovery_00000002",
+                "root_id": "torn_write_recovery_root"
+              }
+            ],
+            "trace_id": "trace_35ba8e52f79bde1c"
+          }
+        ]
+      },
+      "branch_id": "main",
+      "commit": {
+        "commit_id": "commit_main_1",
+        "kind": "pact_state",
+        "pact_ref": {
+          "branch_id": "main",
+          "revision": 1,
+          "root_id": "torn_write_recovery_root"
+        },
+        "phase": "Preflight"
+      },
+      "post_request_alteration_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "torn_write_recovery_root",
+        "transaction_id": "tx_main_1"
+      },
+      "post_response_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "torn_write_recovery_root",
+        "transaction_id": "tx_main_1"
+      },
+      "pre_request_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "torn_write_recovery_root",
+        "transaction_id": "tx_main_1"
+      },
+      "replay_trace": {
+        "from_rev": 0,
+        "ops": [
+          {
+            "component_id": "active",
+            "op": "delete_component"
+          },
+          {
+            "component_id": "torn_write_recovery_root",
+            "key": "child_ids",
+            "op": "set_field",
+            "value": [
+              "system",
+              "msg_torn_write_recovery_00000002"
+            ]
+          },
+          {
+            "component": {
+              "child_ids": [
+                "torn_write_recovery_root:torn_write_recovery_00000001"
+              ],
+              "children": [],
+              "componentType": "message_turn",
+              "created_at_ns": 2000010,
+              "creation_index": 0,
+              "id": "msg_torn_write_recovery_00000002",
+              "offset": 1,
+              "pact_depth": 0,
+              "parent_id": "torn_write_recovery_root",
+              "priority": 0,
+              "role": "user",
+              "transaction_index": 0,
+              "ttl": null,
+              "type": "message_turn"
+            },
+            "component_id": "msg_torn_write_recovery_00000002",
+            "index": 1,
+            "op": "insert_component",
+            "parent_id": "torn_write_recovery_root"
+          },
+          {
+            "component": {
+              "child_ids": [],
+              "children": [],
+              "componentType": "text_content",
+              "content": "durable before tear",
+              "created_at_ns": 2000000,
+              "creation_index": 0,
+              "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+              "key": "durable",
+              "offset": 0,
+              "pact_depth": 0,
+              "parent_id": "msg_torn_write_recovery_00000002",
+              "priority": 0,
+              "transaction_index": 0,
+              "ttl": null
+            },
+            "component_id": "torn_write_recovery_root:torn_write_recovery_00000001",
+            "index": 0,
+            "op": "insert_component",
+            "parent_id": "msg_torn_write_recovery_00000002"
+          }
+        ],
+        "to_rev": 1
+      },
+      "root_id": "torn_write_recovery_root",
+      "schema": "pact.transaction_trace.v1",
+      "transaction_id": "tx_main_1"
+    }
+  ],
+  "view": {
+    "branch_id": "main",
+    "branch_refs": [],
+    "content_refs": {},
+    "head_revision": 1,
+    "lifecycle_seen": {
+      "msg_torn_write_recovery_00000002": 0,
+      "system": 0,
+      "torn_write_recovery_root": 0,
+      "torn_write_recovery_root:torn_write_recovery_00000001": 0
+    },
+    "message_order": [
+      "msg_torn_write_recovery_00000002"
+    ],
+    "tree": {
+      "first_seen": {
+        "active": 0,
+        "msg_torn_write_recovery_00000002": 1,
+        "system": 0,
+        "torn_write_recovery_root": 0,
+        "torn_write_recovery_root:torn_write_recovery_00000001": 1
+      },
+      "index": {
+        "by_aux_key": {},
+        "by_id": {
+          "msg_torn_write_recovery_00000002": {
+            "component_id": "msg_torn_write_recovery_00000002",
+            "parent_id": "torn_write_recovery_root",
+            "path": [
+              1
+            ]
+          },
+          "system": {
+            "component_id": "system",
+            "parent_id": "torn_write_recovery_root",
+            "path": [
+              0
+            ]
+          },
+          "torn_write_recovery_root": {
+            "component_id": "torn_write_recovery_root"
+          },
+          "torn_write_recovery_root:torn_write_recovery_00000001": {
+            "component_id": "torn_write_recovery_root:torn_write_recovery_00000001",
+            "parent_id": "msg_torn_write_recovery_00000002",
+            "path": [
+              1,
+              0
+            ]
+          }
+        },
+        "by_type": {
+          "message_turn": [
+            "msg_torn_write_recovery_00000002"
+          ],
+          "root": [
+            "torn_write_recovery_root"
+          ],
+          "system_header": [
+            "system"
+          ],
+          "text_content": [
+            "torn_write_recovery_root:torn_write_recovery_00000001"
+          ]
+        },
+        "child_ids": {
+          "msg_torn_write_recovery_00000002": [
+            "torn_write_recovery_root:torn_write_recovery_00000001"
+          ],
+          "system": [],
+          "torn_write_recovery_root": [
+            "system",
+            "msg_torn_write_recovery_00000002"
+          ],
+          "torn_write_recovery_root:torn_write_recovery_00000001": []
+        }
+      },
+      "root": {
+        "child_ids": [
+          "system",
+          "msg_torn_write_recovery_00000002"
+        ],
+        "children": [
+          {
+            "child_ids": [],
+            "children": [],
+            "componentType": "system_header",
+            "created_at_ns": 0,
+            "creation_index": 0,
+            "id": "system",
+            "offset": 0,
+            "pact_depth": -1,
+            "parent_id": null,
+            "priority": 0,
+            "role": "system",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "system_header"
+          },
+          {
+            "child_ids": [
+              "torn_write_recovery_root:torn_write_recovery_00000001"
+            ],
+            "children": [
+              {
+                "child_ids": [],
+                "children": [],
+                "componentType": "text_content",
+                "content": "durable before tear",
+                "created_at_ns": 2000000,
+                "creation_index": 0,
+                "id": "torn_write_recovery_root:torn_write_recovery_00000001",
+                "key": "durable",
+                "offset": 0,
+                "pact_depth": 0,
+                "parent_id": "msg_torn_write_recovery_00000002",
+                "priority": 0,
+                "transaction_index": 0,
+                "ttl": null
+              }
+            ],
+            "componentType": "message_turn",
+            "created_at_ns": 2000010,
+            "creation_index": 0,
+            "id": "msg_torn_write_recovery_00000002",
+            "offset": 1,
+            "pact_depth": 0,
+            "parent_id": "torn_write_recovery_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          }
+        ],
+        "componentType": "root",
+        "created_at_ns": 0,
+        "creation_index": 0,
+        "id": "torn_write_recovery_root",
+        "offset": 0,
+        "parent_id": null,
+        "priority": 0,
+        "transaction_index": 0,
+        "ttl": null,
+        "type": "root"
+      },
+      "root_id": "torn_write_recovery_root",
+      "stats": {
+        "blob_count": 0,
+        "component_count": 4,
+        "content_chars": 19,
+        "edge_count": 3
+      },
+      "tool_pairs": {}
+    }
+  },
+  "xml": "<root id=\"torn_write_recovery_root\" componentType=\"root\" type=\"root\" offset=\"0\" depth=\"0\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\">\n  <system_header id=\"system\" componentType=\"system_header\" type=\"system_header\" role=\"system\" offset=\"0\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"0\" creation_index=\"0\" />\n  <message_turn id=\"msg_torn_write_recovery_00000002\" componentType=\"message_turn\" type=\"message_turn\" role=\"user\" offset=\"1\" depth=\"1\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000010\" creation_index=\"0\">\n    <text_content id=\"torn_write_recovery_root:torn_write_recovery_00000001\" componentType=\"text_content\" offset=\"0\" depth=\"2\" priority=\"0\" transaction_index=\"0\" created_at_ns=\"2000000\" creation_index=\"0\">durable before tear</text_content>\n  </message_turn>\n</root>\n"
+}

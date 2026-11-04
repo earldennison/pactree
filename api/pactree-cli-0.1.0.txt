@@ -1,0 +1,111 @@
+$ pactree --help
+pactree
+
+USAGE:
+  pactree normalize < pact.json
+  pactree inspect < pact.json
+  pactree select 'd0 > .text_content' < pact.json
+  pactree select session.pact '@history .text_content' [--limit n] [--order newest|oldest] [--branch id] [--parent-path dir] [--json]
+  pactree prune '#tool_call_component_id' [branch_id] < root-store.json
+  pactree store-new < pact.json
+  pactree root-new [--no-base] [branch_id] < pact.json
+  pactree root-from-store [branch_id] < store.json
+  pactree root-branch-revision <from_branch> [revision] [new_branch] < root-store.json   # same-ledger branch, NOT a hard fork
+  pactree root-branch-component <from_branch> <component_id> [new_branch] < root-store.json   # same-ledger branch, NOT a hard fork
+  pactree store-project [revision] < store.json
+  pactree content-put provider.request.rows < payload.txt
+  pactree transaction-validate < trace.json
+  pactree file-create [--token-span|--no-token-span] session.pact < root-store.json
+  pactree file-append-views session.pact < view-records.json
+  pactree inspect timeline session.pact
+  pactree file-inspect [--full|--records] session.pact
+  pactree file-order-check session.pact
+  pactree file-order-repair session.pact --i-have-a-copy [--branch id]   # derived index only; copies only
+  pactree token-span-stats session.pact
+  pactree page-compare baseline.pact candidate.pact
+  pactree info session.pact
+  pactree info --manifest-only session.pact
+  pactree info --live-shape session.pact
+  pactree storage-audit session.pact
+  pactree bench-storage [--target-profile medium-agentic] session.pact
+  pactree file-validate session.pact
+  pactree check session.pact
+  pactree doctor session.pact
+  pactree fork parent.pact child.pact --mode hard [--branch id] [--revision n] [--locator-hints '[{"kind":"relative_path","value":"parent.pact"}]']
+  pactree fork parent.pact --mode soft [--branch id] [--revision n]
+  pactree fork parent.pact child.pact --mode delta --base pinned [--branch id] [--revision n] [--locator-hints '[...]']
+  pactree fork parent.pact child.pact --mode delta --base following [--branch id] [--revision n]
+  pactree send-message --from a.pact --to b.pact --text "msg" [--to-branch id] [--source-trace-id id] [--source-tool-call-id id] [--created-at ts]
+  pactree file-rewind-to session.pact [branch_id] <revision>
+  pactree file-repack source.pact output.pact [--token-span|--no-token-span] [--format v0|packed-v1]
+  pactree file-reanchor source.pact output.pact [--freeze-cycle-interval n|--every-cycles n] [--freeze-commit-bytes n|--max-bytes n] [--no-anchors]
+  pactree reindex-head source.pact [output.pact|--output output.pact]
+  pactree no-anchor source.pact output.pact
+  pactree bundle create session.pact
+  pactree bundle verify session.pact
+  pactree bundle export-full session.pact session.pact.full
+  pactree bundle prune session.pact
+  pactree view head session.pact [--format json|rows|xml] [--branch id] [--revision n]
+  pactree view archived session.pact [--format json|rows] [--branch id] [--revision n] [--content refs|full]
+  pactree load child.pact [--parent-path dir] [--branch id] [--revision n]
+  pactree load content-ref session.pact <content_ref>
+  pactree load components session.pact <component_id> [<component_id> ...]
+  pactree branch-view append session.pact < view-records.json
+  pactree branch-view preflight session.pact <view_id>
+  pactree branch-view merge session.pact <view_id> [replace-component|manual-resolution]
+  pactree branch-view detach session.pact <view_id> <detached_branch_id>
+  pactree branch-view rebase session.pact <view_id>
+  pactree extension install <name> <command-path>
+  pactree extension list
+  pactree extension remove <name>
+  pactree file-repair source.pact repaired.pact [--truncate-tail]
+  pactree heal source.pact --out healed.pact [--truncate-tail]
+  pactree search text session.pact "needle" [--scope all|head] [--select selector] [--case-insensitive] [--regex] [--limit n] [--preview-chars n] [--json]
+  pactree search vector session.pact "query" [--select selector] [--provider qwen|hash-dev] [--model model] [--top-k n] [--json]
+  pactree search vector rebuild session.pact [--provider qwen|hash-dev] [--model model] [--scope all|head] [--json]
+  pactree search vector status|inspect|clear session.pact [...]
+  pactree slice cycle_start..cycle_end source.pact [output.pact]
+  pactree file-slice source.pact output.pact < slice-spec.json
+  pactree file-import-check session.pact
+  pactree import target.pact slice.pact
+  pactree merge target.pact slice.pact
+
+INPUT:
+  A JSON PACT component with id, componentType, optional type, offset,
+  priority, transaction metadata, created_at_ns, creation_index, aux,
+  content, children.
+
+SELECTORS:
+  Rust PACT selectors are dN-first: d-1, d0, d1, (d0,0), .type, #id,
+  {attr='value'}, >, ?, ??, and comma unions. Caret aliases are deprecated.
+
+DELETE:
+  Deleting any tool call/result component automatically deletes its paired
+  component with the same tool_call_id.
+
+TRANSACTIONS:
+  Transaction traces capture authored, pre-request, post-request-alteration,
+  provider-request, provider-response, post-response-alteration, and
+  post-response refs. Tool dispatch is not a boundary.
+
+COMPONENTS:
+  Component records and component transactions are generic durable extension
+  records. PACT owns ids, ordering, refs, indexes, repair, and slices; extension
+  packages own domain semantics.
+
+READING:
+  pactree view head / pactree view archived present PACT state (--format json|rows|xml,
+  --content refs|full). Head is the current canonical state; archived is retained
+  historical state. pactree load resolves content (content-ref, components); pactree select
+  queries components; pactree search text|vector finds content; pactree inspect timeline
+  shows trace/event activity.
+
+BRANCH VIEWS:
+  pactree branch-view manages branch perspectives (append/preflight/merge/detach/
+  rebase). Merge preflight is non-mutating; merge applies explicit component
+  replacement; detach imports a view branch as a separate branch.
+
+PACT FILES:
+  file-create writes the binary-framed .pact file: pages, typed records,
+  symbols, content chunks, structural/component records, query indexes,
+  explicit repair, native view data, and portable slices.

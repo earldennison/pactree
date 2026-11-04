@@ -1,0 +1,88 @@
+{
+  "anchor": {
+    "row_id": null,
+    "seq": null
+  },
+  "cursors": {
+    "after": {
+      "cycle": 1,
+      "revision": 1,
+      "row_id": "node:msg_contract_00000002",
+      "seq": 0
+    },
+    "before": {
+      "cycle": 1,
+      "revision": 1,
+      "row_id": "node:msg_contract_00000002",
+      "seq": 0
+    }
+  },
+  "direction": "after",
+  "fallback_used": false,
+  "has_after": false,
+  "has_before": false,
+  "head": {
+    "branch_count": 1,
+    "branch_id": "main",
+    "current_branch_id": "main",
+    "file_kind": "",
+    "file_path": "<PACT_PATH>",
+    "is_current_branch": true,
+    "node_count": 4,
+    "pact_ref": {
+      "branch_id": "main",
+      "revision": 1,
+      "root_id": "contract_root",
+      "transaction_id": "tx_main_1"
+    },
+    "record_count": 9,
+    "revision": 1,
+    "root_id": "contract_root",
+    "schema": "pact.head.v1",
+    "trace_count": 1,
+    "transaction_id": "tx_main_1"
+  },
+  "mode": "current_surface",
+  "path": "<PACT_PATH>",
+  "position": {
+    "end_index": 0,
+    "estimated": false,
+    "start_index": 0,
+    "total_rows": 1
+  },
+  "rows": [
+    {
+      "component_id": "msg_contract_00000002",
+      "cursor": {
+        "cycle": 1,
+        "revision": 1,
+        "row_id": "node:msg_contract_00000002",
+        "seq": 0
+      },
+      "cycle": null,
+      "kind": "node",
+      "node_type": "message_turn",
+      "payload": {
+        "child_ids": [
+          "contract_root:contract_00000001"
+        ],
+        "componentType": "message_turn",
+        "created_at_ns": 1000010,
+        "creation_index": 0,
+        "id": "msg_contract_00000002",
+        "offset": 1,
+        "pact_depth": 0,
+        "parent_id": "contract_root",
+        "role": "user",
+        "type": "message_turn"
+      },
+      "revision": 1,
+      "role": "user",
+      "row_id": "node:msg_contract_00000002",
+      "seq": 0
+    }
+  ],
+  "schema": "pact.stream.v1",
+  "source": "held_tree",
+  "surface": "context"
+}

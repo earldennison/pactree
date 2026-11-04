@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"save-reopen-continue","operations":[{"op":"user","content":"before reopen","key":"before"},{"op":"send"},{"op":"save_reopen"},{"op":"user","content":"after reopen","key":"after"},{"op":"send"}]}

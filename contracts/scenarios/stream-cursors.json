@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"stream-cursors","operations":[{"op":"user","content":"stream one","key":"s1"},{"op":"send"},{"op":"receive","content":"stream two"},{"op":"stream_cursor_probe"}]}

@@ -1,0 +1,149 @@
+[
+  {
+    "alteration_ids": [
+      "insert"
+    ],
+    "authored_ref": {
+      "branch_id": "main",
+      "component_id": "contract_root:contract_00000001",
+      "content_ref": "cnt_4876257e",
+      "root_id": "contract_root",
+      "transaction_id": "tx_main_1"
+    },
+    "aux": {
+      "applied": [
+        "insert"
+      ],
+      "boundary": "Preflight",
+      "events": [
+        {
+          "aux": {},
+          "created_at_ns": 1000010,
+          "op_kind": "insert",
+          "produced_refs": [
+            {
+              "branch_id": "main",
+              "component_id": "msg_contract_00000002",
+              "root_id": "contract_root"
+            },
+            {
+              "branch_id": "main",
+              "component_id": "contract_root:contract_00000001",
+              "content_ref": "cnt_4876257e",
+              "root_id": "contract_root"
+            }
+          ],
+          "trace_id": "trace_87ae666970f20e08"
+        }
+      ]
+    },
+    "branch_id": "main",
+    "commit": {
+      "commit_id": "commit_main_1",
+      "kind": "pact_state",
+      "pact_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "contract_root"
+      },
+      "phase": "Preflight"
+    },
+    "post_request_alteration_ref": {
+      "branch_id": "main",
+      "revision": 1,
+      "root_id": "contract_root",
+      "transaction_id": "tx_main_1"
+    },
+    "post_response_ref": {
+      "branch_id": "main",
+      "revision": 1,
+      "root_id": "contract_root",
+      "transaction_id": "tx_main_1"
+    },
+    "pre_request_ref": {
+      "branch_id": "main",
+      "revision": 0,
+      "root_id": "contract_root",
+      "transaction_id": "tx_main_1"
+    },
+    "replay_trace": {
+      "from_rev": 0,
+      "ops": [
+        {
+          "component_id": "active",
+          "op": "delete_component"
+        },
+        {
+          "component_id": "contract_root",
+          "key": "child_ids",
+          "op": "set_field",
+          "value": [
+            "system",
+            "msg_contract_00000002"
+          ]
+        },
+        {
+          "component": {
+            "child_ids": [
+              "contract_root:contract_00000001"
+            ],
+            "children": [],
+            "componentType": "message_turn",
+            "created_at_ns": 1000010,
+            "creation_index": 0,
+            "id": "msg_contract_00000002",
+            "offset": 1,
+            "pact_depth": 0,
+            "parent_id": "contract_root",
+            "priority": 0,
+            "role": "user",
+            "transaction_index": 0,
+            "ttl": null,
+            "type": "message_turn"
+          },
+          "component_id": "msg_contract_00000002",
+          "index": 1,
+          "op": "insert_component",
+          "parent_id": "contract_root"
+        },
+        {
+          "component": {
+            "child_ids": [],
+            "children": [],
+            "componentType": "text_content",
+            "content_ref": {
+              "chars": 1127,
+              "field": "content",
+              "id": "cnt_4876257e",
+              "preview": "protected contract payload xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "source": {
+                "content_kind": "node.content",
+                "field": "content",
+                "hash": "4876257eb5dec13ce7af0cab043bd058",
+                "kind": "content_addressed"
+              }
+            },
+            "created_at_ns": 1000000,
+            "creation_index": 0,
+            "id": "contract_root:contract_00000001",
+            "key": "contract:user:1",
+            "offset": 0,
+            "pact_depth": 0,
+            "parent_id": "msg_contract_00000002",
+            "priority": 0,
+            "transaction_index": 0,
+            "ttl": null
+          },
+          "component_id": "contract_root:contract_00000001",
+          "index": 0,
+          "op": "insert_component",
+          "parent_id": "msg_contract_00000002"
+        }
+      ],
+      "to_rev": 1
+    },
+    "root_id": "contract_root",
+    "schema": "pact.transaction_trace.v1",
+    "transaction_id": "tx_main_1"
+  }
+]

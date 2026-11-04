@@ -1,0 +1,28 @@
+{
+  "branch_id": "main",
+  "head_revision": 1,
+  "schema": "pact.rewind_targets.v1",
+  "targets": [
+    {
+      "at_ref": {
+        "branch_id": "main",
+        "revision": 1,
+        "root_id": "contract_root",
+        "transaction_id": "tx_main_1"
+      },
+      "before_ref": {
+        "branch_id": "main",
+        "revision": 0,
+        "root_id": "contract_root",
+        "transaction_id": "tx_main_1"
+      },
+      "boundary": "Preflight",
+      "from_revision": 0,
+      "message_id": "msg_contract_00000002",
+      "order": 0,
+      "role": "user",
+      "to_revision": 1,
+      "transaction_id": "tx_main_1"
+    }
+  ]
+}

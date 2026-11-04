@@ -1,0 +1,10 @@
+{
+  "invalid_selector": {
+    "kind": "invalid",
+    "message": "unsupported selector fragment \"$$\" in \"$$\""
+  },
+  "missing_component": {
+    "kind": "not_found",
+    "message": "component missing-contract-component not found"
+  }
+}

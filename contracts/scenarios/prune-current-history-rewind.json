@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"prune-current-history-rewind","operations":[{"op":"user","content":"dead turn","key":"dead"},{"op":"send"},{"op":"receive","content":"reply"},{"op":"user","content":"live turn","key":"live"},{"op":"send"},{"op":"prune_with_history_probe","key":"dead"},{"op":"send"}]}

@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"errors-atomicity","operations":[{"op":"insert","content":"survivor","key":"survivor"},{"op":"send"},{"op":"invalid_select_atomicity_probe"}]}

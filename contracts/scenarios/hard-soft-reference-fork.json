@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"hard-soft-reference-fork","operations":[{"op":"user","content":"fork base","key":"base"},{"op":"send"},{"op":"soft_fork_probe"},{"op":"hard_fork"}]}

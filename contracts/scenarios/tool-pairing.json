@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"tool-pairing","operations":[{"op":"user","content":"run tool","key":"u1"},{"op":"send"},{"op":"tool_pair","call_id":"call_contract"}]}

@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"auxiliary-point-in-time","operations":[{"op":"user","content":"aux base","key":"base"},{"op":"send"},{"op":"reference_point_in_time_probe"}]}

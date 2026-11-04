@@ -1,0 +1,4 @@
+[cargo_public_api]
+version = "0.52.0"
+rustdoc_json_toolchain = "nightly-2026-05-31"
+rustc_commit = "f8a08b688cbe60acc386ed1fbd1b7cbaaf5576b1"

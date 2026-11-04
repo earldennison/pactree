@@ -1,0 +1,1 @@
+{"schema":"pactree.behavior_scenario.v1","name":"authoring-placement","operations":[{"op":"insert","content":"placed at root","key":"placed"},{"op":"send"}]}
