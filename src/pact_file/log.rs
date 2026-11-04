@@ -224,7 +224,9 @@ pub(crate) fn commit_checkpointed(
     )?;
     let mut file = OpenOptions::new().read(true).write(true).open(path)?;
     let identity_persisted = persist_missing_file_identity(&mut file)?;
-    file.set_len(current.slot.file_length_watermark)?;
+    if file.metadata()?.len() != current.slot.file_length_watermark {
+        file.set_len(current.slot.file_length_watermark)?;
+    }
     file.seek(SeekFrom::Start(current.slot.file_length_watermark))?;
     write_encoded_records(&mut file, &encoded, fault)?;
     file.sync_data()?;

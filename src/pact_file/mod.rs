@@ -135,13 +135,12 @@ pub(crate) fn canonicalize_component_depth(value: &mut serde_json::Value) {
 
 pub(crate) fn open_shared_ledger(path: &Path) -> PactResult<Arc<ContextTreeLedger>> {
     let canonical = path.canonicalize()?;
-    let metadata = std::fs::metadata(&canonical)?;
 
     let snapshot =
         snapshot::Snapshot::open(&canonical, Arc::new(backend::IoCounterSet::default()))?;
     let key = ledger_cache::LedgerCacheKey::new(
         &canonical,
-        &metadata,
+        snapshot.platform_id(),
         snapshot.source_file_identity(),
         snapshot.generation(),
         snapshot.committed_len(),

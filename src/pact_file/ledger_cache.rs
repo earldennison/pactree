@@ -9,7 +9,7 @@ mod tests;
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub(crate) struct LedgerCacheKey {
     pub(crate) path: PathBuf,
-    pub(crate) platform_id: (u64, u64),
+    pub(crate) platform_id: (u64, u128),
     pub(crate) file_identity: String,
     pub(crate) generation: u64,
     pub(crate) committed_len: u64,
@@ -18,30 +18,19 @@ pub(crate) struct LedgerCacheKey {
 impl LedgerCacheKey {
     pub(crate) fn new(
         canonical_path: &Path,
-        metadata: &std::fs::Metadata,
+        platform_id: (u64, u128),
         file_identity: String,
         generation: u64,
         committed_len: u64,
     ) -> Self {
         Self {
             path: canonical_path.to_path_buf(),
-            platform_id: platform_file_id(metadata),
+            platform_id,
             file_identity,
             generation,
             committed_len,
         }
     }
-}
-
-#[cfg(unix)]
-fn platform_file_id(metadata: &std::fs::Metadata) -> (u64, u64) {
-    use std::os::unix::fs::MetadataExt;
-    (metadata.dev(), metadata.ino())
-}
-
-#[cfg(not(unix))]
-fn platform_file_id(_metadata: &std::fs::Metadata) -> (u64, u64) {
-    (0, 0)
 }
 
 type CacheEntry = Option<(LedgerCacheKey, Weak<ContextTreeLedger>)>;

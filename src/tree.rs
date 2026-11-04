@@ -85,12 +85,78 @@ impl ComponentTree {
         Ok(out)
     }
 
+    pub(crate) fn append_child(&mut self, parent_id: &str, node: Component) -> PactResult<()> {
+        let parent_path = self
+            .index
+            .by_id
+            .get(parent_id)
+            .ok_or_else(|| PactError::not_found(format!("append target `{parent_id}` not found")))?
+            .path
+            .clone();
+        let parent = component_at_path(&self.root, &parent_path)
+            .ok_or_else(|| PactError::internal("indexed append parent is missing"))?;
+        let mut path = parent_path.clone();
+        path.push(parent.children.len());
+        let mut added = ComponentTreeIndex::default();
+        index_component(&node, Some(parent_id), path, &mut added)?;
+        if let Some(id) = added
+            .by_id
+            .keys()
+            .find(|id| self.index.by_id.contains_key(*id))
+        {
+            return Err(PactError::invalid(format!(
+                "duplicate component id `{id}` in component tree"
+            )));
+        }
+        let mut parent = &mut self.root;
+        for index in parent_path {
+            parent = parent
+                .children
+                .get_mut(index)
+                .ok_or_else(|| PactError::internal("indexed append parent path is invalid"))?;
+        }
+        let id = node.id.clone();
+        parent.children.push(node);
+        self.index
+            .children_by_id
+            .entry(parent_id.to_string())
+            .or_default()
+            .push(id);
+        self.index.by_id.extend(added.by_id);
+        self.index.parent_by_id.extend(added.parent_by_id);
+        self.index.children_by_id.extend(added.children_by_id);
+        let paths = &self.index.by_id;
+        merge_preordered_map(paths, &mut self.index.by_type, added.by_type);
+        merge_preordered_map(paths, &mut self.index.by_role, added.by_role);
+        merge_preordered_map(paths, &mut self.index.by_key, added.by_key);
+        merge_preordered_map(paths, &mut self.index.by_tag, added.by_tag);
+        merge_preordered_map(
+            paths,
+            &mut self.index.by_lifecycle_state,
+            added.by_lifecycle_state,
+        );
+        merge_preordered_ids(paths, &mut self.index.ttl_candidates, added.ttl_candidates);
+        merge_preordered_ids(paths, &mut self.index.cad_candidates, added.cad_candidates);
+        merge_preordered_map(
+            paths,
+            &mut self.index.tool_calls_by_call_id,
+            added.tool_calls_by_call_id,
+        );
+        merge_preordered_map(
+            paths,
+            &mut self.index.tool_results_by_call_id,
+            added.tool_results_by_call_id,
+        );
+        #[cfg(debug_assertions)]
+        self.debug_assert_index_coherent();
+        Ok(())
+    }
+
     #[cfg(debug_assertions)]
     fn debug_assert_index_coherent(&self) {
-        let derived = ComponentTreeIndex::try_derive(&self.root)
-            .expect("live ComponentTree root must derive a valid index");
+        let derived = ComponentTreeIndex::try_derive(&self.root);
         debug_assert!(
-            self.index == derived,
+            derived.as_ref().is_ok_and(|derived| &self.index == derived),
             "ComponentTree index is incoherent with its tree"
         );
     }
@@ -277,6 +343,26 @@ fn extend_index_map<K: Ord>(
 ) {
     for (key, mut ids) in source {
         target.entry(key).or_default().append(&mut ids);
+    }
+}
+
+fn merge_preordered_ids(
+    paths: &BTreeMap<String, ComponentPath>,
+    target: &mut Vec<String>,
+    added: Vec<String>,
+) {
+    let Some(first) = added.first() else { return };
+    let position = target.partition_point(|id| paths[id].path < paths[first].path);
+    target.splice(position..position, added);
+}
+
+fn merge_preordered_map<K: Ord>(
+    paths: &BTreeMap<String, ComponentPath>,
+    target: &mut BTreeMap<K, Vec<String>>,
+    added: BTreeMap<K, Vec<String>>,
+) {
+    for (key, ids) in added {
+        merge_preordered_ids(paths, target.entry(key).or_default(), ids);
     }
 }
 

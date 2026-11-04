@@ -210,6 +210,7 @@ fn message_surface_cursor_stales_after_prior_row_deletion() {
 #[test]
 fn message_surface_cursor_stales_after_insertion_before_anchor() {
     let (_temp, path, mut tree) = saved_messages(5);
+    tree.set_automatic_compaction(false);
     let mut handle = crate::PactFileReadHandle::open(&path, None).expect("read handle");
     let initial = handle
         .stream("message_surface", None, None, "before", 5)
@@ -260,6 +261,242 @@ fn message_surface_cursor_stales_after_insertion_before_anchor() {
         rebased["rows"][0]["payload"]["children"][0]["content"],
         "message 2 ".repeat(160)
     );
+    let tail = handle
+        .stream("message_surface", None, None, "before", 1)
+        .expect("tail after insertion")["rows"][0]["cursor"]
+        .clone();
+    append_message(&mut tree, 5);
+    handle.refresh().expect("refresh append");
+    let appended = handle
+        .stream(
+            "message_surface",
+            tail["row_id"].as_str(),
+            tail["seq"].as_u64(),
+            "after",
+            10,
+        )
+        .expect("tail cursor survives append");
+    assert_eq!(appended["rows"].as_array().map(Vec::len), Some(1));
+    assert_eq!(
+        appended["rows"][0]["payload"]["children"][0]["content"],
+        "message 5 ".repeat(160)
+    );
+}
+
+#[test]
+fn message_surface_reorder_matches_fresh_baseline_without_compaction() {
+    for derived_depth in [false, true] {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let path = temp.path().join("live.pact");
+        let mut tree = crate::ContextTree::with_id_and_options(
+            "order-root",
+            crate::ContextTreeOptions {
+                derived_depth,
+                ..crate::ContextTreeOptions::default()
+            },
+        )
+        .expect("tree");
+        tree.save_file(&path).expect("save");
+        for index in 0..5 {
+            append_message(&mut tree, index);
+        }
+        tree.set_automatic_compaction(false);
+        let mut handle = crate::PactFileReadHandle::open(&path, None).expect("read handle");
+        let before = handle
+            .stream("message_surface", None, None, "after", 5)
+            .expect("before");
+        let mut inserted = crate::Component::message_turn_authoring(
+            Some("user".to_string()),
+            None,
+            tree.next_authoring_component_options(),
+        );
+        inserted.children.push(crate::Component::text_authoring(
+            "inserted".to_string(),
+            tree.next_authoring_component_options(),
+        ));
+        tree.insert(inserted, (tree.id().to_string(), 2))
+            .expect("insert before anchor");
+        tree.send(&crate::ProviderThreadOptions::default())
+            .expect("commit insertion");
+        handle.refresh().expect("refresh");
+        let after = handle
+            .stream("message_surface", None, None, "after", 10)
+            .expect("after");
+        let actual: Vec<_> = after["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|row| row["component_id"].as_str().unwrap().to_string())
+            .collect();
+        let baseline_path = temp.path().join("baseline.pact");
+        tree.save_file(&baseline_path).expect("fresh baseline");
+        let baseline = crate::PactFileReadHandle::open(&baseline_path, None)
+            .expect("baseline handle")
+            .stream("message_surface", None, None, "after", 10)
+            .expect("baseline stream");
+        let expected: Vec<_> = baseline["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|row| row["component_id"].as_str().unwrap().to_string())
+            .collect();
+        assert_eq!(actual, expected, "derived_depth={derived_depth}");
+        let cursor = &before["rows"][2]["cursor"];
+        assert!(
+            handle
+                .stream(
+                    "message_surface",
+                    cursor["row_id"].as_str(),
+                    cursor["seq"].as_u64(),
+                    "after",
+                    10
+                )
+                .is_err()
+        );
+    }
+}
+
+#[test]
+fn message_surface_order_repair_preserves_positional_insertions() {
+    for delete_inserted in [false, true] {
+        let (_temp, path, mut tree) = saved_messages(5);
+        tree.set_automatic_compaction(false);
+        let mut inserted = crate::Component::message_turn_authoring(
+            Some("user".to_string()),
+            None,
+            tree.next_authoring_component_options(),
+        );
+        inserted.children.push(crate::Component::text_authoring(
+            "inserted".to_string(),
+            tree.next_authoring_component_options(),
+        ));
+        let inserted = tree
+            .insert(inserted, (tree.id().to_string(), 2))
+            .expect("middle insertion");
+        tree.send(&crate::ProviderThreadOptions::default())
+            .expect("commit");
+        if delete_inserted {
+            tree.prune(format!("#{}", inserted.produced_component_ids[0]))
+                .expect("delete inserted row");
+            tree.send(&crate::ProviderThreadOptions::default())
+                .expect("commit deletion");
+        }
+        let mut handle = crate::PactFileReadHandle::open(&path, None).expect("handle");
+        let ids = |value: &serde_json::Value| -> Vec<String> {
+            value["rows"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|row| row["component_id"].as_str().unwrap().to_string())
+                .collect()
+        };
+        let before = handle
+            .stream("message_surface", None, None, "after", 10)
+            .expect("before repair");
+        let options = crate::PactMemoryOptions {
+            scratch_cache_bytes: 4096,
+            io_chunk_bytes: 128,
+            ..crate::PactMemoryOptions::default()
+        };
+        let mut writer =
+            crate::PactAppendWriter::open(&path, "main", options.clone()).expect("writer");
+        writer.set_automatic_maintenance(false);
+        let repaired = writer.repair_message_order().expect("repair");
+        if !delete_inserted {
+            assert_eq!(repaired.transaction_id, None);
+        }
+        assert_eq!(
+            writer
+                .repair_message_order()
+                .expect("idempotent repair")
+                .transaction_id,
+            None
+        );
+        handle.refresh().expect("refresh repaired head");
+        let snapshot = Snapshot::open(&path, Arc::new(IoCounterSet::default())).expect("snapshot");
+        let id = before["rows"][1]["component_id"]
+            .as_str()
+            .expect("damage row");
+        let order = snapshot
+            .component_shallow("main", id)
+            .expect("component")
+            .expect("present")
+            .order
+            .expect("order");
+        let mut damage =
+            crate::pact_file::index::MessageOrderRepairPlan::new(&options).expect("damage plan");
+        damage.insert(id, order + 70_000).expect("carried key");
+        damage.rows_to_reindex = 1;
+        writer
+            .commit_message_order_plan(damage)
+            .expect("damage index");
+        handle.refresh().expect("refresh damage");
+        let damaged = handle
+            .stream("message_surface", None, None, "after", 10)
+            .expect("damaged");
+        assert_ne!(
+            ids(&damaged),
+            ids(&before),
+            "damage must actually reorder rows"
+        );
+        assert!(
+            writer
+                .repair_message_order()
+                .expect("repair carried key after insertion")
+                .transaction_id
+                .is_some()
+        );
+        assert_eq!(
+            writer
+                .repair_message_order()
+                .expect("idempotent carried repair")
+                .transaction_id,
+            None
+        );
+        writer.close();
+        handle.refresh().expect("refresh");
+        let after = handle
+            .stream("message_surface", None, None, "after", 10)
+            .expect("after repair");
+        assert_eq!(
+            ids(&after),
+            ids(&before),
+            "repair must preserve committed positional order"
+        );
+        let cursor = &before["rows"][2]["cursor"];
+        handle
+            .stream(
+                "message_surface",
+                cursor["row_id"].as_str(),
+                cursor["seq"].as_u64(),
+                "around",
+                1,
+            )
+            .expect("repair retains projection cursor");
+        let mut resumed = crate::ContextTree::open_file(&path, None).expect("reopen");
+        resumed.set_automatic_compaction(false);
+        append_message(&mut resumed, 99);
+        let mut writer =
+            crate::PactAppendWriter::open(&path, "main", options).expect("reopen writer");
+        writer.set_automatic_maintenance(false);
+        assert_eq!(
+            writer
+                .repair_message_order()
+                .expect("repair after append")
+                .transaction_id,
+            None
+        );
+        writer.close();
+        handle.refresh().expect("refresh append");
+        let appended = handle
+            .stream("message_surface", None, None, "after", 10)
+            .expect("appended");
+        assert_eq!(&ids(&appended)[..ids(&before).len()], ids(&before));
+        assert_eq!(
+            appended["rows"].as_array().unwrap().len(),
+            before["rows"].as_array().unwrap().len() + 1
+        );
+    }
 }
 
 #[test]

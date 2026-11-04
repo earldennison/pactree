@@ -342,7 +342,7 @@ impl FacetStore {
         self.clamp_permissions_to_source()?;
         let stats = stats_for(&new_slot, &manifest);
         if self.should_compact(&stats) {
-            return self.compact_with_fault(fault);
+            return self.compact_with_fault(file, fault);
         }
         Ok(stats)
     }
@@ -359,8 +359,12 @@ impl FacetStore {
         }
     }
 
-    fn compact_with_fault(&self, fault: Option<FacetFaultPoint>) -> PactResult<FacetStats> {
-        let reader = FacetReader::open(&self.facet_path)?;
+    fn compact_with_fault(
+        &self,
+        file: File,
+        fault: Option<FacetFaultPoint>,
+    ) -> PactResult<FacetStats> {
+        let mut reader = FacetReader::from_file(file)?;
         let mut address = FACET_HEADER_BYTES as u64;
         let mut entries = Vec::with_capacity(reader.manifest.entries.len());
         for entry in &reader.manifest.entries {
@@ -390,8 +394,13 @@ impl FacetStore {
             manifest_digest: *blake3::hash(&manifest_bytes).as_bytes(),
         };
         let header = encode_initial_header(reader.identity, &slot)?;
-        let staged =
-            self.stage_streaming_compaction(&reader, &manifest, &slot, &header, &manifest_bytes)?;
+        let staged = self.stage_streaming_compaction(
+            &mut reader,
+            &manifest,
+            &slot,
+            &header,
+            &manifest_bytes,
+        )?;
         inject(fault, FacetFaultPoint::CompactionStaged)?;
         publish_staged(staged, &self.facet_path, PublishMode::ReplaceExisting)?;
         inject(fault, FacetFaultPoint::CompactionPublished)?;
@@ -400,7 +409,7 @@ impl FacetStore {
 
     fn stage_streaming_compaction(
         &self,
-        reader: &FacetReader,
+        reader: &mut FacetReader,
         manifest: &Manifest,
         slot: &FacetRootSlot,
         header: &[u8; FACET_HEADER_BYTES],
@@ -409,7 +418,7 @@ impl FacetStore {
         let mut staged = self.new_staged_with_source_mode()?;
         staged.write_all(header)?;
         for entry in &reader.manifest.entries {
-            stream_verified_segment(&reader.file, entry, |chunk| {
+            stream_verified_segment(&mut reader.file, entry, |chunk| {
                 record_facet_compaction_chunk_bytes(chunk.len());
                 staged.write_all(chunk)?;
                 Ok(())
@@ -423,7 +432,7 @@ impl FacetStore {
             ));
         }
 
-        let verified = FacetReader::open(staged.path())?;
+        let mut verified = FacetReader::open(staged.path())?;
         if verified.identity != reader.identity
             || verified.root != *slot
             || verified.manifest != *manifest
@@ -433,7 +442,7 @@ impl FacetStore {
             ));
         }
         for entry in &verified.manifest.entries {
-            stream_verified_segment(&verified.file, entry, |_| Ok(()))?;
+            stream_verified_segment(&mut verified.file, entry, |_| Ok(()))?;
         }
         Ok(staged)
     }
@@ -504,7 +513,10 @@ pub struct FacetReader {
 
 impl FacetReader {
     fn open(path: &Path) -> PactResult<Self> {
-        let mut file = File::open(path)?;
+        Self::from_file(File::open(path)?)
+    }
+
+    fn from_file(mut file: File) -> PactResult<Self> {
         let header = read_header(&mut file)?;
         validate_envelope(&header)?;
         let mut identity = [0_u8; FACET_IDENTITY_BYTES];
@@ -598,11 +610,10 @@ fn advance_watermark(position: u64, len: u64) -> PactResult<u64> {
 }
 
 fn stream_verified_segment(
-    file: &File,
+    file: &mut File,
     entry: &ManifestEntry,
     mut visit: impl FnMut(&[u8]) -> PactResult<()>,
 ) -> PactResult<()> {
-    let mut file = file.try_clone()?;
     file.seek(SeekFrom::Start(entry.address))?;
     let mut remaining = entry.len;
     let mut buffer = vec![0_u8; FACET_COPY_BUFFER_BYTES];
@@ -751,7 +762,12 @@ fn path_still_points_to_file(path: &Path, file: &File) -> PactResult<bool> {
     Ok(locked.dev() == current.dev() && locked.ino() == current.ino())
 }
 
-#[cfg(not(unix))]
+#[cfg(windows)]
+fn path_still_points_to_file(path: &Path, file: &File) -> PactResult<bool> {
+    Ok(crate::file_identity::file_id(file)? == crate::file_identity::path_id(path)?)
+}
+
+#[cfg(not(any(unix, windows)))]
 fn path_still_points_to_file(path: &Path, file: &File) -> PactResult<bool> {
     let mut locked = file.try_clone()?;
     let mut current = File::open(path)?;

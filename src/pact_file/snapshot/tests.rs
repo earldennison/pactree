@@ -121,6 +121,29 @@ fn same_generation_snapshots_share_one_mapping() {
 }
 
 #[test]
+fn byte_identical_replacement_has_new_mapping_and_preserves_old_snapshot() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let path = temp.path().join("replacement.pact");
+    CandidateBackend::default()
+        .create(&path, &transaction("tx_1", 0, 1))
+        .expect("create");
+    let first = Snapshot::open(&path, Arc::new(IoCounterSet::default())).expect("first snapshot");
+    let bytes = std::fs::read(&path).expect("committed bytes");
+    crate::atomic_output::publish_bytes(
+        &path,
+        &bytes,
+        crate::atomic_output::PublishMode::ReplaceExisting,
+    )
+    .expect("replace mapped source");
+    let second = first.refresh().expect("refreshed snapshot");
+    assert_ne!(first.platform_id(), second.platform_id());
+    assert!(!first.shares_mapping_with(&second));
+    assert_eq!(first.source_file_identity(), second.source_file_identity());
+    assert_eq!(first.branch_head("main").expect("old head"), Some(1));
+    assert_eq!(second.branch_head("main").expect("new head"), Some(1));
+}
+
+#[test]
 fn last_owner_drop_releases_the_mapping_and_prunes_the_registry() {
     let temp = tempfile::tempdir().expect("temporary directory");
     let path = temp.path().join("sequential-shared.pact");
@@ -134,6 +157,7 @@ fn last_owner_drop_releases_the_mapping_and_prunes_the_registry() {
         &metadata,
         probe.generation,
         probe.committed_len,
+        probe.platform_id(),
     );
     let file = std::fs::File::open(&path).expect("open file");
     let mut registry = super::MappingRegistry::default();

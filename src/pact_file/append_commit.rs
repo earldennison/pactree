@@ -64,22 +64,9 @@ impl WriterLock {
     }
 }
 
-pub(crate) fn platform_file_id(metadata: &std::fs::Metadata) -> (u64, u64) {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::MetadataExt;
-        (metadata.dev(), metadata.ino())
-    }
-    #[cfg(not(unix))]
-    {
-        let _ = metadata;
-        (0, 0)
-    }
-}
-
 pub(crate) struct PinnedFile {
     pub(crate) snapshot: Snapshot,
-    pub(crate) platform_id: (u64, u64),
+    pub(crate) platform_id: (u64, u128),
 
     pub(crate) unexplained_tail: u64,
 }
@@ -91,7 +78,7 @@ pub(crate) fn pin(
 ) -> PactResult<PinnedFile> {
     let snapshot = Snapshot::open_with_memory_options(canonical, counters, options)?;
     let metadata = std::fs::metadata(canonical)?;
-    let platform_id = platform_file_id(&metadata);
+    let platform_id = snapshot.platform_id();
     let unexplained_tail = metadata.len().saturating_sub(snapshot.committed_len());
     Ok(PinnedFile {
         snapshot,
@@ -213,7 +200,7 @@ pub(crate) fn publish(
 
     let mut file = OpenOptions::new().read(true).write(true).open(canonical)?;
     let metadata = file.metadata()?;
-    if platform_file_id(&metadata) != pinned.platform_id {
+    if crate::file_identity::file_id(&file)? != pinned.platform_id {
         return Err(PactError::invalid(
             "Pact file was replaced under the writer (platform identity changed)",
         )
@@ -242,15 +229,20 @@ pub(crate) fn publish(
         );
     }
     let recovered_tail_bytes = metadata.len().saturating_sub(watermark);
-    if recovered_tail_bytes > 0 {
-        if !tail_is_unpublished_candidate(&mut file, watermark, snapshot.generation())? {
-            return Err(PactError::corrupt(format!(
+    if recovered_tail_bytes > 0
+        && !tail_is_unpublished_candidate(&mut file, watermark, snapshot.generation())?
+    {
+        return Err(PactError::corrupt(format!(
                 "Pact file carries {recovered_tail_bytes} unexplained bytes past the committed watermark; recovery is required before appending"
             ))
             .into());
-        }
-        file.set_len(watermark)?;
     }
+    let recovery_bytes = crate::atomic_output::truncate_for_append(
+        canonical,
+        &mut file,
+        watermark,
+        options.io_chunk_bytes,
+    )?;
 
     let mut records = RecordSpool::create(options.io_chunk_bytes)?;
     let shell = PactTransaction::delta(
@@ -505,9 +497,10 @@ pub(crate) fn publish(
     file.sync_all().map_err(PublishError::Unknown)?;
     inject(fault, FaultPoint::RootSynced).map_err(PublishError::Unknown)?;
 
-    let bytes_written = committed_len - watermark + super::layout::ROOT_SLOT_BYTES as u64;
+    let bytes_written = (committed_len - watermark + super::layout::ROOT_SLOT_BYTES as u64)
+        .saturating_add(recovery_bytes);
     counters.record(&IoCounters {
-        bytes_read: selection_io.bytes_read,
+        bytes_read: selection_io.bytes_read.saturating_add(recovery_bytes),
         bytes_written,
         pages_written: 1,
         ..IoCounters::default()

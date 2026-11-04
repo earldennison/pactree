@@ -534,6 +534,133 @@ fn message_order_keys_use_message_rank_not_trace_ordinal() {
 }
 
 #[test]
+fn eager_message_reordering_preserves_sparse_keys_and_baseline_tie_breaks() {
+    let mut pages = super::StagedPages::new(None, 4096 << 15, 1);
+    let mut tree = CowBTree::from_root(None);
+    let rows = [
+        ("z", "parent-z", 0),
+        ("a", "parent-a", 0),
+        ("root-b", "root", 1),
+        ("root-a", "root", 0),
+    ];
+    for (rank, (id, _, _)) in rows.iter().enumerate() {
+        let order = if rank + 1 == rows.len() {
+            u64::MAX
+        } else {
+            super::message_order_key(7, rank as u64).unwrap()
+        };
+        let value = serde_json::json!({"id": id, "componentType": "message_turn",
+            "pact_depth": rank, "offset": rank, "created_at_ns": rank});
+        let indexed = IndexedComponent {
+            revision: 7,
+            order: Some(order),
+            child_count: 0,
+            value,
+        };
+        tree = super::write_indexed_component(
+            tree,
+            &mut pages,
+            "main",
+            &IndexKey::Component {
+                branch: "main".into(),
+                component: id.to_string(),
+            },
+            &indexed,
+        )
+        .unwrap();
+        (tree, _) = tree
+            .insert(
+                &mut pages,
+                IndexKey::MessageOrder {
+                    branch: "main".into(),
+                    order,
+                }
+                .encode()
+                .unwrap(),
+                id.as_bytes().to_vec(),
+            )
+            .unwrap();
+    }
+    for (id, parent, ordinal) in rows {
+        (tree, _) = tree
+            .insert(
+                &mut pages,
+                IndexKey::ParentChild {
+                    branch: "main".into(),
+                    parent: parent.to_string(),
+                    order: ordinal,
+                    child: id.to_string(),
+                }
+                .encode()
+                .unwrap(),
+                Vec::new(),
+            )
+            .unwrap();
+    }
+    for (ordinal, parent) in ["parent-z", "parent-a"].iter().enumerate() {
+        (tree, _) = tree
+            .insert(
+                &mut pages,
+                IndexKey::ParentChild {
+                    branch: "main".into(),
+                    parent: "root".into(),
+                    order: ordinal as u64 + 2,
+                    child: parent.to_string(),
+                }
+                .encode()
+                .unwrap(),
+                Vec::new(),
+            )
+            .unwrap();
+    }
+    tree = super::reorder_message_entries(tree, &mut pages, "main", "root").expect("reorder");
+    for (rank, id) in ["root-a", "root-b", "a", "z"].iter().enumerate() {
+        let order = if rank + 1 == rows.len() {
+            u64::MAX
+        } else {
+            super::message_order_key(7, rank as u64).unwrap()
+        };
+        assert_eq!(
+            tree.get(
+                &pages,
+                &IndexKey::MessageOrder {
+                    branch: "main".into(),
+                    order
+                }
+                .encode()
+                .unwrap()
+            )
+            .unwrap()
+            .unwrap(),
+            id.as_bytes()
+        );
+        let locator = tree
+            .get(
+                &pages,
+                &IndexKey::Component {
+                    branch: "main".into(),
+                    component: id.to_string(),
+                }
+                .encode()
+                .unwrap(),
+            )
+            .unwrap()
+            .unwrap();
+        let (indexed, _) = super::indexed_component_from_facet(&tree, &pages, &locator).unwrap();
+        assert_eq!(indexed.order, Some(order));
+        assert_eq!(indexed.revision, 7);
+    }
+    let before = tree.root_address();
+    tree =
+        super::reorder_message_entries(tree, &mut pages, "main", "root").expect("already ordered");
+    assert_eq!(
+        tree.root_address(),
+        before,
+        "ordered messages require no index writes"
+    );
+}
+
+#[test]
 fn tail_relations_are_verified_and_message_order_keys_must_be_fresh() {
     use super::{IndexKey, StagedPages, apply_append_insert, insert_child_relation_tail};
     use crate::pact_file::btree::CowBTree;

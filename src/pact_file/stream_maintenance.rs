@@ -10,7 +10,7 @@ use super::codec::{
 };
 use super::envelope::RootSlot;
 use super::index::{
-    IndexKey, MessageOrderRepairPlan, component_type, message_order_key,
+    IndexKey, MessageOrderRepairPlan, component_type, message_order_key, prefix_successor,
     read_index_value_from_pages, stage_rebuilt_index,
 };
 use super::layout::HEADER_BYTES;
@@ -683,8 +683,12 @@ fn repack_into(
     let mapping = &mapping[..committed];
     let header = &mapping[..HEADER_BYTES];
     let identity = super::envelope::file_identity(header)?;
-    let source_metadata = std::fs::metadata(canonical)?;
-    let source_id = super::append_commit::platform_file_id(&source_metadata);
+    let source_id = snapshot.platform_id();
+    if crate::file_identity::path_id(canonical)? != source_id {
+        return Err(PactError::invalid(
+            "Pact file was replaced under maintenance",
+        ));
+    }
     let generation = snapshot.generation();
 
     let transactions_in_order = transaction_addresses(snapshot)?;
@@ -841,7 +845,7 @@ fn repack_into(
     drop(check);
 
     let current = std::fs::metadata(canonical)?;
-    if super::append_commit::platform_file_id(&current) != source_id
+    if crate::file_identity::path_id(canonical)? != source_id
         || current.len() < snapshot.committed_len()
     {
         return Err(PactError::invalid(
@@ -860,7 +864,7 @@ fn repack_into(
     }
     drop(source);
     observer(RepackStage::BeforeReplace)?;
-    std::fs::rename(candidate, canonical)?;
+    crate::atomic_output::replace_file(candidate, canonical)?;
     if let Some(parent) = canonical.parent()
         && let Ok(directory) = File::open(parent)
     {
@@ -948,6 +952,7 @@ pub(crate) fn plan_message_order_repair(
             if record.kind == RecordKind::Transaction
                 && transaction_record_is_baseline(record.payload)
             {
+                seed_baseline_message_rows(snapshot, address, branch, &mut plan)?;
                 continue;
             }
             replay_message_rows(mapping, address, revision, options, &mut plan)?;
@@ -960,6 +965,7 @@ pub(crate) fn plan_message_order_repair(
             .ok_or_else(|| PactError::corrupt("Pact revision overflow"))?;
     }
 
+    align_message_repair_with_structure(snapshot, branch, options, &mut plan)?;
     let root = snapshot.index_root();
     let order_key = |order: u64| IndexKey::MessageOrder {
         branch: branch.to_string(),
@@ -1037,6 +1043,210 @@ pub(crate) fn plan_message_order_repair(
 }
 
 const REPAIR_SCAN_ENTRIES: usize = 256;
+
+fn seed_baseline_message_rows(
+    snapshot: &Snapshot,
+    address: u64,
+    branch: &str,
+    plan: &mut MessageOrderRepairPlan,
+) -> PactResult<()> {
+    let scanned = plan.rows_scanned;
+    let mut position = usize::try_from(address)
+        .map_err(|_| PactError::corrupt("Pact baseline address exceeds platform limits"))?;
+    let mut root = None;
+    loop {
+        let record = read_record(snapshot.mapping(), &mut position)?;
+        if record.kind == RecordKind::IndexDelta {
+            root = Some(decode_u64_value(
+                record.payload,
+                "Pact baseline index root",
+            )?);
+        }
+        if record.kind == RecordKind::Commit {
+            break;
+        }
+    }
+    let root = root.ok_or_else(|| PactError::corrupt("Pact baseline has no index root"))?;
+    let bounds = |order| {
+        IndexKey::MessageOrder {
+            branch: branch.to_string(),
+            order,
+        }
+        .encode()
+    };
+    let mut end = bounds(u64::MAX)?;
+    end.push(0);
+    let mut rows = ScratchRange::new(
+        &CowBTree::from_root(Some(root)),
+        &bounds(0)?,
+        &end,
+        REPAIR_SCAN_ENTRIES,
+    );
+    loop {
+        let page = rows.next_page(snapshot)?;
+        if page.is_empty() {
+            break;
+        }
+        for (key, id) in page {
+            let IndexKey::MessageOrder { order, .. } = IndexKey::decode(&key)? else {
+                return Err(PactError::corrupt(
+                    "Pact baseline message range returned another namespace",
+                ));
+            };
+            let id = std::str::from_utf8(&id)
+                .map_err(|_| PactError::corrupt("Pact baseline message id is not UTF-8"))?;
+            plan.insert(id, order)?;
+        }
+    }
+    plan.rows_scanned = scanned;
+    Ok(())
+}
+
+fn align_message_repair_with_structure(
+    snapshot: &Snapshot,
+    branch: &str,
+    options: &PactMemoryOptions,
+    plan: &mut MessageOrderRepairPlan,
+) -> PactResult<()> {
+    if snapshot.index_value(&IndexKey::ParentChildFacet)?.is_none() {
+        return Ok(());
+    }
+    let scanned = plan.rows_scanned;
+    let metadata = snapshot.metadata()?;
+    let mut pages =
+        ScratchPages::create(None, options.io_chunk_bytes, options.scratch_cache_bytes)?;
+    let mut relations = CowBTree::from_root(None);
+    let current = CowBTree::from_root(Some(snapshot.index_root()));
+    let prefix = IndexKey::parent_child_branch_prefix(branch)?;
+    let mut cursor = ScratchRange::new(
+        &current,
+        &prefix,
+        &prefix_successor(&prefix)?,
+        REPAIR_SCAN_ENTRIES,
+    );
+    let mut last_parent = None;
+    let mut next_ordinal = 0_u64;
+    let mut max_depth = 0_u64;
+    loop {
+        let page = cursor.next_page(snapshot)?;
+        if page.is_empty() {
+            break;
+        }
+        for (key, _) in page {
+            if let IndexKey::ParentChild {
+                branch: owner,
+                parent,
+                order: _,
+                child,
+            } = IndexKey::decode(&key)?
+                && owner == branch
+            {
+                let key = child.into_bytes();
+                if relations.get(&pages, &key)?.is_some() {
+                    return Err(PactError::corrupt(
+                        "Pact message repair found repeated child relations",
+                    ));
+                }
+                if last_parent.as_deref() != Some(parent.as_str()) {
+                    next_ordinal = 0;
+                    last_parent = Some(parent.clone());
+                }
+                let value = [next_ordinal.to_be_bytes().as_slice(), parent.as_bytes()].concat();
+                next_ordinal += 1;
+                (relations, _) = relations.insert(&mut pages, key, value)?;
+                max_depth = max_depth
+                    .checked_add(1)
+                    .ok_or_else(|| PactError::corrupt("Pact message relation count exceeds u64"))?;
+            }
+        }
+    }
+    let mut ordered = CowBTree::from_root(None);
+    let mut keys = CowBTree::from_root(None);
+    let mut start = Vec::new();
+    loop {
+        let page = plan.page(&start)?;
+        let Some((last, _)) = page.last() else { break };
+        start = last.clone();
+        start.push(0);
+        for (id, value) in page {
+            let id_text = std::str::from_utf8(&id)
+                .map_err(|_| PactError::corrupt("Pact repair message id is not UTF-8"))?;
+            if snapshot
+                .index_value(&IndexKey::Component {
+                    branch: branch.to_string(),
+                    component: id_text.to_string(),
+                })?
+                .is_none()
+            {
+                plan.remove(&id)?;
+                continue;
+            }
+            let mut ancestor = id.clone();
+            let mut depth = 0_u64;
+            let mut ordinal = [0; 8];
+            while ancestor != metadata.root_id.as_bytes() {
+                let relation = relations
+                    .get(&pages, &ancestor)?
+                    .filter(|value| value.len() >= 8)
+                    .ok_or_else(|| {
+                        PactError::corrupt("Pact repair message has no structural ancestry")
+                    })?;
+                if depth == 0 {
+                    ordinal.copy_from_slice(&relation[..8]);
+                }
+                ancestor = relation[8..].to_vec();
+                depth += 1;
+                if depth > max_depth {
+                    return Err(PactError::corrupt(
+                        "Pact message repair found a parent-child cycle",
+                    ));
+                }
+            }
+            let structural_key = [
+                depth.to_be_bytes().as_slice(),
+                ordinal.as_slice(),
+                id.as_slice(),
+            ]
+            .concat();
+            (ordered, _) = ordered.insert(&mut pages, structural_key, id)?;
+            let order = decode_u64_value(&value, "Pact repair canonical key")?;
+            let key = order.to_be_bytes().to_vec();
+            if keys.get(&pages, &key)?.is_some() {
+                return Err(PactError::corrupt("Pact canonical message keys collide"));
+            }
+            (keys, _) = keys.insert(&mut pages, key, Vec::new())?;
+        }
+    }
+    let mut ordered = ScratchRange::new(&ordered, &[], &[0xff], REPAIR_SCAN_ENTRIES);
+    let mut rank = 0_usize;
+    loop {
+        let page = ordered.next_page(&pages)?;
+        if page.is_empty() {
+            break;
+        }
+        for (_, id) in page {
+            let order = repair_key_at_rank(&keys, &pages, rank)?;
+            let id = std::str::from_utf8(&id)
+                .map_err(|_| PactError::corrupt("Pact repair message id is not UTF-8"))?;
+            plan.insert(id, order)?;
+            rank += 1;
+        }
+    }
+    plan.rows_scanned = scanned;
+    Ok(())
+}
+
+fn repair_key_at_rank(keys: &CowBTree, pages: &ScratchPages, rank: usize) -> PactResult<u64> {
+    let (_, key) = keys.range_window(pages, &[], &[0xff; 9], rank, 1)?;
+    let bytes: [u8; 8] = key
+        .first()
+        .ok_or_else(|| PactError::corrupt("Pact repair key count mismatch"))?
+        .0
+        .as_slice()
+        .try_into()
+        .map_err(|_| PactError::corrupt("Pact repair key width is invalid"))?;
+    Ok(u64::from_be_bytes(bytes))
+}
 
 fn replay_message_rows(
     mapping: &[u8],

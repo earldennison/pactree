@@ -158,6 +158,75 @@ fn two_turn_tree() -> ComponentTree {
 }
 
 #[test]
+fn tail_append_preserves_preorder_buckets_and_untouched_allocations() {
+    let mut tree = ComponentTree::from_value(&serde_json::json!({
+        "id": "root", "componentType": "root", "children": [
+            {"id": "target", "componentType": "message_container", "offset": 0, "children": []},
+            {"id": "later", "componentType": "message_container", "offset": 1, "children": [{
+                "id": "existing", "componentType": "tool_call", "role": "assistant",
+                "key": "shared", "tags": ["shared"], "ttl": 1, "cad": 1,
+                "tool_call_id": "shared", "tool_name": "shell", "parameters": {}
+            }]}
+        ]
+    }))
+    .expect("tree");
+    let untouched = tree.component("later").unwrap().children.as_ptr();
+    let node = Component::from_component_value(&serde_json::json!({
+        "id": "new", "componentType": "tool_call", "role": "assistant",
+        "key": "shared", "tags": ["shared"], "ttl": 1, "cad": 1,
+        "tool_call_id": "shared", "tool_name": "shell", "parameters": {},
+        "children": [{"id": "result", "componentType": "tool_result",
+            "tool_call_id": "shared", "tool_name": "shell", "result": "ok"}]
+    }))
+    .expect("subtree");
+    tree.append_child("target", node).expect("append");
+    assert_eq!(
+        tree.index,
+        ComponentTreeIndex::try_derive(tree.root()).unwrap()
+    );
+    assert_eq!(tree.ids_by_type("tool_call"), &["new", "existing"]);
+    assert_eq!(tree.ids_by_tag("shared"), &["new", "existing"]);
+    assert_eq!(
+        tree.component("later").unwrap().children.as_ptr(),
+        untouched
+    );
+}
+
+#[test]
+fn tail_append_rejects_missing_parent_and_duplicate_subtrees_atomically() {
+    for (parent, node) in [
+        (
+            "missing",
+            serde_json::json!({"id": "new", "componentType": "text_content"}),
+        ),
+        (
+            "turn_a",
+            serde_json::json!({"id": "turn_b", "componentType": "text_content"}),
+        ),
+        (
+            "turn_a",
+            serde_json::json!({"id": "root", "componentType": "text_content"}),
+        ),
+        (
+            "turn_a",
+            serde_json::json!({"id": "new", "componentType": "message_container",
+            "children": [{"id": "new", "componentType": "text_content"}]}),
+        ),
+        (
+            "turn_a",
+            serde_json::json!({"id": "new", "componentType": "message_container",
+            "children": [{"id": "text_b", "componentType": "text_content"}]}),
+        ),
+    ] {
+        let mut tree = two_turn_tree();
+        let before = tree.clone();
+        let node = Component::from_component_value(&node).expect("node");
+        assert!(tree.append_child(parent, node).is_err());
+        assert_eq!(tree, before);
+    }
+}
+
+#[test]
 fn edit_closure_error_leaves_live_tree_and_index_unchanged() {
     let mut tree = two_turn_tree();
     let before_tree = tree.clone();

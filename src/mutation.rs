@@ -528,18 +528,32 @@ fn apply_update_append_tree(
     let requested_offset_override = request.target.offset;
     node.parent_id = Some(parent_id.clone());
     let inserted_id = node.id.clone();
-    let actual_offset = tree.edit(|root| {
-        let children = children_by_id_mut(root, &parent_id).ok_or_else(|| {
-            PactError::not_found(format!("append target `{parent_id}` not found"))
+    let children = &tree
+        .component(&parent_id)
+        .ok_or_else(|| PactError::not_found(format!("append target `{parent_id}` not found")))?
+        .children;
+    let requested_offset =
+        requested_offset_override.unwrap_or_else(|| next_append_offset_components(children));
+    let actual_offset = append_offset_components(children, requested_offset);
+    node.offset = actual_offset;
+    let ordered_tail = children
+        .windows(2)
+        .all(|pair| pair[0].offset < pair[1].offset)
+        && children
+            .last()
+            .is_none_or(|last| last.offset < actual_offset);
+    if ordered_tail {
+        tree.append_child(&parent_id, node)?;
+    } else {
+        tree.edit(|root| {
+            let children = children_by_id_mut(root, &parent_id).ok_or_else(|| {
+                PactError::not_found(format!("append target `{parent_id}` not found"))
+            })?;
+            children.push(node);
+            sort_component_children(children);
+            Ok(())
         })?;
-        let requested_offset =
-            requested_offset_override.unwrap_or_else(|| next_append_offset_components(children));
-        let actual_offset = append_offset_components(children, requested_offset);
-        node.offset = actual_offset;
-        children.push(node);
-        sort_component_children(children);
-        Ok(actual_offset)
-    })?;
+    }
 
     if let Some(req_node) = &mut request.node {
         req_node.parent_id = Some(parent_id.clone());

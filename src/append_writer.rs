@@ -1016,7 +1016,7 @@ impl PactAppendWriter {
             Ok(_) => self.repin_after_publish(),
             Err(PublishError::Rejected(error)) => {
                 let failure = self.map_rejected(error);
-                self.bootstrap_state()?;
+                self.repin()?;
                 Err(failure)
             }
             Err(PublishError::Unknown(cause)) => {
@@ -1102,7 +1102,7 @@ impl PactAppendWriter {
             Ok(_) => self.repin_after_publish()?,
             Err(PublishError::Rejected(error)) => {
                 let failure = self.map_rejected(error);
-                self.bootstrap_state()?;
+                self.repin()?;
                 return Err(failure);
             }
             Err(PublishError::Unknown(cause)) => {

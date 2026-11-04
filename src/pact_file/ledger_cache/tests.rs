@@ -13,7 +13,7 @@ fn empty_ledger(dir: &std::path::Path) -> Arc<ContextTreeLedger> {
 fn key(path: &std::path::Path, generation: u64, committed_len: u64) -> LedgerCacheKey {
     LedgerCacheKey::new(
         path,
-        &std::fs::metadata(path).expect("metadata"),
+        crate::file_identity::path_id(path).expect("physical identity"),
         "identity".to_string(),
         generation,
         committed_len,
@@ -62,4 +62,24 @@ fn same_size_replacement_generation_or_identity_change_never_hits() {
     std::fs::rename(&replacement, &path).expect("atomic replace");
     assert!(get(&key(&path, 7, 999)).is_none());
     drop(ledger);
+}
+
+#[test]
+fn physical_identity_distinguishes_equal_length_files_and_survives_append() {
+    use std::io::Write;
+    let temp = tempfile::tempdir().expect("tempdir");
+    let first = temp.path().join("first.pact");
+    let second = temp.path().join("second.pact");
+    std::fs::write(&first, b"same").expect("first");
+    std::fs::write(&second, b"same").expect("second");
+    let original = key(&first, 1, 4);
+    assert_eq!(original.platform_id, key(&first, 1, 4).platform_id);
+    assert_ne!(original.platform_id, key(&second, 1, 4).platform_id);
+    std::fs::OpenOptions::new()
+        .append(true)
+        .open(&first)
+        .expect("open append")
+        .write_all(b" tail")
+        .expect("append");
+    assert_eq!(original.platform_id, key(&first, 1, 4).platform_id);
 }

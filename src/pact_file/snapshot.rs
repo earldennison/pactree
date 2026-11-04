@@ -115,8 +115,14 @@ impl Snapshot {
         }
         let (generation, committed_len, transaction_root, index_root) = selected
             .ok_or_else(|| PactError::corrupt("Pact snapshot has no valid committed root"))?;
-        let key = MappingKey::new(&canonical, &metadata, generation, committed_len);
-        let platform_id = platform_file_id(&metadata);
+        let platform_id = crate::file_identity::file_id(&file)?;
+        let key = MappingKey::new(
+            &canonical,
+            &metadata,
+            generation,
+            committed_len,
+            platform_id,
+        );
         let shared = shared_mapping(key, &file, committed_len)?;
 
         let caches = match reuse {
@@ -1642,6 +1648,10 @@ impl Snapshot {
         self.committed_len
     }
 
+    pub(crate) fn platform_id(&self) -> (u64, u128) {
+        self.caches.identity.1
+    }
+
     pub(crate) fn mapping(&self) -> &[u8] {
         &self.shared.mapping
     }
@@ -1661,17 +1671,23 @@ struct MappingKey {
     file_len: u64,
     generation: u64,
     committed_len: u64,
-    platform_id: (u64, u64),
+    platform_id: (u64, u128),
 }
 
 impl MappingKey {
-    fn new(path: &Path, metadata: &std::fs::Metadata, generation: u64, committed_len: u64) -> Self {
+    fn new(
+        path: &Path,
+        metadata: &std::fs::Metadata,
+        generation: u64,
+        committed_len: u64,
+        platform_id: (u64, u128),
+    ) -> Self {
         Self {
             path: path.to_path_buf(),
             file_len: metadata.len(),
             generation,
             committed_len,
-            platform_id: platform_file_id(metadata),
+            platform_id,
         }
     }
 }
@@ -1694,17 +1710,6 @@ impl Hash for MappingKey {
         self.committed_len.hash(state);
         self.platform_id.hash(state);
     }
-}
-
-#[cfg(unix)]
-fn platform_file_id(metadata: &std::fs::Metadata) -> (u64, u64) {
-    use std::os::unix::fs::MetadataExt;
-    (metadata.dev(), metadata.ino())
-}
-
-#[cfg(not(unix))]
-fn platform_file_id(_metadata: &std::fs::Metadata) -> (u64, u64) {
-    (0, 0)
 }
 
 fn shared_mapping(
@@ -1751,7 +1756,7 @@ struct SharedSnapshotData {
 }
 
 struct SnapshotCaches {
-    identity: ([u8; super::layout::FILE_IDENTITY_BYTES], (u64, u64)),
+    identity: ([u8; super::layout::FILE_IDENTITY_BYTES], (u64, u128)),
     options: crate::PactMemoryOptions,
     pages: Mutex<CacheDomain<Vec<[u8; super::btree::PAGE_BYTES]>>>,
 
@@ -1763,7 +1768,7 @@ impl SnapshotCaches {
     fn new(
         options: &crate::PactMemoryOptions,
         file_identity: [u8; super::layout::FILE_IDENTITY_BYTES],
-        platform_id: (u64, u64),
+        platform_id: (u64, u128),
     ) -> Self {
         Self {
             identity: (file_identity, platform_id),

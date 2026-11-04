@@ -356,7 +356,6 @@ fn concurrent_commits_preserve_every_batch() {
     assert_eq!(payloads, (0_u8..8).collect::<Vec<_>>());
 }
 
-#[cfg(unix)]
 #[test]
 fn replaced_facet_inode_is_detected_as_a_stale_writer_target() {
     let temp = tempfile::tempdir().expect("temporary directory");
@@ -381,6 +380,77 @@ fn replaced_facet_inode_is_detected_as_a_stale_writer_target() {
     assert!(
         !super::path_still_points_to_file(&facet_path_for(&source), &stale).expect("compare inode")
     );
+}
+
+#[test]
+fn locked_facet_identity_check_preserves_the_writer_cursor() {
+    use std::io::{Seek, SeekFrom};
+
+    let temp = tempfile::tempdir().expect("temporary directory");
+    let source = make_source(temp.path());
+    let store =
+        FacetStore::create(&source, FacetCompactionPolicy::disabled()).expect("create facet");
+    let mut file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(store.path())
+        .expect("writer");
+    file.lock().expect("exclusive lock");
+    file.seek(SeekFrom::Start(17)).expect("position writer");
+    assert!(super::path_still_points_to_file(store.path(), &file).expect("same locked file"));
+    assert_eq!(file.stream_position().expect("writer cursor"), 17);
+}
+
+#[test]
+fn byte_identical_replacement_is_not_the_original_writer_target() {
+    let temp = tempfile::tempdir().expect("temporary directory");
+    let source = make_source(temp.path());
+    let store =
+        FacetStore::create(&source, FacetCompactionPolicy::disabled()).expect("create facet");
+    let original = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(store.path())
+        .expect("original writer target");
+    let bytes = std::fs::read(store.path()).expect("original bytes");
+    crate::atomic_output::publish_bytes(
+        store.path(),
+        &bytes,
+        crate::atomic_output::PublishMode::ReplaceExisting,
+    )
+    .expect("replace with identical bytes");
+    assert!(
+        !super::path_still_points_to_file(store.path(), &original).expect("compare file identity")
+    );
+}
+
+#[test]
+fn compaction_reader_uses_the_existing_locked_writer_handle() {
+    let temp = tempfile::tempdir().expect("temporary directory");
+    let source = make_source(temp.path());
+    let mut store =
+        FacetStore::create(&source, FacetCompactionPolicy::disabled()).expect("create facet");
+    store
+        .commit(&code_batch(&[(1, b"locked payload")]))
+        .expect("seed");
+    let file = super::open_locked_current(store.path()).expect("locked writer");
+    let mut reader = FacetReader::from_file(file).expect("read through lock owner");
+    let contender = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(store.path())
+        .expect("competing writer");
+    assert!(matches!(
+        contender.try_lock(),
+        Err(std::fs::TryLockError::WouldBlock)
+    ));
+    let mut actual = Vec::new();
+    super::stream_verified_segment(&mut reader.file, &reader.manifest.entries[0], |chunk| {
+        actual.extend_from_slice(chunk);
+        Ok(())
+    })
+    .expect("stream through lock owner");
+    assert_eq!(actual, b"locked payload");
 }
 
 #[test]

@@ -164,6 +164,21 @@ fn append_sequence(mut tree: Value, count: usize, full_sort_after_each: bool) ->
 }
 
 #[test]
+fn append_mutations_do_not_clone_and_reindex_the_untouched_tree() {
+    let before = crate::tests::instrumentation::TREE_EDIT_CALLS.with(|calls| calls.get());
+    let result = append_sequence(large_mutation_tree(100), 3, false);
+    let edits = crate::tests::instrumentation::TREE_EDIT_CALLS.with(|calls| calls.get()) - before;
+    assert_eq!(
+        result["children"][0]["children"].as_array().map(Vec::len),
+        Some(3)
+    );
+    assert_eq!(
+        edits, 0,
+        "tail appends must not use full-tree transactional edits"
+    );
+}
+
+#[test]
 fn mutation_bench_1k_on_5k_tree_avoids_full_tree_sort() {
     let base = large_mutation_tree(5_000);
     let start = Instant::now();

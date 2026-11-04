@@ -1127,7 +1127,34 @@ pub(crate) fn build_transaction_index(
             (tree, _) = tree.insert(&mut pages, key.encode()?, value)?;
         }
         let mut message_rank = 0_u64;
+        let mut reorder_messages = false;
         for op in &transaction.trace.ops {
+            use crate::transaction_trace::TraceOpKind;
+            reorder_messages |= match &op.kind {
+                TraceOpKind::InsertComponent {
+                    parent_id,
+                    index,
+                    component,
+                } => {
+                    if parent_child_facet {
+                        let children =
+                            parent_children(&tree, &pages, &transaction.branch_id, parent_id)?;
+                        *index < children.len()
+                            || (component_type(component) == Some("message_turn")
+                                && transaction
+                                    .head_metadata
+                                    .as_ref()
+                                    .is_none_or(|metadata| metadata.root_id != *parent_id))
+                    } else {
+                        false
+                    }
+                }
+                TraceOpKind::MoveComponent { .. } => true,
+                TraceOpKind::SetField { key, .. } | TraceOpKind::UnsetField { key } => {
+                    matches!(key.as_str(), "offset" | "created_at_ns" | "creation_index")
+                }
+                _ => false,
+            };
             let derived_field = match &op.kind {
                 crate::transaction_trace::TraceOpKind::SetLifecycle { .. } => true,
                 crate::transaction_trace::TraceOpKind::SetField { key, .. } => key == "pact_depth",
@@ -1146,6 +1173,15 @@ pub(crate) fn build_transaction_index(
                 parent_child_facet,
             )?;
         }
+        if reorder_messages && parent_child_facet {
+            let metadata = tree
+                .get(&pages, &IndexKey::Metadata.encode()?)?
+                .ok_or_else(|| {
+                    PactError::corrupt("Pact positional edit is missing head metadata")
+                })?;
+            let root_id = HeadMetadata::decode(&metadata)?.root_id;
+            tree = reorder_message_entries(tree, &mut pages, &transaction.branch_id, &root_id)?;
+        }
         tree
     };
     let staged_root = tree
@@ -1156,6 +1192,73 @@ pub(crate) fn build_transaction_index(
         bytes,
         root_address,
     })
+}
+
+fn reorder_message_entries(
+    mut tree: super::btree::CowBTree,
+    pages: &mut StagedPages<'_>,
+    branch: &str,
+    root_id: &str,
+) -> PactResult<super::btree::CowBTree> {
+    let mut positions = BTreeMap::new();
+    let mut pending = vec![(root_id.to_string(), 0_usize, 0_usize)];
+    while let Some((id, depth, ordinal)) = pending.pop() {
+        if positions.insert(id.clone(), (depth, ordinal)).is_some() {
+            return Err(PactError::corrupt(
+                "Pact parent-child facet contains a cycle or repeated child",
+            ));
+        }
+        for (ordinal, child) in parent_children(&tree, pages, branch, &id)?
+            .into_iter()
+            .enumerate()
+        {
+            pending.push((child, depth + 1, ordinal));
+        }
+    }
+    let bound = |order| {
+        IndexKey::MessageOrder {
+            branch: branch.to_string(),
+            order,
+        }
+        .encode()
+    };
+    let mut end = bound(u64::MAX)?;
+    end.push(0);
+    let entries = tree.range(pages, &bound(0)?, &end)?;
+    let mut messages = Vec::with_capacity(entries.len());
+    for (_, id) in &entries {
+        let id = std::str::from_utf8(id)
+            .map_err(|_| PactError::corrupt("Pact message component id is not UTF-8"))?;
+        let key = IndexKey::Component {
+            branch: branch.to_string(),
+            component: id.to_string(),
+        };
+        let value = tree.get(pages, &key.encode()?)?.ok_or_else(|| {
+            PactError::corrupt("Pact message order references a missing component")
+        })?;
+        let (indexed, _) = indexed_component_from_facet(&tree, pages, &value)?;
+        let &(depth, ordinal) = positions
+            .get(id)
+            .ok_or_else(|| PactError::corrupt("Pact message has no structural position"))?;
+        messages.push(((depth, ordinal, id.to_string()), key, indexed));
+    }
+    messages.sort_by(|left, right| left.0.cmp(&right.0));
+    for ((order_key, previous_id), (sort_key, component_key, mut indexed)) in
+        entries.into_iter().zip(messages)
+    {
+        if previous_id == sort_key.2.as_bytes() {
+            continue;
+        }
+        let IndexKey::MessageOrder { order, .. } = IndexKey::decode(&order_key)? else {
+            return Err(PactError::corrupt(
+                "Pact message range returned another namespace",
+            ));
+        };
+        indexed.order = Some(order);
+        tree = write_indexed_component(tree, pages, branch, &component_key, &indexed)?;
+        (tree, _) = tree.insert(pages, order_key, sort_key.2.into_bytes())?;
+    }
+    Ok(tree)
 }
 
 pub(crate) struct AppendIndexInputs<'a> {
@@ -1227,6 +1330,13 @@ impl MessageOrderRepairPlan {
             .get(&self.pages, component_id)?
             .map(|value| super::codec::decode_u64_value(&value, "Pact message order plan value"))
             .transpose()
+    }
+
+    pub(crate) fn remove(&mut self, component_id: &[u8]) -> PactResult<()> {
+        let rows = std::mem::replace(&mut self.rows, super::btree::CowBTree::from_root(None));
+        let (rows, _, _) = rows.delete(&mut self.pages, component_id)?;
+        self.rows = rows;
+        Ok(())
     }
 
     pub(crate) fn page(&self, start: &[u8]) -> PactResult<Vec<(Vec<u8>, Vec<u8>)>> {
@@ -2579,7 +2689,7 @@ fn delete_indexed_component(
     Ok(tree)
 }
 
-fn prefix_successor(prefix: &[u8]) -> PactResult<Vec<u8>> {
+pub(crate) fn prefix_successor(prefix: &[u8]) -> PactResult<Vec<u8>> {
     let mut end = prefix.to_vec();
     for byte in end.iter_mut().rev() {
         if *byte != u8::MAX {

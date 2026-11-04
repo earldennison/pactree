@@ -12,6 +12,7 @@ pub mod error;
 mod extension;
 mod facet_store;
 pub mod file_format;
+pub(crate) mod file_identity;
 pub mod memory;
 #[allow(dead_code)]
 mod mutation;

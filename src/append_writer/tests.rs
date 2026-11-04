@@ -496,6 +496,11 @@ fn faults_before_the_root_are_rejected_and_recovered_after_it_are_unknown() {
         let before = std::fs::metadata(&path).expect("len").len();
         let mut writer = open(&path);
         let opened = writer.version().clone();
+        let reader = crate::pact_file::snapshot::Snapshot::open(
+            &path,
+            std::sync::Arc::new(crate::pact_file::backend::IoCounterSet::default()),
+        )
+        .expect("pinned reader");
         writer.set_fault_point(Some(fault));
         let error = writer
             .append(batch(
@@ -517,6 +522,10 @@ fn faults_before_the_root_are_rejected_and_recovered_after_it_are_unknown() {
         );
         assert_eq!(message_texts(&path).len(), 2);
         assert!(writer.lookup("lens", "b1").expect("lookup").is_none());
+        assert!(
+            PactAppendWriter::open(&path, "main", PactMemoryOptions::default()).is_err(),
+            "the stable sidecar lock excludes a contender during tail recovery"
+        );
 
         writer.set_fault_point(None);
         let outcome = writer
@@ -530,6 +539,14 @@ fn faults_before_the_root_are_rejected_and_recovered_after_it_are_unknown() {
             .expect("retry commits");
         assert!(matches!(outcome, PactAppendOutcome::Committed(_)));
         assert_eq!(message_texts(&path).len(), 3, "{fault:?}");
+        assert_eq!(
+            reader.branch_head("main").expect("old reader head"),
+            Some(opened.revision)
+        );
+        assert!(
+            PactAppendWriter::open(&path, "main", PactMemoryOptions::default()).is_err(),
+            "replacement must not release the writer's sidecar lock"
+        );
     }
 
     for fault in [FaultPoint::RootSlotWritten, FaultPoint::RootSynced] {

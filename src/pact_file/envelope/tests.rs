@@ -111,18 +111,13 @@ fn pact_file_envelope_rejects_empty_truncated_and_unknown_inputs() {
 
 #[test]
 fn public_open_classifies_a_short_unknown_file_as_corrupt() {
-    let path = std::env::temp_dir().join(format!(
-        "pactree_unknown_envelope_{}_{}.pact",
-        std::process::id(),
-        std::thread::current().name().unwrap_or("test")
-    ));
+    let directory = tempfile::tempdir().expect("temporary directory");
+    let path = directory.path().join("unknown.pact");
     std::fs::write(&path, [b"PACT1\0\0\0".as_slice(), &[0xff; 40]].concat())
         .expect("write unknown file");
 
     let error = crate::pact_file::open_ledger(&path).expect_err("unknown file must fail");
     assert_eq!(error.kind(), PactErrorKind::CorruptFile);
-
-    std::fs::remove_file(path).ok();
 }
 
 #[test]

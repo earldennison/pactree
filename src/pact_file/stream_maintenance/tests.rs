@@ -16,6 +16,60 @@ fn options(prefix: &str) -> DeterministicAuthoringOptions {
     DeterministicAuthoringOptions::new(prefix.to_string(), 1_000_000, 1).expect("options")
 }
 
+#[test]
+fn message_order_repair_accepts_the_maximum_supported_revision_keys() {
+    let mut pages = super::ScratchPages::create(None, 128, 4096).expect("scratch");
+    let mut keys = super::CowBTree::from_root(None);
+    let orders = [
+        0,
+        super::message_order_key(u64::MAX >> 16, 0).expect("high revision"),
+        super::message_order_key(u64::MAX >> 16, 65_535).expect("maximum key"),
+    ];
+    for order in orders {
+        (keys, _) = keys
+            .insert(&mut pages, order.to_be_bytes().to_vec(), Vec::new())
+            .expect("key");
+    }
+    for (rank, order) in orders.into_iter().enumerate() {
+        assert_eq!(
+            super::repair_key_at_rank(&keys, &pages, rank).expect("rank"),
+            order
+        );
+    }
+}
+
+#[test]
+fn baseline_repair_seed_includes_the_exact_maximum_order_key() {
+    let dir = tempfile::tempdir().expect("tempdir");
+    let path = recorded_fixture(dir.path(), 1);
+    let id = message_surface_ids(&path)[0].clone();
+    let options = PactMemoryOptions::default();
+    let mut writer = PactAppendWriter::open(&path, "main", options.clone()).expect("writer");
+    writer.set_automatic_maintenance(false);
+    let mut high = super::MessageOrderRepairPlan::new(&options).expect("plan");
+    high.insert(&id, u64::MAX).expect("maximum key");
+    high.rows_to_reindex = 1;
+    writer
+        .commit_message_order_plan(high)
+        .expect("publish maximum key");
+    writer.close();
+    let snapshot = Snapshot::open(&path, Arc::new(IoCounterSet::default())).expect("snapshot");
+    let address = snapshot
+        .index_value(&super::IndexKey::Generation {
+            generation: snapshot.generation(),
+        })
+        .expect("address")
+        .expect("transaction");
+    let address = super::decode_u64_value(&address, "transaction address").expect("decode");
+    let mut seeded = super::MessageOrderRepairPlan::new(&options).expect("seeded plan");
+    super::seed_baseline_message_rows(&snapshot, address, "main", &mut seeded)
+        .expect("seed immutable index");
+    assert_eq!(
+        seeded.get(id.as_bytes()).expect("seeded key"),
+        Some(u64::MAX)
+    );
+}
+
 fn part(value: serde_json::Value) -> Component {
     Component::from_component_value(&value).expect("part")
 }

@@ -4,6 +4,9 @@ use std::path::{Path, PathBuf};
 
 use crate::error::{PactError, PactResult};
 
+#[cfg(windows)]
+mod windows;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[doc(hidden)]
 pub enum PublishMode {
@@ -44,12 +47,84 @@ pub(crate) fn publish_staged(
                 .map_err(|error| PactError::Io(error.error))?;
         }
         PublishMode::ReplaceExisting => {
+            #[cfg(windows)]
+            {
+                let mut staged = staged;
+                windows::persist_file(staged.path(), destination)?;
+                staged.disable_cleanup(true);
+            }
+            #[cfg(not(windows))]
             staged
                 .persist(destination)
                 .map_err(|error| PactError::Io(error.error))?;
         }
     }
     sync_parent_directory(&parent)
+}
+
+pub(crate) fn replace_file(source: &Path, destination: &Path) -> std::io::Result<()> {
+    #[cfg(windows)]
+    {
+        windows::replace_file(source, destination)
+    }
+    #[cfg(not(windows))]
+    {
+        std::fs::rename(source, destination)
+    }
+}
+
+pub(crate) fn truncate_for_append(
+    path: &Path,
+    file: &mut File,
+    len: u64,
+    chunk_bytes: usize,
+) -> PactResult<u64> {
+    if file.metadata()?.len() == len {
+        return Ok(0);
+    }
+    match file.set_len(len) {
+        Ok(()) => Ok(0),
+        #[cfg(windows)]
+        Err(error) if error.raw_os_error() == Some(1224) => {
+            use std::io::{Read, Seek, SeekFrom};
+            let identity = crate::file_identity::file_id(file)?;
+            let mut staged = tempfile::NamedTempFile::new_in(destination_parent(path)?)?;
+            file.seek(SeekFrom::Start(0))?;
+            let mut remaining = len;
+            let budget = crate::pact_file::memory_accounting::Budget::new(chunk_bytes.max(1));
+            let _lease = budget.reserve_tracked(chunk_bytes.max(1));
+            let mut buffer = vec![0; chunk_bytes.max(1)];
+            while remaining > 0 {
+                let take = remaining.min(buffer.len() as u64) as usize;
+                file.read_exact(&mut buffer[..take])?;
+                staged.write_all(&buffer[..take])?;
+                remaining -= take as u64;
+            }
+            staged.as_file().sync_all()?;
+            let replacement_id = crate::file_identity::file_id(staged.as_file())?;
+            if crate::file_identity::path_id(path)? != identity {
+                return Err(PactError::invalid(
+                    "Pact file was replaced under tail recovery",
+                ));
+            }
+            publish_staged(staged, path, PublishMode::ReplaceExisting)?;
+            let replacement = std::fs::OpenOptions::new()
+                .read(true)
+                .write(true)
+                .open(path)?;
+            if crate::file_identity::file_id(&replacement)? != replacement_id {
+                return Err(PactError::invalid(
+                    "Pact file was replaced after tail recovery",
+                ));
+            }
+            *file = replacement;
+            Ok(len)
+        }
+        Err(error) => {
+            let _ = (path, chunk_bytes);
+            Err(error.into())
+        }
+    }
 }
 
 fn destination_parent(destination: &Path) -> PactResult<PathBuf> {

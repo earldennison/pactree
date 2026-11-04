@@ -46,6 +46,23 @@ fn contains_invocation(source: &str, invocation: &str) -> bool {
         .is_match(source)
 }
 
+fn portable_source_path(path: &std::path::Path) -> String {
+    path.to_string_lossy().replace('\\', "/")
+}
+
+#[test]
+fn source_path_checks_use_portable_separators() {
+    for path in [
+        "file_format/conversion/unsupported_pre_v01.rs",
+        r"file_format\conversion\unsupported_pre_v01.rs",
+    ] {
+        assert_eq!(
+            portable_source_path(std::path::Path::new(path)),
+            "file_format/conversion/unsupported_pre_v01.rs"
+        );
+    }
+}
+
 #[test]
 fn invocation_guard_detects_bare_and_qualified_forbidden_calls() {
     for (source, invocation) in [
@@ -104,7 +121,7 @@ fn v0_1_storage_has_one_spine_and_no_legacy_decoder_or_writer() {
     for path in production_rust_sources(&root) {
         let source = std::fs::read_to_string(&path).expect("read production Rust source");
         let relative = path.strip_prefix(&root).expect("relative source path");
-        let relative = relative.to_string_lossy();
+        let relative = portable_source_path(relative);
         if relative == "file_format/conversion.rs"
             || relative.starts_with("file_format/conversion/")
         {
