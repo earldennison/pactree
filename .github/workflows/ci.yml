@@ -16,15 +16,15 @@ jobs:
   test-layout:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - run: bash scripts/check-test-layout.sh
 
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
         with: {components: rustfmt}
       - run: cargo fmt --all -- --check
 
@@ -34,8 +34,8 @@ jobs:
     strategy:
       matrix: {features: [all-features, no-default-features]}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
         with: {components: clippy}
       - uses: Swatinem/rust-cache@v2
         with: {key: "clippy-${{ matrix.features }}"}
@@ -44,8 +44,8 @@ jobs:
   test-msrv-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - uses: Swatinem/rust-cache@v2
         with: {key: msrv-all-features}
       - run: rustup toolchain install nightly-2026-05-31 --profile minimal
@@ -58,7 +58,7 @@ jobs:
       matrix: {os: [ubuntu-latest, macos-latest, windows-latest]}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with: {key: "stable-all-${{ matrix.os }}"}
@@ -72,7 +72,7 @@ jobs:
       matrix: {os: [ubuntu-latest, macos-latest, windows-latest]}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with: {key: "stable-none-${{ matrix.os }}"}
@@ -84,22 +84,22 @@ jobs:
     runs-on: ubuntu-latest
     env: {RUSTDOCFLAGS: "-D warnings"}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - run: cargo doc --locked --no-deps --all-features
       - run: cargo test --locked --doc
 
   deny:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: EmbarkStudios/cargo-deny-action@v2
         with: {command: check advisories bans licenses sources}
 
   public-api:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: nightly-2026-05-31
@@ -110,29 +110,29 @@ jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - run: bash scripts/check-package.sh
 
   malformed-inputs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - run: cargo test --locked --test malformed_public_inputs --all-features
       - run: python3 scripts/audit_panic_surface.py
 
   storage-differential:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - run: cargo test --locked --test storage_differential
 
   performance-gates:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@1.120.0
       - run: cargo test --locked pact_file::log::tests::commit_reads_header_latest_transaction_and_index_paths_not_full_history
       - run: cargo test --locked pact_file::stream
